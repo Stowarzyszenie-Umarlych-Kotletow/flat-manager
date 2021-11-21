@@ -1,0 +1,11 @@
+FROM openjdk:11
+ARG MAIN_JAR_FILE
+ENV MAIN_JAR_FILE=$MAIN_JAR_FILE
+
+WORKDIR /app
+
+COPY ./target/*.jar /app/
+
+EXPOSE 8080
+
+CMD java -jar "/app/$MAIN_JAR_FILE"
