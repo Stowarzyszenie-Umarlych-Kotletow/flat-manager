@@ -1,14 +1,14 @@
 pipeline {
     agent any
 	environment {
-		DOCKER_IMAGE_NAME = "flatmanager/spring-backend"
+		DOCKER_IMAGE_NAME = "flatmanager/backend"
 		DOCKER_REGISTRY = "https://ziemniak.cloud:8090"
 		DOCKER_REGISTRY_CREDENTIAL = "nexus-docker"
 		dockerImg = ''
 		NEXUS_VERSION = "nexus3"
 		NEXUS_PROTOCOL = "https"
 		NEXUS_URL = "nexus.ziemniak.cloud"
-		NEXUS_REPOSITORY = "test-ci-dev"
+		NEXUS_REPOSITORY = "maven-flatmanager"
 		NEXUS_CREDENTIAL_ID = "nexus"
 	}
     tools {
