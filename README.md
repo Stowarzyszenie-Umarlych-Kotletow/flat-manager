@@ -1,2 +1,2 @@
-# flat-manager
+# Flat-manager
 
