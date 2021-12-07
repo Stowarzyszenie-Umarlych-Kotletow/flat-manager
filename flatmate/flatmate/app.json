@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "flatmate",
+    "slug": "flatmate",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "flatmate"
+}
