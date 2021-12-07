@@ -12,7 +12,7 @@ export function LoginScreen({navigation}) {
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Flatmate</Text>
-                <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
+                <TextInput placeholder="Username or e-mail" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
                 <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
                 <Button
@@ -35,6 +35,7 @@ export function RegisterScreen() {
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Flatmate</Text>
                 <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
+                <TextInput placeholder="E-mail" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
                 <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
                 <TextInput placeholder="Retype password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
