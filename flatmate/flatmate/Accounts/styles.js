@@ -10,6 +10,13 @@ export default {
     accScreenContainer: {
         flex: 1,
     },
+    smallText: {
+        fontSize: 20,
+        fontWeight: "500",
+        marginTop: 30,
+        marginBottom: 15,
+        textAlign: 'center',
+    },
     logoText: {
         fontSize: 40,
         fontWeight: "800",

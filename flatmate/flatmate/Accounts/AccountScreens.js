@@ -3,50 +3,49 @@ import {Button} from 'react-native-elements';
 import * as React from "react";
 import styles from "./styles";
 
-export function LoginScreen() {
-    return (
-        <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+export function LoginScreen({navigation}) {
+    function onLoginPress() {
+        console.log('test')
+    }
 
-            {/*<TouchableWithoutFeedback onPress={Keyboard.dismiss}>*/}
-            <View style={styles.accScreenContainer}>
-                <View style={styles.accFormView}>
-                    <Text style={styles.logoText}>Login to Flatmate</Text>
-                    <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
-                    <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
-                               secureTextEntry={true}/>
-                    <Button
-                        buttonStyle={styles.accButton}
-                        // onPress={() => this.onLoginPress()}
-                        title="Login"
-                    />
-                </View>
+    return (
+        <View style={styles.accScreenContainer}>
+            <View style={styles.accFormView}>
+                <Text style={styles.logoText}>Flatmate</Text>
+                <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
+                <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
+                           secureTextEntry={true}/>
+                <Button
+                    buttonStyle={styles.accButton}
+                    onPress={() => onLoginPress()}
+                    title="Login"
+                />
             </View>
-            {/*</TouchableWithoutFeedback>*/}
-        </KeyboardAvoidingView>
+        </View>
     );
 }
 
 export function RegisterScreen() {
+    function onRegisterPress() {
+        console.log('test')
+    }
+
     return (
-        <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-            {/*<TouchableWithoutFeedback onPress={Keyboard.dismiss}>*/}
-            <View style={styles.accScreenContainer}>
-                <View style={styles.accFormView}>
-                    <Text style={styles.logoText}>Register to Flatmate</Text>
-                    <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
-                    <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
-                               secureTextEntry={true}/>
-                    <TextInput placeholder="Retype password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
-                               secureTextEntry={true}/>
-                    <Button
-                        buttonStyle={styles.accButton}
-                        // onPress={() => this.onLoginPress()}
-                        title="Register"
-                    />
-                </View>
+        <View style={styles.accScreenContainer}>
+            <View style={styles.accFormView}>
+                <Text style={styles.logoText}>Flatmate</Text>
+                <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
+                <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
+                           secureTextEntry={true}/>
+                <TextInput placeholder="Retype password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
+                           secureTextEntry={true}/>
+                <Button
+                    buttonStyle={styles.accButton}
+                    onPress={() => onRegisterPress()}
+                    title="Register"
+                />
             </View>
-            {/*</TouchableWithoutFeedback>*/}
-        </KeyboardAvoidingView>
+        </View>
     );
 }
 
