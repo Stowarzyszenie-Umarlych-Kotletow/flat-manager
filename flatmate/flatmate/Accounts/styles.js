@@ -49,4 +49,12 @@ export default {
         marginLeft: 25,
         marginRight: 25,
     },
+    warnButton: {
+        backgroundColor: '#e74040',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
 };
