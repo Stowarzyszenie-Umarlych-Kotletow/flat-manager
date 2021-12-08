@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Text, View} from "react-native";
-import styles from "./styles";
+import styles from "../native_elements_styles";
 import {Button} from "react-native-elements";
 import {Button as BButton, FormControl, InputGroup, Modal} from "react-bootstrap";
 import * as React from "react";
@@ -28,11 +28,16 @@ export function ManageScreen({navigation}) {
                 />
 
                 <Button
+                    buttonStyle={styles.accButton}
+                    title="Log out"
+                    onPress={() => navigation.navigate('HomeScreen')}
+                />
+
+                <Button
                     buttonStyle={styles.warnButton}
                     title="Delete account"
                     onPress={handleShow}
                 />
-
 
                 <Modal show={show} onHide={handleClose}>
 

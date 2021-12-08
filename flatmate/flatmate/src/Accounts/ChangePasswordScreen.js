@@ -1,8 +1,8 @@
 import {Text, TextInput, View} from "react-native";
-import styles from "./styles";
+import styles from "../native_elements_styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
-import './bootstrap_style.css';
+import '../bootstrap_style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 

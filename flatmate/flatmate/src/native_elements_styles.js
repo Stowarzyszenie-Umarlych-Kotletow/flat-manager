@@ -48,6 +48,16 @@ export default {
         marginLeft: 25,
         marginRight: 25,
     },
+    barButton: {
+        backgroundColor: '#b6b6b6',
+        borderRadius: 5,
+        height: 40,
+        marginTop: 5,
+        marginBottom: 5,
+
+        marginLeft: 25,
+        marginRight: 25,
+    },
     warnButton: {
         backgroundColor: '#e74040',
         borderRadius: 5,

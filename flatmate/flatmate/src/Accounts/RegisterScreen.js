@@ -1,10 +1,10 @@
 import {Text, TextInput, View} from "react-native";
-import styles from "./styles";
+import styles from "../native_elements_styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 
-export function LoginScreen({navigation}) {
-    function onLoginPress() {
+export function RegisterScreen() {
+    function onRegisterPress() {
         console.log('test')
     }
 
@@ -12,14 +12,16 @@ export function LoginScreen({navigation}) {
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Flatmate</Text>
-                <TextInput placeholder="Username or e-mail" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
+                <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
+                <TextInput placeholder="E-mail" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
                 <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
+                           secureTextEntry={true}/>
+                <TextInput placeholder="Retype password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
                 <Button
                     buttonStyle={styles.accButton}
-                    // onPress={() => onLoginPress()}
-                    onPress={() => navigation.navigate('ManageScreen')}
-                    title="Login"
+                    onPress={() => onRegisterPress()}
+                    title="Register"
                 />
             </View>
         </View>
