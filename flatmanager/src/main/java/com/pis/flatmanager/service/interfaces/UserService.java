@@ -7,7 +7,6 @@ import com.pis.flatmanager.dto.UserDto;
 import com.pis.flatmanager.model.User;
 
 import java.util.Collection;
-import java.util.UUID;
 
 public interface UserService {
     User createUser(CreateUserDto userDto);
