@@ -6,9 +6,10 @@ import '../bootstrap_style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
-export function ChangePasswordScreen() {
+export function ChangePasswordScreen({navigation}) {
     function onChangePasswordPress() {
         console.log('saving data')
+        navigation.pop()
     }
 
     return (
