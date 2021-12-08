@@ -2,7 +2,11 @@ import * as React from 'react';
 import {View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {LoginScreen, RegisterScreen, HomeScreen, ManageScreen, ChangePasswordScreen} from './Accounts/AccountScreens';
+import {LoginScreen} from './views/Accounts/LoginScreen';
+import {RegisterScreen} from './views/Accounts/RegisterScreen';
+import {HomeScreen} from './views/Accounts/HomeScreen';
+import {ManageScreen} from './views/Accounts/ManageScreen';
+import {ChangePasswordScreen} from './views/Accounts/ChangePasswordScreen';
 
 
 const Stack = createNativeStackNavigator();
