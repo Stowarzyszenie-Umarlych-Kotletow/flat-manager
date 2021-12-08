@@ -95,9 +95,9 @@ export function ManageScreen({navigation}) {
                     <Modal.Body>
                         <div className="form-outline">
                             <input type="password" id="typePassword" className="form-control"/>
-                            <label className="form-label" htmlFor="typePassword">Password input</label> <!-- nie działa -->
+                            <label className="form-label" htmlFor="typePassword">Password</label>
                         </div>
-                        <Text style={styles.smallText}>Are you sure want to delete your account?</Text><!-- todo przerobić -->
+                        <Text style={styles.smallText}>Are you sure want to delete your account?</Text>
 
                     </Modal.Body>
 
