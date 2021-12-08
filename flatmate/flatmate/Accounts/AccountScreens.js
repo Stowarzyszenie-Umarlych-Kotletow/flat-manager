@@ -2,10 +2,11 @@ import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, Keyboa
 import {Button} from 'react-native-elements';
 import * as React from "react";
 import styles from "./styles";
+import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
-import {Modal, Button as BButton} from 'react-bootstrap';
+import {Modal, Button as BButton, InputGroup, FormControl} from 'react-bootstrap';
 import {useState} from "react";
 
 export function LoginScreen({navigation}) {
@@ -93,11 +94,16 @@ export function ManageScreen({navigation}) {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <div className="form-outline">
-                            <input type="password" id="typePassword" className="form-control"/>
-                            <label className="form-label" htmlFor="typePassword">Password</label>
-                        </div>
-                        <Text style={styles.smallText}>Are you sure want to delete your account?</Text>
+                        <p className="text-sm-left">Are you sure want to delete your account?</p>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                                type="password"
+                                id="typePassword"
+                                placeholder="Password"
+                                aria-label="Password"
+                                aria-describedby="basic-addon1"
+                            />
+                        </InputGroup>
 
                     </Modal.Body>
 
@@ -138,7 +144,11 @@ export function ChangePasswordScreen() {
 }
 
 
-export function HomeScreen({navigation}) {
+export function HomeScreen(
+    {
+        navigation
+    }
+) {
     return (
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
