@@ -7,20 +7,20 @@ export function HomeScreen({
                                navigation
                            }) {
     return (<View style={styles.accScreenContainer}>
-            <View style={styles.accFormView}>
-                <Text style={styles.logoText}>Flatmate</Text>
+        <View style={styles.accFormView}>
+            <Text style={styles.logoText}>Flatmate</Text>
 
-                <Button
-                    buttonStyle={styles.bluButton}
-                    title="Login"
-                    onPress={() => navigation.navigate('LoginScreen')}
-                />
+            <Button
+                buttonStyle={styles.bluButton}
+                title="Login"
+                onPress={() => navigation.navigate('LoginScreen')}
+            />
 
-                <Button
-                    buttonStyle={styles.bluButton}
-                    title="Register"
-                    onPress={() => navigation.navigate('RegisterScreen')}
-                />
-            </View>
-        </View>);
+            <Button
+                buttonStyle={styles.bluButton}
+                title="Register"
+                onPress={() => navigation.navigate('RegisterScreen')}
+            />
+        </View>
+    </View>);
 }

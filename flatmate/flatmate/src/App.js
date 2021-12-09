@@ -22,7 +22,7 @@ function App() {
                         title: 'NotLoggedNavigator',
                     }}>
                         {
-                            props=><NotLoggedNavigator {...props} {...{setUser}}/>
+                            props => <NotLoggedNavigator {...props} {...{setUser}}/>
                         }
                     </Stack.Screen>
                 ) : (

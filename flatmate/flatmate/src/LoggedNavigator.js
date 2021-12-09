@@ -48,12 +48,12 @@ export function LoggedNavigator({navigation, setUser}) {
                     <LoggedStack.Screen name="ManageFlatsScreen" options={{
                         title: 'Manage flats'
                     }}>
-                    {
-                        props => <ManageFlatsScreen {...props} {...{currentFlat}} {...{setCurrentFlat}}/>
-                    }
+                        {
+                            props => <ManageFlatsScreen {...props} {...{currentFlat}} {...{setCurrentFlat}}/>
+                        }
                     </LoggedStack.Screen>
                 </>
-                )
+            )
             }
 
 

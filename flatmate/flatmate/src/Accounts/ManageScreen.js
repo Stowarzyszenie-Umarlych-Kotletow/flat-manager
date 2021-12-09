@@ -24,13 +24,13 @@ export function ManageScreen({navigation, setUser, currentFlat}) {
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Manage account</Text>
-                { currentFlat != null ? (
+                {currentFlat != null ? (
                     <Button
                         buttonStyle={styles.bluButton}
                         title="Manage flats"
                         onPress={() => navigation.navigate('ManageFlatsScreen')}
                     />
-                ):(
+                ) : (
                     <></>
                 )
                 }
