@@ -7,6 +7,7 @@ import com.pis.flatmanager.dto.UserDto;
 import com.pis.flatmanager.model.User;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface UserService {
     User createUser(CreateUserDto userDto);
@@ -14,4 +15,5 @@ public interface UserService {
     void updateUserEmail(UpdateEmailUserDto userDto);
     void deleteUser(String id);
     Collection<UserDto> getUsers();
+    Optional<User> getUser(String id);
 }

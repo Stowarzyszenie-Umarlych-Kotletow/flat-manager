@@ -14,14 +14,14 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final Map<UUID, User> userRepo = new HashMap<>();
+    private HashMap<UUID, User> userRepo;
 
     @Autowired
     private Validator validator;
@@ -29,9 +29,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public UserServiceImpl(){
+        this.userRepo = new HashMap<>();
+    }
+
     @Override
     public User createUser(CreateUserDto userDto) throws ValidationException {
-        User user = new User(userDto.firstName, userDto.lastName, userDto.nickname, userDto.email, passwordEncoder.encode(userDto.password));
+        User user = new User(userDto.firstName, userDto.lastName, userDto.nickname, userDto.email);
+        user.setPasswordHash(passwordEncoder.encode(userDto.password));
         var violations = validator.validate(user);
         if(!violations.isEmpty()) {
             throw new ValidationException("Validation failed");
@@ -74,6 +79,12 @@ public class UserServiceImpl implements UserService {
             dto.nickname = user.getNickname();
             return dto;
         }).collect(Collectors.toList());
-
     }
+
+    @Override
+    public Optional<User> getUser(String id) {
+        return Optional.ofNullable(userRepo.get(UUID.fromString(id)));
+    }
+
+
 }

@@ -1,13 +1,12 @@
 package com.pis.flatmanager.model;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -35,8 +34,9 @@ public class User implements Serializable {
     @Email
     private String email;
 
-    @NonNull
     private String passwordHash;
+
+    private Boolean isActive = false;
 
     private Boolean isAdmin = false;
 
