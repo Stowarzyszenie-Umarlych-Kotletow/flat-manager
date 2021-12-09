@@ -11,9 +11,10 @@ import java.util.Collection;
 
 public interface UserService {
     User createUser(CreateUserDto userDto);
-    void updateUserPassword(UpdatePasswordUserDto userDto) throws UserServiceException;
-    void updateUserEmail(UpdateEmailUserDto userDto) throws UserServiceException;
-    void deleteUser(String id) throws UserServiceException;
+    User updateUserPassword(UpdatePasswordUserDto userDto) throws UserServiceException;
+    User updateUserEmail(UpdateEmailUserDto userDto) throws UserServiceException;
+    User deleteUser(String id) throws UserServiceException;
     Collection<UserDto> getUsers();
     User getUser(String id) throws UserServiceException;
+    UserDto userToDto(User user);
 }
