@@ -23,7 +23,7 @@ export function ChangePasswordScreen({navigation}) {
                 <TextInput placeholder="Retype password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
                     onPress={() => onChangePasswordPress()}
                     title="Save"
                 />

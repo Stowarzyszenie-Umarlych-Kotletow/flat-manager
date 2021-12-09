@@ -10,19 +10,19 @@ export function HomeScreen({
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Flatmate</Text>
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
                     title="Login"
                     onPress={() => navigation.navigate('LoginScreen')}
                 />
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
                     title="Register"
                     onPress={() => navigation.navigate('RegisterScreen')}
                 />
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
                     title="TempgotoFlatList"
-                    onPress={() => navigation.navigate('FlatList')}
+                    onPress={() => navigation.navigate('FlatApp')}
                 />
             </View>
         </View>);

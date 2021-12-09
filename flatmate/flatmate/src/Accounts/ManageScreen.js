@@ -22,13 +22,19 @@ export function ManageScreen({navigation}) {
                 <Text style={styles.logoText}>Manage account</Text>
 
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
+                    title="Manage flats"
+                    // onPress={() => navigation.navigate('ChangePasswordScreen')}
+                />
+
+                <Button
+                    buttonStyle={styles.bluButton}
                     title="Change password"
                     onPress={() => navigation.navigate('ChangePasswordScreen')}
                 />
 
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
                     title="Log out"
                     onPress={() => navigation.navigate('HomeScreen')}
                 />

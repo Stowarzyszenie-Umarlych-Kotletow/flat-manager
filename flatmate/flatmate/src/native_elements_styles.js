@@ -40,10 +40,18 @@ export default {
         marginBottom: 5,
 
     },
-    accButton: {
+    bluButton: {
         backgroundColor: '#3897f1',
         borderRadius: 5,
         height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    highButton: {
+        backgroundColor: '#3897f1',
+        borderRadius: 5,
+        height: 100,
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,

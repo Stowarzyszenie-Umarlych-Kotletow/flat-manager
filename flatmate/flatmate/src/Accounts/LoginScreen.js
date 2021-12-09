@@ -16,7 +16,7 @@ export function LoginScreen({navigation}) {
                 <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
                 <Button
-                    buttonStyle={styles.accButton}
+                    buttonStyle={styles.bluButton}
                     // onPress={() => onLoginPress()}
                     onPress={() => navigation.navigate('ManageScreen')}
                     title="Login"
