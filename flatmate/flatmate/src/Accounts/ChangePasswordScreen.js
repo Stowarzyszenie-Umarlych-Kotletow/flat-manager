@@ -16,12 +16,16 @@ export function ChangePasswordScreen({navigation}) {
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Change password</Text>
+
                 <TextInput placeholder="Old password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
+
                 <TextInput placeholder="New password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
+
                 <TextInput placeholder="Retype password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
                            secureTextEntry={true}/>
+
                 <Button
                     buttonStyle={styles.bluButton}
                     onPress={() => onChangePasswordPress()}

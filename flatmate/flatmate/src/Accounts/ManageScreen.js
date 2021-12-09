@@ -5,7 +5,7 @@ import {Button} from "react-native-elements";
 import {Button as BButton, FormControl, InputGroup, Modal} from "react-bootstrap";
 import * as React from "react";
 
-export function ManageScreen({navigation}) {
+export function ManageScreen({navigation, setUser}) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -13,7 +13,11 @@ export function ManageScreen({navigation}) {
 
     function handleDelete() {
         setShow(false);
-        navigation.navigate('HomeScreen');
+        setUser(null)
+    }
+
+    function handleLogOut() {
+        setUser(null)
     }
 
     return (
@@ -36,7 +40,7 @@ export function ManageScreen({navigation}) {
                 <Button
                     buttonStyle={styles.bluButton}
                     title="Log out"
-                    onPress={() => navigation.navigate('HomeScreen')}
+                    onPress={handleLogOut}
                 />
 
                 <Button
