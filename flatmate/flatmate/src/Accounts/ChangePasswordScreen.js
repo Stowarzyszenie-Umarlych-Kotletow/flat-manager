@@ -2,9 +2,7 @@ import {Text, TextInput, View} from "react-native";
 import styles from "../static/native_elements_styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
-import '../static/bootstrap_style.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.js';
+
 
 export function ChangePasswordScreen({navigation}) {
     function onChangePasswordPress() {

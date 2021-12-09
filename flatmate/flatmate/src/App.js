@@ -2,8 +2,11 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {LoggedNavigator} from './LoggedNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
-import 'react-native-gesture-handler';
 import {NotLoggedNavigator} from './NotLoggedNavigator'
+import 'react-native-gesture-handler';
+import './static/bootstrap_style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
 
 const Stack = createStackNavigator(); // NativeStackNavigator is maybe better
 

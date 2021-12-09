@@ -1,10 +1,7 @@
 import * as React from "react";
 import styles from "../static/native_elements_styles";
 import {Text, View} from "react-native";
-import logo from '../static/logo.svg'
 import {Button} from "react-native-elements";
-import {createStackNavigator} from "@react-navigation/stack";
-import {ButtonRow} from '@thumbtack/thumbprint-react';
 import {Row, Col} from 'react-bootstrap'
 
 export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFlat}) {
@@ -18,9 +15,7 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
     return (
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
-
                 <Text style={styles.logoText}>Manage flats</Text>
-
                 <Row>
                     <Col>
                         <Button
@@ -28,10 +23,6 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
                             title="Create flat"
                         />
                     </Col>
-                    {/*<Col>*/}
-                    {/**/}
-                    {/*    Sample Second Col*/}
-                    {/*</Col>*/}
                     <Col>
                         <Button
                             buttonStyle={styles.bluButton}

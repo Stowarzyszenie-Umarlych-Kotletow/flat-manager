@@ -1,9 +1,7 @@
 import * as React from "react";
 import styles from "../static/native_elements_styles";
 import {Text, View} from "react-native";
-import logo from '../static/logo.svg'
 import {Button} from "react-native-elements";
-import {createStackNavigator} from "@react-navigation/stack";
 
 
 export function DashboardScreen({navigation}) {
