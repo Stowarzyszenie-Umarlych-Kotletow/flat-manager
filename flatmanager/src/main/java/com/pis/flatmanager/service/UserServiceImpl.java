@@ -5,6 +5,7 @@ import com.pis.flatmanager.dto.UpdateEmailUserDto;
 import com.pis.flatmanager.dto.UpdatePasswordUserDto;
 import com.pis.flatmanager.dto.UserDto;
 import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private HashMap<UUID, User> userRepo;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Validator validator;
