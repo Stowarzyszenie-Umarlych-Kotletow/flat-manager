@@ -23,6 +23,13 @@ export default {
         marginBottom: 30,
         textAlign: 'center',
     },
+    bigText: {
+        fontSize: 40,
+        fontWeight: "600",
+        marginTop: 30,
+        marginBottom: 30,
+        textAlign: 'center',
+    },
     accFormView: {
         flex: 1
     },

@@ -4,7 +4,8 @@ import {Text, View} from "react-native";
 import logo from '../static/logo.svg'
 import {Button} from "react-native-elements";
 import {createStackNavigator} from "@react-navigation/stack";
-
+import {ButtonRow} from '@thumbtack/thumbprint-react';
+import {Row, Col} from 'react-bootstrap'
 
 export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFlat}) {
     function handleClickOnFlat(flat) {
@@ -18,8 +19,27 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
 
-                <Text style={styles.logoText}>Select flat</Text>
+                <Text style={styles.logoText}>Manage flats</Text>
 
+                <Row>
+                    <Col>
+                        <Button
+                            buttonStyle={styles.bluButton}
+                            title="Create flat"
+                        />
+                    </Col>
+                    {/*<Col>*/}
+                    {/**/}
+                    {/*    Sample Second Col*/}
+                    {/*</Col>*/}
+                    <Col>
+                        <Button
+                            buttonStyle={styles.bluButton}
+                            title="Join flat"
+                        />
+                    </Col>
+                </Row>
+                <hr/>
                 <Button
                     buttonStyle={styles.highButton}
                     title="Gaming house dmowskirgo 69"
@@ -50,6 +70,7 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
                     title="Daruide sandrstorm 27"
                     onPress={() => handleClickOnFlat(6)}
                 />
+
             </View>
         </View>)
 }
