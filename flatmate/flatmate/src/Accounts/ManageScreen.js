@@ -1,11 +1,11 @@
 import {useState} from "react";
 import {Text, View} from "react-native";
-import styles from "../native_elements_styles";
+import styles from "../static/native_elements_styles";
 import {Button} from "react-native-elements";
 import {Button as BButton, FormControl, InputGroup, Modal} from "react-bootstrap";
 import * as React from "react";
 
-export function ManageScreen({navigation, setUser}) {
+export function ManageScreen({navigation, setUser, currentFlat}) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -24,12 +24,16 @@ export function ManageScreen({navigation, setUser}) {
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Manage account</Text>
-
-                <Button
-                    buttonStyle={styles.bluButton}
-                    title="Manage flats"
-                    // onPress={() => navigation.navigate('ChangePasswordScreen')}
-                />
+                { currentFlat != null ? (
+                    <Button
+                        buttonStyle={styles.bluButton}
+                        title="Manage flats"
+                        onPress={() => navigation.navigate('ManageFlatsScreen')}
+                    />
+                ):(
+                    <></>
+                )
+                }
 
                 <Button
                     buttonStyle={styles.bluButton}

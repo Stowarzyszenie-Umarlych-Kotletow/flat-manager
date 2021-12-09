@@ -1,5 +1,5 @@
 import {Text, TextInput, View} from "react-native";
-import styles from "../native_elements_styles";
+import styles from "../static/native_elements_styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 

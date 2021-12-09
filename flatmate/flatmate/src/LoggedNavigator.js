@@ -1,16 +1,20 @@
 import * as React from "react";
 import {TouchableOpacity} from "react-native";
-import logo from './logo.svg'
+import logo from './static/logo.svg'
 import {createStackNavigator} from "@react-navigation/stack";
-import {FlatListScreen} from './Flatmate/FlatList'
+import {ManageFlatsScreen} from './Flatmate/ManageFlats'
 import {ManageScreen} from "./Accounts/ManageScreen";
+import {DashboardScreen} from "./Flatmate/Dashboard";
+
 import {ChangePasswordScreen} from "./Accounts/ChangePasswordScreen";
+import {NotLoggedNavigator} from "./NotLoggedNavigator";
+
 const LoggedStack = createStackNavigator();
 
 export function LoggedNavigator({navigation, setUser}) {
+    const [currentFlat, setCurrentFlat] = React.useState(null)
     return (
         <LoggedStack.Navigator
-            initialRouteName="FlatListScreen"
             screenOptions={{
                 headerMode: 'screen',
                 headerTintColor: 'white',
@@ -23,14 +27,41 @@ export function LoggedNavigator({navigation, setUser}) {
                 ),
                 animationEnabled: true,
             }}>
+            {currentFlat == null ? (
+                <LoggedStack.Screen name="FirstManageFlatsScreen" options={{
+                    title: 'Manage flats'
+                }}>
+                    {
+                        props => <ManageFlatsScreen {...props} {...{setCurrentFlat}}/>
+                    }
+                </LoggedStack.Screen>
+            ) : (
+                <>
+                    <LoggedStack.Screen name="DashboardScreen" options={{
+                        title: 'Dashboard'
+                    }}>
+                        {
+                            props => <DashboardScreen {...props}/>
+                        }
+                    </LoggedStack.Screen>
 
-            <LoggedStack.Screen name="FlatListScreen" component={FlatListScreen}/>
+                    <LoggedStack.Screen name="ManageFlatsScreen" options={{
+                        title: 'Manage flats'
+                    }}>
+                    {
+                        props => <ManageFlatsScreen {...props} {...{currentFlat}} {...{setCurrentFlat}}/>
+                    }
+                    </LoggedStack.Screen>
+                </>
+                )
+            }
+
 
             <LoggedStack.Screen name="ManageScreen" options={{
                 title: 'Manage account'
             }}>
                 {
-                    props => <ManageScreen {...props} {...{setUser}}/>
+                    props => <ManageScreen {...props} {...{setUser}} {...{currentFlat}}/>
                 }
             </LoggedStack.Screen>
 
