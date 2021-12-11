@@ -47,12 +47,13 @@ public class UserServiceTest {
 
     @Test
     public void createUserTest() {
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "Jan";
-        createUserDto.lastName = "Kowalski";
-        createUserDto.email = "jkowal@test.com";
-        createUserDto.nickname = "jkowal";
-        createUserDto.password = "jkowal123";
+        var createUserDto = CreateUserDto.builder()
+                .firstName("Jan")
+                .lastName("Kowalski")
+                .nickname("jkowal")
+                .email("jkowal@test.com")
+                .password("jkowal123")
+                .build();
 
         when(userRepository.save(any())).thenReturn(null);
         User user = userService.createUser(createUserDto);
@@ -65,18 +66,20 @@ public class UserServiceTest {
     @Test
     public void updatePasswordUserTest() throws UserServiceException {
 
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "test";
-        createUserDto.lastName = "test";
-        createUserDto.nickname = "test";
-        createUserDto.email = "test@test.com";
-        createUserDto.password = "testtest123";
+        var createUserDto = CreateUserDto.builder()
+                .firstName("test")
+                .lastName("test")
+                .nickname("test")
+                .email("test@test.com")
+                .password("testtest123")
+                .build();
 
         User createdUser = userService.createUser(createUserDto);
 
-        var updatePasswordUserDto = new UpdatePasswordUserDto();
-        updatePasswordUserDto.id = createdUser.getId().toString();
-        updatePasswordUserDto.password = "testtest321";
+        var updatePasswordUserDto = UpdatePasswordUserDto.builder()
+                .id(createdUser.getId().toString())
+                .password("testtest321")
+                .build();
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserPassword(updatePasswordUserDto);
         var user = userService.getUser(createdUser.getId().toString());
@@ -86,18 +89,20 @@ public class UserServiceTest {
 
     @Test
     public void updateEmailUserTest() throws UserServiceException {
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "test";
-        createUserDto.lastName = "test";
-        createUserDto.nickname = "test";
-        createUserDto.email = "test@test.com";
-        createUserDto.password = "testtest123";
+        var createUserDto = CreateUserDto.builder()
+                .firstName("test")
+                .lastName("test")
+                .nickname("test")
+                .email("test@test.com")
+                .password("testtest123")
+                .build();
 
         User createdUser = userService.createUser(createUserDto);
 
-        var updateEmailUserDto = new UpdateEmailUserDto();
-        updateEmailUserDto.id = createdUser.getId().toString();
-        updateEmailUserDto.email = "test@test.eu";
+        var updateEmailUserDto = UpdateEmailUserDto.builder()
+                .id(createdUser.getId().toString())
+                .email("test@test.eu").build();
+
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserEmail(updateEmailUserDto);
         var user = userService.getUser(createdUser.getId().toString());
@@ -106,12 +111,13 @@ public class UserServiceTest {
 
     @Test
     public void deleteUserTest() throws UserServiceException {
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "test";
-        createUserDto.lastName = "test";
-        createUserDto.nickname = "test";
-        createUserDto.email = "test@test.com";
-        createUserDto.password = "testtest123";
+        var createUserDto = CreateUserDto.builder()
+                .firstName("test")
+                .lastName("test")
+                .nickname("test")
+                .email("test@test.com")
+                .password("testtest123")
+                .build();
 
         User createdUser = userService.createUser(createUserDto);
         when(userRepository.findById(any())).thenReturn(Optional.empty());

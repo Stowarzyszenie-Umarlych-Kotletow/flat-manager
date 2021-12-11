@@ -14,7 +14,7 @@ public interface UserService {
     User updateUserPassword(UpdatePasswordUserDto userDto) throws UserServiceException;
     User updateUserEmail(UpdateEmailUserDto userDto) throws UserServiceException;
     User deleteUser(String id) throws UserServiceException;
-    Collection<UserDto> getUsers();
+    Collection<User> getUsers();
     User getUser(String id) throws UserServiceException;
     UserDto userToDto(User user);
 }

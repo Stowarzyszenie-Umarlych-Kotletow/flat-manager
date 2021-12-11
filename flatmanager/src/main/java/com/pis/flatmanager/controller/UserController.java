@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -21,14 +22,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto dto) {
         return new ResponseEntity<>(userService.userToDto(userService.createUser(dto)), HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
-        return new ResponseEntity<>((List<UserDto>) userService.getUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(
+                userService.getUsers().stream().map(user -> userService.userToDto(user)).collect(Collectors.toList()),
+                HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

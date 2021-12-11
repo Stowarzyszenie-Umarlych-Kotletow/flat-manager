@@ -16,7 +16,6 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -83,8 +82,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<UserDto> getUsers() {
-        return userRepository.findAll().stream().map(this::userToDto).collect(Collectors.toList());
+    public Collection<User> getUsers() {
+        return userRepository.findAll();
     }
 
     @Override
@@ -98,12 +97,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto userToDto(User user) {
-        var dto = new UserDto();
-        dto.firstName = user.getFirstName();
-        dto.lastName = user.getLastName();
-        dto.nickname = user.getNickname();
-        dto.email = user.getEmail();
-        dto.id = user.getId().toString();
-        return dto;
+        return UserDto.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .id(user.getId().toString())
+                .build();
     }
 }
