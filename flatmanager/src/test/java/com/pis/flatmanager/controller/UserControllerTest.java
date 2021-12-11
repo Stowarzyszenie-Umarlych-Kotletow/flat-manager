@@ -47,7 +47,7 @@ public class UserControllerTest {
         CreateUserDto createUserDto = CreateUserDto.builder()
                 .firstName("test")
                 .lastName("test")
-                .nickname("test")
+                .username("test")
                 .email("test@test.com")
                 .password("testtest123")
                 .build();
@@ -61,7 +61,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("nickname").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("username").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("test@test.com"));
 
     }
@@ -83,7 +83,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("nickname").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("username").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("test@test.eu"));
 
     }
@@ -106,7 +106,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("nickname").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("username").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("test@test.com"));
 
         var finalObj = userRepository.findById(obj.getId());
@@ -125,7 +125,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("nickname").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("username").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("test@test.com"));
 
         var finalObj = userRepository.findById(obj.getId());
@@ -163,7 +163,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("nickname").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("username").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("test@test.com"));
     }
 
