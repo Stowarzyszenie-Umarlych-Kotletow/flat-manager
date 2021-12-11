@@ -29,7 +29,7 @@ public class User implements Serializable {
 
     @NonNull
     @NotBlank
-    private String nickname;
+    private String username;
 
     @NonNull
     @NotBlank

@@ -5,6 +5,6 @@ import lombok.Builder;
 @Builder
 public class VerifyUserDto {
 
-    public String nickname;
+    public String username;
     public String password;
 }
