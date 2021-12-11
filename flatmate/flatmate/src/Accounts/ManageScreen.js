@@ -18,11 +18,6 @@ export function ManageScreen({navigation, setUser, currentFlat, loggedUser}) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    let state = {
-        delete_error_message: ""
-    };
-
     
     const onSubmit = data => handleDelete(data);
 
@@ -37,10 +32,8 @@ export function ManageScreen({navigation, setUser, currentFlat, loggedUser}) {
             setShow(false);
             setUser(null);
             service.deleteUserById(loggedUser);
-
         } 
         catch {
-            state.delete_error_message = "Incorrect password";
             console.log("Niepoprawne hasło");
         }
     }
@@ -110,7 +103,6 @@ export function ManageScreen({navigation, setUser, currentFlat, loggedUser}) {
                             name="password"
                         />
                         </InputGroup>
-                        <p> { `${state.delete_error_message}` } </p>
                     </Modal.Body>
 
                     <Modal.Footer>
