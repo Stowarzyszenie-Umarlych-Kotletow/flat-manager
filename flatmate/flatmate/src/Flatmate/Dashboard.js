@@ -56,7 +56,7 @@ export function DashboardScreen({navigation}) {
                     <Modal.Body>
                         <p className="text-sm-left" align="center">Join code:</p>
 
-                        <div className="input-group mb-3 justify-content-md-center">
+                        <div className="input-group mb-3 justify-content-center">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="inputGroup-sizing-default">ASDFAS</span>
                             </div>
