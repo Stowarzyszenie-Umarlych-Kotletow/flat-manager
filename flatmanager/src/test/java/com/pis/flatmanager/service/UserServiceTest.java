@@ -3,7 +3,9 @@ package com.pis.flatmanager.service;
 import com.pis.flatmanager.dto.CreateUserDto;
 import com.pis.flatmanager.dto.UpdateEmailUserDto;
 import com.pis.flatmanager.dto.UpdatePasswordUserDto;
+import com.pis.flatmanager.exception.UserServiceException;
 import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +29,9 @@ public class UserServiceTest {
 
     @MockBean
     PasswordEncoder passwordEncoder;
+
+    @MockBean
+    UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -42,14 +46,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() {
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "Jan";
-        createUserDto.lastName = "Kowalski";
-        createUserDto.email = "jkowal@test.com";
-        createUserDto.nickname = "jkowal";
-        createUserDto.password = "jkowal123";
+    public void createUserTest() throws UserServiceException {
+        var createUserDto = CreateUserDto.builder()
+                .firstName("Jan")
+                .lastName("Kowalski")
+                .nickname("jkowal")
+                .email("jkowal@test.com")
+                .password("jkowal123")
+                .build();
 
+        when(userRepository.save(any())).thenReturn(null);
         User user = userService.createUser(createUserDto);
         assertEquals(user.getFirstName(), createUserDto.firstName);
         assertEquals(user.getLastName(), createUserDto.lastName);
@@ -58,59 +64,70 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatePasswordUserTest() {
+    public void updatePasswordUserTest() throws UserServiceException {
 
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "test";
-        createUserDto.lastName = "test";
-        createUserDto.nickname = "test";
-        createUserDto.email = "test@test.com";
-        createUserDto.password = "testtest123";
+        var createUserDto = CreateUserDto.builder()
+                .firstName("test")
+                .lastName("test")
+                .nickname("test")
+                .email("test@test.com")
+                .password("testtest123")
+                .build();
 
         User createdUser = userService.createUser(createUserDto);
 
-        var updatePasswordUserDto = new UpdatePasswordUserDto();
-        updatePasswordUserDto.id = createdUser.getId().toString();
-        updatePasswordUserDto.password = "testtest321";
+        var updatePasswordUserDto = UpdatePasswordUserDto.builder()
+                .id(createdUser.getId().toString())
+                .password("testtest321")
+                .build();
+        when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserPassword(updatePasswordUserDto);
         var user = userService.getUser(createdUser.getId().toString());
 
-        user.ifPresent(value -> assertEquals(passwordEncoder.encode(updatePasswordUserDto.password), value.getPasswordHash()));
+        assertEquals(passwordEncoder.encode(updatePasswordUserDto.password), user.getPasswordHash());
     }
 
     @Test
-    public void updateEmailUserTest() {
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "test";
-        createUserDto.lastName = "test";
-        createUserDto.nickname = "test";
-        createUserDto.email = "test@test.com";
-        createUserDto.password = "testtest123";
+    public void updateEmailUserTest() throws UserServiceException {
+        var createUserDto = CreateUserDto.builder()
+                .firstName("test")
+                .lastName("test")
+                .nickname("test")
+                .email("test@test.com")
+                .password("testtest123")
+                .build();
 
         User createdUser = userService.createUser(createUserDto);
 
-        var updateEmailUserDto = new UpdateEmailUserDto();
-        updateEmailUserDto.id = createdUser.getId().toString();
-        updateEmailUserDto.email = "test@test.eu";
+        var updateEmailUserDto = UpdateEmailUserDto.builder()
+                .id(createdUser.getId().toString())
+                .email("test@test.eu").build();
+
+        when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserEmail(updateEmailUserDto);
         var user = userService.getUser(createdUser.getId().toString());
-        user.ifPresent(value -> assertEquals(updateEmailUserDto.email, value.getEmail()));
+        assertEquals(updateEmailUserDto.email, user.getEmail());
     }
 
     @Test
-    public void deleteUserTest() {
-        var createUserDto = new CreateUserDto();
-        createUserDto.firstName = "test";
-        createUserDto.lastName = "test";
-        createUserDto.nickname = "test";
-        createUserDto.email = "test@test.com";
-        createUserDto.password = "testtest123";
+    public void deleteUserTest() throws UserServiceException {
+        var createUserDto = CreateUserDto.builder()
+                .firstName("test")
+                .lastName("test")
+                .nickname("test")
+                .email("test@test.com")
+                .password("testtest123")
+                .build();
 
         User createdUser = userService.createUser(createUserDto);
-        userService.deleteUser(createdUser.getId().toString());
+        when(userRepository.findById(any())).thenReturn(Optional.empty());
 
-        Optional<User> user = userService.getUser(createdUser.getId().toString());
+        try {
+            userService.deleteUser(createdUser.getId().toString());
+            var user = userService.getUser(createdUser.getId().toString());
+        } catch (UserServiceException e) {
+            assertEquals(e.getMessage(), String.format("User {} does not exist", createdUser.getId().toString()));
+        }
 
-        assertTrue(user.isEmpty());
     }
 }

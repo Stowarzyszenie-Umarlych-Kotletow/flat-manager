@@ -2,6 +2,7 @@ package com.pis.flatmanager.model;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Data
 @Entity
+@Document(collection="users")
 public class User implements Serializable {
 
     @Id

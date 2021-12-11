@@ -1,10 +1,9 @@
 package com.pis.flatmanager.service;
 
-import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.dto.UpdateEmailUserDto;
-import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.dto.UserDto;
+import com.pis.flatmanager.dto.*;
+import com.pis.flatmanager.exception.UserServiceException;
 import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,15 +12,13 @@ import org.springframework.stereotype.Service;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private HashMap<UUID, User> userRepo;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Validator validator;
@@ -30,61 +27,92 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(){
-        this.userRepo = new HashMap<>();
+
     }
 
     @Override
-    public User createUser(CreateUserDto userDto) throws ValidationException {
+    public User createUser(CreateUserDto userDto) throws ValidationException, UserServiceException {
+        var userToBeChecked = userRepository.findByNickname(userDto.nickname);
+        if(userToBeChecked.isPresent()) {
+            throw new UserServiceException(String.format("User {} already exists", userDto.nickname));
+        }
         User user = new User(userDto.firstName, userDto.lastName, userDto.nickname, userDto.email);
         user.setPasswordHash(passwordEncoder.encode(userDto.password));
         var violations = validator.validate(user);
         if(!violations.isEmpty()) {
             throw new ValidationException("Validation failed");
         }
-        userRepo.put(user.getId(), user);
+        userRepository.save(user);
         return user;
     }
 
     @Override
-    public void updateUserPassword(UpdatePasswordUserDto userDto) throws ValidationException {
-        var user = userRepo.get(UUID.fromString(userDto.id));
-        user.setPasswordHash(passwordEncoder.encode(userDto.password));
-        userRepo.replace(user.getId(), user);
+    public boolean verifyUser(VerifyUserDto userDto) throws UserServiceException {
+        var userToBeVerified = userRepository.findByNickname(userDto.nickname);
+        if(userToBeVerified.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", userDto.nickname));
+        }
+        return passwordEncoder.matches(userDto.password, userToBeVerified.get().getPasswordHash());
     }
 
     @Override
-    public void updateUserEmail(UpdateEmailUserDto userDto) throws ValidationException{
-        var user = userRepo.get(UUID.fromString(userDto.id));
-        user.setEmail(userDto.email);
+    public User updateUserPassword(UpdatePasswordUserDto userDto) throws ValidationException, UserServiceException {
+        var user = userRepository.findById(UUID.fromString(userDto.id));
+        if(user.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", userDto.id));
+        }
+        user.get().setPasswordHash(passwordEncoder.encode(userDto.password));
+        userRepository.save(user.get());
+        return user.get();
+    }
+
+    @Override
+    public User updateUserEmail(UpdateEmailUserDto userDto) throws ValidationException, UserServiceException {
+        var user = userRepository.findById(UUID.fromString(userDto.id));
+        if(user.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", userDto.id));
+        }
+        user.get().setEmail(userDto.email);
         var violations = validator.validate(user);
         if(!violations.isEmpty()) {
             throw new ValidationException("Validation failed");
         }
-        userRepo.replace(user.getId(), user);
+        userRepository.save(user.get());
+        return user.get();
     }
 
     @Override
-    public void deleteUser(String userId) {
-        userRepo.remove(UUID.fromString(userId));
+    public User deleteUser(String userId) throws UserServiceException {
+        var user = userRepository.findById(UUID.fromString(userId));
+        if(user.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", userId));
+        }
+        userRepository.deleteById(UUID.fromString(userId));
+        return user.get();
     }
 
     @Override
-    public Collection<UserDto> getUsers() {
-        return userRepo.values().stream().map(user -> {
-            var dto = new UserDto();
-            dto.id = user.getId().toString();
-            dto.firstName = user.getFirstName();
-            dto.lastName = user.getLastName();
-            dto.email = user.getEmail();
-            dto.nickname = user.getNickname();
-            return dto;
-        }).collect(Collectors.toList());
+    public Collection<User> getUsers() {
+        return userRepository.findAll();
     }
 
     @Override
-    public Optional<User> getUser(String id) {
-        return Optional.ofNullable(userRepo.get(UUID.fromString(id)));
+    public User getUser(String id) throws UserServiceException {
+        var user = userRepository.findById(UUID.fromString(id));
+        if(user.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", id));
+        }
+        return user.get();
     }
 
-
+    @Override
+    public UserDto userToDto(User user) {
+        return UserDto.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .id(user.getId().toString())
+                .build();
+    }
 }

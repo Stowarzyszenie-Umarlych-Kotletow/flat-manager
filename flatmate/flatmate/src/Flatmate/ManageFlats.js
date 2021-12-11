@@ -1,9 +1,10 @@
 import * as React from "react";
 import styles from "../static/native_elements_styles";
-import {Text, View} from "react-native";
+import {Text, TextInput, View} from "react-native";
 import {Button} from "react-native-elements";
 import {Row, Col, Modal, InputGroup, FormControl, Button as BButton} from 'react-bootstrap'
 import {useState} from "react";
+import { useForm, Controller } from "react-hook-form";
 
 export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFlat}) {
     const [showJoinFlat, setShowJoinFlat] = useState(false);
@@ -14,17 +15,25 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
     const handleCloseCreateFlat = () => setShowCreateFlat(false);
     const handleShowCreateFlat = () => setShowCreateFlat(true);
 
+    const { control, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+          flatname: '',
+        },
+    });
+
+    const onSubmit = data => handleCreateFlat(data)
+
     function handleJoinFlat(){
         handleCloseJoinFlat()
         setCurrentFlat(123)
         navigation.popToTop()
     }
 
-    function handleCreateFlat(){
+    function handleCreateFlat(data){
+        console.log(data)
         handleCloseCreateFlat()
+        // backend connection
         setCurrentFlat(123)
-        navigation.popToTop()
-        // navigation.navigate("DashboardScreen")
     }
 
     function handleClickOnFlat(flat) {
@@ -108,11 +117,9 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
                         <BButton variant="secondary" onClick={handleCloseJoinFlat}>Cancel</BButton>
                         <BButton variant="primary" onClick={handleJoinFlat}>Join</BButton>
                     </Modal.Footer>
-
                 </Modal>
 
                 <Modal show={showCreateFlat} onHide={handleCloseCreateFlat}>
-
                     <Modal.Header closeButton>
                         <Modal.Title>Create a new flat</Modal.Title>
                     </Modal.Header>
@@ -120,18 +127,34 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
                     <Modal.Body>
                         <p className="text-sm-left">Flat name:</p>
                         <InputGroup className="mb-3">
-                            <FormControl
-                                placeholder="Name"
-                                aria-label="flat-code"
-                                aria-describedby="basic-addon1"
+                        <Controller
+                            control={control}
+                            rules={{
+                            maxLength: 100,
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.accFormTextInput}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                placeholder="Name" 
+                                placeholderColor="#c4c3cb" 
                             />
+                            )}
+                            name="flatname"
+                        />
                         </InputGroup>
 
                     </Modal.Body>
 
                     <Modal.Footer>
                         <BButton variant="secondary" onClick={handleCloseCreateFlat}>Cancel</BButton>
-                        <BButton variant="primary" onClick={handleCreateFlat}>Create</BButton>
+                        <Button 
+                            buttonStyle={styles.bluButton}
+                            title="Submit" 
+                            onPress={handleSubmit(onSubmit)} 
+                        />
                     </Modal.Footer>
 
                 </Modal>

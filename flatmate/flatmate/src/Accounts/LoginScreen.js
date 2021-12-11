@@ -1,11 +1,21 @@
 import {Text, TextInput, View} from "react-native";
 import styles from "../static/native_elements_styles";
 import {Button} from "react-native-elements";
+import { useForm, Controller } from "react-hook-form";
 import * as React from "react";
 
 export function LoginScreen({navigation, setUser}) {
-    function onLoginPress() {
-        console.log('test')
+    const { control, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+          username: '',
+          password: '',
+        },
+    });
+
+    const onSubmit = data => onLoginPress(data)
+
+    function onLoginPress(data) {
+        // send to backend 
         setUser(123)
     }
 
@@ -13,16 +23,45 @@ export function LoginScreen({navigation, setUser}) {
         <View style={styles.accScreenContainer}>
             <View style={styles.accFormView}>
                 <Text style={styles.logoText}>Flatmate</Text>
-
-                <TextInput placeholder="Username or e-mail" placeholderColor="#c4c3cb" style={styles.accFormTextInput}/>
-
-                <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.accFormTextInput}
-                           secureTextEntry={true}/>
-
-                <Button
+                <Controller
+                    control={control}
+                    rules={{
+                    maxLength: 100,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        style={styles.accFormTextInput}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="Username" 
+                        placeholderColor="#c4c3cb" 
+                    />
+                    )}
+                    name="username"
+                />
+                <Controller
+                    control={control}
+                    rules={{
+                    maxLength: 100,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        style={styles.accFormTextInput}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="Password" 
+                        placeholderColor="#c4c3cb" 
+                        secureTextEntry={true}
+                    />
+                    )}
+                    name="password"
+                />
+                <Button 
                     buttonStyle={styles.bluButton}
-                    onPress={() => onLoginPress()}
-                    title="Login"
+                    title="Submit" 
+                    onPress={handleSubmit(onSubmit)} 
                 />
             </View>
         </View>
