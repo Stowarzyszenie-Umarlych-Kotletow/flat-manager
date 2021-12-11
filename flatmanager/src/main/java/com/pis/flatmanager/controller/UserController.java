@@ -41,11 +41,12 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<Boolean> authUser(@RequestBody VerifyUserDto dto) throws UserServiceException {
+    public ResponseEntity<?> authUser(@RequestBody VerifyUserDto dto) throws UserServiceException {
         try {
             var isAuth = userService.verifyUser(dto);
             if(isAuth) {
-                return ResponseEntity.ok().build();
+                var user = userService.getUserByUsername(dto.username);
+                return new ResponseEntity<>(userService.userToDto(user), HttpStatus.OK);
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (UserServiceException e) {
