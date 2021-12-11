@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {

@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as React from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
+import { UserService } from "../services/UserService"
 
 export function RegisterScreen({setUser}) {
     const schema = Yup.object({
@@ -33,9 +34,23 @@ export function RegisterScreen({setUser}) {
 
     const onSubmit = data =>onRegisterPress(data)
 
-    function onRegisterPress(data) {
-        // send to backend 
-        // setUser(123)
+    function parseData(data) {
+        let parsedData = {
+            "firstName": data.firstName,
+            "lastName": data.lastName,
+            "username": data.username,
+            "email": data.email,
+            "password": data.password,
+        }
+        return parsedData
+    }
+
+    async function onRegisterPress(data) {
+        let parsedData = parseData(data);
+        let service = new UserService("http://localhost:8080");
+        let recivedData = await service.createUser(parsedData);
+        console.log(recivedData["id"]);
+        setUser(recivedData["id"]);
     }
 
 

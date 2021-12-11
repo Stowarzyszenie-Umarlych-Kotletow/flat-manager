@@ -14,8 +14,19 @@ export function LoginScreen({navigation, setUser}) {
 
     const onSubmit = data => onLoginPress(data)
 
-    function onLoginPress(data) {
-        // send to backend 
+    function parseData(data) {
+        let parsedData = {
+            "username": data.username,
+            "password": data.password,
+        }
+        return parsedData
+    }
+
+
+    async function onLoginPress(data) {
+        let parsedData = parseData(data);
+        let service = new UserService("http://localhost:8080");
+        let recivedData = await service.authUser(parsedData);
         setUser(123)
     }
 
