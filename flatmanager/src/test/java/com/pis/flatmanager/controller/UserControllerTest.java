@@ -52,6 +52,7 @@ public class UserControllerTest {
                 .password("testtest123")
                 .build();
 
+        userRepository.deleteAll();
         mvc.perform(MockMvcRequestBuilders
                 .post("/api/v1/users")
                 .content(asJsonString(createUserDto))
