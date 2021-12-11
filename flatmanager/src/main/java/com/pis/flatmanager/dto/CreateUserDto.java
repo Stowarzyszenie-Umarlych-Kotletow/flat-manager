@@ -9,7 +9,7 @@ public class CreateUserDto {
 
     public String firstName;
     public String lastName;
-    public String nickname;
+    public String username;
     public String email;
     @Size(min=8, max=32)
     public String password;

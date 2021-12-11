@@ -32,11 +32,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(CreateUserDto userDto) throws ValidationException, UserServiceException {
-        var userToBeChecked = userRepository.findByNickname(userDto.nickname);
+        var userToBeChecked = userRepository.findByUsername(userDto.username);
         if(userToBeChecked.isPresent()) {
-            throw new UserServiceException(String.format("User {} already exists", userDto.nickname));
+            throw new UserServiceException(String.format("User {} already exists", userDto.username));
         }
-        User user = new User(userDto.firstName, userDto.lastName, userDto.nickname, userDto.email);
+        User user = new User(userDto.firstName, userDto.lastName, userDto.username, userDto.email);
         user.setPasswordHash(passwordEncoder.encode(userDto.password));
         var violations = validator.validate(user);
         if(!violations.isEmpty()) {
@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyUser(VerifyUserDto userDto) throws UserServiceException {
-        var userToBeVerified = userRepository.findByNickname(userDto.nickname);
+        var userToBeVerified = userRepository.findByUsername(userDto.username);
         if(userToBeVerified.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", userDto.nickname));
+            throw new UserServiceException(String.format("User {} does not exist", userDto.username));
         }
         return passwordEncoder.matches(userDto.password, userToBeVerified.get().getPasswordHash());
     }
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .nickname(user.getNickname())
+                .username(user.getUsername())
                 .email(user.getEmail())
                 .id(user.getId().toString())
                 .build();

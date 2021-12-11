@@ -50,7 +50,7 @@ public class UserServiceTest {
         var createUserDto = CreateUserDto.builder()
                 .firstName("Jan")
                 .lastName("Kowalski")
-                .nickname("jkowal")
+                .username("jkowal")
                 .email("jkowal@test.com")
                 .password("jkowal123")
                 .build();
@@ -59,7 +59,7 @@ public class UserServiceTest {
         User user = userService.createUser(createUserDto);
         assertEquals(user.getFirstName(), createUserDto.firstName);
         assertEquals(user.getLastName(), createUserDto.lastName);
-        assertEquals(user.getNickname(), createUserDto.nickname);
+        assertEquals(user.getUsername(), createUserDto.username);
         assertEquals(user.getEmail(), createUserDto.email);
     }
 
@@ -69,7 +69,7 @@ public class UserServiceTest {
         var createUserDto = CreateUserDto.builder()
                 .firstName("test")
                 .lastName("test")
-                .nickname("test")
+                .username("test")
                 .email("test@test.com")
                 .password("testtest123")
                 .build();
@@ -92,7 +92,7 @@ public class UserServiceTest {
         var createUserDto = CreateUserDto.builder()
                 .firstName("test")
                 .lastName("test")
-                .nickname("test")
+                .username("test")
                 .email("test@test.com")
                 .password("testtest123")
                 .build();
@@ -114,7 +114,7 @@ public class UserServiceTest {
         var createUserDto = CreateUserDto.builder()
                 .firstName("test")
                 .lastName("test")
-                .nickname("test")
+                .username("test")
                 .email("test@test.com")
                 .password("testtest123")
                 .build();
