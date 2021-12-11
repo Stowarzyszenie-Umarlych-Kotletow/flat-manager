@@ -5,67 +5,56 @@ export class UserService {
     }
 
     createUser = (newUser) => {
-        fetch(this.url + "/api/v1/users", {
+        return fetch(this.url + "/api/v1/users", {
             method: "POST",
-            headers: {
-                Accept: 'application/json',
-                'Content-type': 'application/json'
-            },
+            headers: this.getBasicHeader(),
             body: JSON.stringify(newUser)
         });
     }
 
     updateUserPassword = (updatePasswordDTO) => {
-        fetch(this.url + `/api/v1/users/${updatePasswordDTO.id}/password`, {
+        return fetch(this.url + `/api/v1/users/${updatePasswordDTO.id}/password`, {
             method: "PATCH",
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json'
-            },
+            headers: this.getBasicHeader(),
             body: JSON.stringify(updatePasswordDTO)
         });
     }
 
     updateUserEmail = (updateEmailDTO) => {
-        fetch(this.url + `/api/v1/users/${updateEmailDTO.id}/email`, {
+        return fetch(this.url + `/api/v1/users/${updateEmailDTO.id}/email`, {
             method: "PATCH",
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json'
-            },
+            headers: this.getBasicHeader(),
             body: JSON.stringify(updateEmailDTO)
         });
     }
 
     authUser = (authUserDto) => {
-        fetch(this.url + `/api/v1/users/auth`, {
+        return fetch(this.url + `/api/v1/users/auth`, {
             method: "POST",
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json'
-            },
+            headers: this.getBasicHeader(),
             body: JSON.stringify(authUserDto)
         });
     }
 
     getUserById = (id) => {
-        fetch(this.url + `/api/v1/users/${id}`, {
+        return fetch(this.url + `/api/v1/users/${id}`, {
             method: "GET",
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json'
-            }
+            headers: this.getBasicHeader()
         });
     }
 
     deleteUserById = (id) => {
-        fetch(this.url + `/api/v1/users/${updatePasswordDTO.id}`, {
+        return fetch(this.url + `/api/v1/users/${updatePasswordDTO.id}`, {
             method: "DELETE",
-            headers: {
-                Accept: 'application/json',
-                "Content-type": 'application/json'
-            }
+            headers: this.getBasicHeader()
         });
+    }
+
+    getBasicHeader = () => {
+        return {
+            Accept: 'application/json',
+            'Content-type': 'application/json'
+        }
     }
 
 
