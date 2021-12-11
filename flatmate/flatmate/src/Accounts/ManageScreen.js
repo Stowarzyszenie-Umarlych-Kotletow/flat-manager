@@ -1,19 +1,48 @@
 import {useState} from "react";
-import {Text, View} from "react-native";
+import {Text, TextInput, View} from "react-native";
 import styles from "../static/native_elements_styles";
 import {Button} from "react-native-elements";
 import {Button as BButton, FormControl, InputGroup, Modal} from "react-bootstrap";
 import * as React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { UserService } from "../services/UserService"
 
-export function ManageScreen({navigation, setUser, currentFlat}) {
+export function ManageScreen({navigation, setUser, currentFlat, loggedUser}) {
+    const { control, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+          password: '',
+        },
+    });
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    function handleDelete() {
-        setShow(false);
-        setUser(null)
+    let state = {
+        delete_error_message: ""
+    };
+
+    
+    const onSubmit = data => handleDelete(data);
+
+    async function handleDelete(data) {
+        console.log("próba usunięcia");
+        let password = data.password;
+        let service = new UserService("http://localhost:8080");
+        let recivedData = await service.getUserById(loggedUser);
+        try {
+            recivedData = await service.authUser({"username": recivedData["username"], "password": password});
+            console.log("próba usunięcia się powiodła");
+            setShow(false);
+            setUser(null);
+            service.deleteUserById(loggedUser);
+
+        } 
+        catch {
+            state.delete_error_message = "Incorrect password";
+            console.log("Niepoprawne hasło");
+        }
     }
 
     function handleLogOut() {
@@ -62,20 +91,35 @@ export function ManageScreen({navigation, setUser, currentFlat}) {
                     <Modal.Body>
                         <p className="text-sm-left">Are you sure want to delete your account?</p>
                         <InputGroup className="mb-3">
-                            <FormControl
-                                type="password"
-                                id="typePassword"
-                                placeholder="Password"
-                                aria-label="Password"
-                                aria-describedby="basic-addon1"
+                            <Controller
+                            control={control}
+                            rules={{
+                            maxLength: 100,
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.accFormTextInput}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                placeholder="Password" 
+                                placeholderColor="#c4c3cb" 
+                                secureTextEntry={true}
                             />
+                            )}
+                            name="password"
+                        />
                         </InputGroup>
-
+                        <p> { `${state.delete_error_message}` } </p>
                     </Modal.Body>
 
                     <Modal.Footer>
                         <BButton variant="primary" onClick={handleClose}>Cancel</BButton>
-                        <BButton variant="danger" onClick={handleDelete}>Delete</BButton>
+                        <Button 
+                            buttonStyle={styles.bluButton}
+                            title="Delete" 
+                            onPress={handleSubmit(onSubmit)} 
+                        />
                     </Modal.Footer>
 
                 </Modal>

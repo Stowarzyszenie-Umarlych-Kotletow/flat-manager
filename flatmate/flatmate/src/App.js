@@ -33,7 +33,7 @@ function App() {
                         title: 'LoggedNavigator'
                     }}>
                         {
-                            props=><LoggedNavigator {...props} {...{setUser}}/>
+                            props=><LoggedNavigator {...props} {...{setUser}} {...{loggedUser}}/>
                         }
                     </Stack.Screen>
                 ) }

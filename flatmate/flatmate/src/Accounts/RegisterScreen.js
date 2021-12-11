@@ -49,7 +49,6 @@ export function RegisterScreen({setUser}) {
         let parsedData = parseData(data);
         let service = new UserService("http://localhost:8080");
         let recivedData = await service.createUser(parsedData);
-        console.log(recivedData["id"]);
         setUser(recivedData["id"]);
     }
 

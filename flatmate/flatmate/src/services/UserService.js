@@ -44,7 +44,7 @@ export class UserService {
     }
 
     deleteUserById = (id) => {
-        return fetch(this.url + `/api/v1/users/${updatePasswordDTO.id}`, {
+        return fetch(this.url + `/api/v1/users/${id}`, {
             method: "DELETE",
             headers: this.getBasicHeader()
         }).then((response)=>response.json());

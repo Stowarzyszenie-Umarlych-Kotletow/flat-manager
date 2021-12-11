@@ -3,6 +3,7 @@ import styles from "../static/native_elements_styles";
 import {Button} from "react-native-elements";
 import { useForm, Controller } from "react-hook-form";
 import * as React from "react";
+import { UserService } from "../services/UserService"
 
 export function LoginScreen({navigation, setUser}) {
     const { control, handleSubmit, formState: { errors } } = useForm({
@@ -12,22 +13,22 @@ export function LoginScreen({navigation, setUser}) {
         },
     });
 
-    const onSubmit = data => onLoginPress(data)
+    const onSubmit = data => onLoginPress(data);
 
     function parseData(data) {
         let parsedData = {
             "username": data.username,
             "password": data.password,
         }
-        return parsedData
+        return parsedData;
     }
 
 
     async function onLoginPress(data) {
         let parsedData = parseData(data);
         let service = new UserService("http://localhost:8080");
-        let recivedData = await service.authUser(parsedData);
-        setUser(123)
+        let recivedData = await service.authUser(parsedData); 
+        setUser(recivedData["id"]);
     }
 
     return (
