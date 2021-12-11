@@ -1,9 +1,6 @@
 package com.pis.flatmanager.service;
 
-import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.dto.UpdateEmailUserDto;
-import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.dto.UserDto;
+import com.pis.flatmanager.dto.*;
 import com.pis.flatmanager.exception.UserServiceException;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
@@ -34,7 +31,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(CreateUserDto userDto) throws ValidationException {
+    public User createUser(CreateUserDto userDto) throws ValidationException, UserServiceException {
+        var userToBeChecked = userRepository.findByNickname(userDto.nickname);
+        if(userToBeChecked.isPresent()) {
+            throw new UserServiceException(String.format("User {} already exists", userDto.nickname));
+        }
         User user = new User(userDto.firstName, userDto.lastName, userDto.nickname, userDto.email);
         user.setPasswordHash(passwordEncoder.encode(userDto.password));
         var violations = validator.validate(user);
@@ -43,6 +44,15 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
         return user;
+    }
+
+    @Override
+    public boolean verifyUser(VerifyUserDto userDto) throws UserServiceException {
+        var userToBeVerified = userRepository.findByNickname(userDto.nickname);
+        if(userToBeVerified.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", userDto.nickname));
+        }
+        return passwordEncoder.matches(userDto.password, userToBeVerified.get().getPasswordHash());
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.pis.flatmanager.controller;
 
-import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.dto.UpdateEmailUserDto;
-import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.dto.UserDto;
+import com.pis.flatmanager.dto.*;
 import com.pis.flatmanager.exception.UserServiceException;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -24,7 +22,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto dto) {
-        return new ResponseEntity<>(userService.userToDto(userService.createUser(dto)), HttpStatus.CREATED);
+        try {
+            var userDto = userService.userToDto(userService.createUser(dto));
+            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+        } catch(ValidationException e) {
+            return ResponseEntity.badRequest().build();
+        } catch(UserServiceException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @GetMapping
@@ -34,9 +39,27 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @PostMapping("/auth")
+    public ResponseEntity<Boolean> authUser(@RequestBody VerifyUserDto dto) throws UserServiceException {
+        try {
+            var isAuth = userService.verifyUser(dto);
+            if(isAuth) {
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (UserServiceException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable String id) throws UserServiceException {
-        return new ResponseEntity<>(userService.userToDto(userService.getUser(id)), HttpStatus.OK);
+        try {
+            var dto = userService.userToDto(userService.getUser(id));
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch(UserServiceException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PatchMapping("/{id}/email")
@@ -44,7 +67,13 @@ public class UserController {
         if(!Objects.equals(id, dto.id)) {
             return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(userService.userToDto(userService.updateUserEmail(dto)), HttpStatus.OK);
+        try {
+            var updatedDto = userService.userToDto(userService.updateUserEmail(dto));
+            return new ResponseEntity<>(updatedDto, HttpStatus.OK);
+        } catch(UserServiceException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PatchMapping("{id}/password")
@@ -52,12 +81,22 @@ public class UserController {
         if(!Objects.equals(id, dto.id)) {
             return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(userService.userToDto(userService.updateUserPassword(dto)), HttpStatus.OK);
+        try {
+            var updatedDto = userService.userToDto(userService.updateUserPassword(dto));
+            return new ResponseEntity<>(updatedDto, HttpStatus.OK);
+        } catch(UserServiceException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<UserDto> deleteUserById(@PathVariable String id) throws UserServiceException {
-        return new ResponseEntity<>(userService.userToDto(userService.deleteUser(id)), HttpStatus.OK);
+        try {
+            var updatedDto = userService.userToDto(userService.deleteUser(id));
+            return new ResponseEntity<>(updatedDto, HttpStatus.OK);
+        } catch(UserServiceException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

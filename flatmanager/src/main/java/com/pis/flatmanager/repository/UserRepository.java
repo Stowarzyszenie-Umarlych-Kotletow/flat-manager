@@ -6,7 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends MongoRepository<User, UUID> {
 
+    Optional<User> findByNickname(String nickname);
 }

@@ -46,7 +46,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() {
+    public void createUserTest() throws UserServiceException {
         var createUserDto = CreateUserDto.builder()
                 .firstName("Jan")
                 .lastName("Kowalski")
