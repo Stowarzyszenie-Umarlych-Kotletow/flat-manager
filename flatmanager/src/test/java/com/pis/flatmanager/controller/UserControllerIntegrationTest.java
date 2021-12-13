@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 @AutoConfigureMockMvc
 @EnableMongoRepositories
-public class UserControllerTest {
+public class UserControllerIntegrationTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -122,11 +122,7 @@ public class UserControllerTest {
                 .delete(String.format("/api/v1/users/%s", obj.getId().toString()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("username").value("test"))
-                .andExpect(MockMvcResultMatchers.jsonPath("email").value("test@test.com"));
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
         var finalObj = userRepository.findById(obj.getId());
         assertTrue(finalObj.isEmpty());

@@ -82,13 +82,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User deleteUser(String userId) throws UserServiceException {
+    public void deleteUser(String userId) throws UserServiceException {
         var user = userRepository.findById(UUID.fromString(userId));
         if(user.isEmpty()) {
             throw new UserServiceException(String.format("User {} does not exist", userId));
         }
         userRepository.deleteById(UUID.fromString(userId));
-        return user.get();
     }
 
     @Override
