@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -35,6 +36,8 @@ public class User implements Serializable {
     @NotBlank
     @Email
     private String email;
+
+    private LocalDateTime dateCreated = LocalDateTime.now();
 
     private String passwordHash;
 

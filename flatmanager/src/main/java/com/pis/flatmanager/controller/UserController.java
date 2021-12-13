@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto dto) {
+    public ResponseEntity<?> createUser(@RequestBody CreateUserDto dto) {
         try {
             var userDto = userService.userToDto(userService.createUser(dto));
             return new ResponseEntity<>(userDto, HttpStatus.CREATED);
@@ -33,14 +33,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getUsers() {
+    public ResponseEntity<List<?>> getUsers() {
         return new ResponseEntity<>(
                 userService.getUsers().stream().map(user -> userService.userToDto(user)).collect(Collectors.toList()),
                 HttpStatus.OK);
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<Boolean> authUser(@RequestBody VerifyUserDto dto) throws UserServiceException {
+    public ResponseEntity<?> authUser(@RequestBody VerifyUserDto dto) throws UserServiceException {
         try {
             var isAuth = userService.verifyUser(dto);
             if(isAuth) {
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable String id) throws UserServiceException {
+    public ResponseEntity<?> getUserById(@PathVariable String id) throws UserServiceException {
         try {
             var dto = userService.userToDto(userService.getUser(id));
             return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/email")
-    public ResponseEntity<UserDto> updateUserEmail(@PathVariable String id, @RequestBody UpdateEmailUserDto dto) throws UserServiceException {
+    public ResponseEntity<?> updateUserEmail(@PathVariable String id, @RequestBody UpdateEmailUserDto dto) throws UserServiceException {
         if(!Objects.equals(id, dto.id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @PatchMapping("{id}/password")
-    public ResponseEntity<UserDto> updateUserPassword(@PathVariable String id, @RequestBody UpdatePasswordUserDto dto) throws UserServiceException {
+    public ResponseEntity<?> updateUserPassword(@PathVariable String id, @RequestBody UpdatePasswordUserDto dto) throws UserServiceException {
         if(!Objects.equals(id, dto.id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -90,10 +90,10 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<UserDto> deleteUserById(@PathVariable String id) throws UserServiceException {
+    public ResponseEntity<?> deleteUserById(@PathVariable String id) throws UserServiceException {
         try {
-            var updatedDto = userService.userToDto(userService.deleteUser(id));
-            return new ResponseEntity<>(updatedDto, HttpStatus.OK);
+            userService.deleteUser(id);
+            return ResponseEntity.ok().build();
         } catch(UserServiceException e) {
             return ResponseEntity.notFound().build();
         }

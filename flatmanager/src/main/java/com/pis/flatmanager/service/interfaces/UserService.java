@@ -11,7 +11,7 @@ public interface UserService {
     boolean verifyUser(VerifyUserDto userDto) throws UserServiceException;
     User updateUserPassword(UpdatePasswordUserDto userDto) throws UserServiceException;
     User updateUserEmail(UpdateEmailUserDto userDto) throws UserServiceException;
-    User deleteUser(String id) throws UserServiceException;
+    void deleteUser(String id) throws UserServiceException;
     Collection<User> getUsers();
     User getUser(String id) throws UserServiceException;
     UserDto userToDto(User user);
