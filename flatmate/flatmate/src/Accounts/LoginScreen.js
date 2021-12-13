@@ -5,6 +5,14 @@ import { useForm, Controller } from "react-hook-form";
 import * as React from "react";
 import { UserService } from "../services/UserService"
 
+export function parseData(data){
+    let parsedData = {
+        "username": data.username,
+        "password": data.password,
+    }
+    return parsedData;
+}
+
 export function LoginScreen({navigation, setUser}) {
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -14,15 +22,6 @@ export function LoginScreen({navigation, setUser}) {
     });
 
     const onSubmit = data => onLoginPress(data);
-
-    function parseData(data) {
-        let parsedData = {
-            "username": data.username,
-            "password": data.password,
-        }
-        return parsedData;
-    }
-
 
     async function onLoginPress(data) {
         let parsedData = parseData(data);
