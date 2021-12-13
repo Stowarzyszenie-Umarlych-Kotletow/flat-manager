@@ -7,6 +7,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import { UserService } from "../services/UserService"
 
+export function parseData(data) {
+    let parsedData = {
+        "firstName": data.firstName,
+        "lastName": data.lastName,
+        "username": data.username,
+        "email": data.email,
+        "password": data.password,
+    }
+    return parsedData
+}
 export function RegisterScreen({setUser}) {
     const schema = Yup.object({
         password: Yup.string().required("Please enter your password")
@@ -33,17 +43,6 @@ export function RegisterScreen({setUser}) {
     });
 
     const onSubmit = data =>onRegisterPress(data)
-
-    function parseData(data) {
-        let parsedData = {
-            "firstName": data.firstName,
-            "lastName": data.lastName,
-            "username": data.username,
-            "email": data.email,
-            "password": data.password,
-        }
-        return parsedData
-    }
 
     async function onRegisterPress(data) {
         let parsedData = parseData(data);
