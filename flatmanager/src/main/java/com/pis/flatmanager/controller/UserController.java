@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -44,7 +45,8 @@ public class UserController {
         try {
             var isAuth = userService.verifyUser(dto);
             if(isAuth) {
-                return ResponseEntity.ok().build();
+                var user = userService.getUserByUsername(dto.username);
+                return new ResponseEntity<>(userService.userToDto(user), HttpStatus.OK);
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (UserServiceException e) {

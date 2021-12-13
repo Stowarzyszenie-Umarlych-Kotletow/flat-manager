@@ -11,7 +11,7 @@ import {NotLoggedNavigator} from "./NotLoggedNavigator";
 
 const LoggedStack = createStackNavigator();
 
-export function LoggedNavigator({navigation, setUser}) {
+export function LoggedNavigator({navigation, setUser, loggedUser}) {
     const [currentFlat, setCurrentFlat] = React.useState(null)
     return (
         <LoggedStack.Navigator
@@ -61,7 +61,7 @@ export function LoggedNavigator({navigation, setUser}) {
                 title: 'Manage account'
             }}>
                 {
-                    props => <ManageScreen {...props} {...{setUser}} {...{currentFlat}}/>
+                    props => <ManageScreen {...props} {...{setUser}} {...{currentFlat}} {...{loggedUser}}/>
                 }
             </LoggedStack.Screen>
 

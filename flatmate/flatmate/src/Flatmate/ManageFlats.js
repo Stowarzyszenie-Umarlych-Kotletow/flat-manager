@@ -21,6 +21,19 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
         },
     });
 
+    const state = {
+        flats: [
+            {
+                name: "Testowe Mieszkanie",
+                id: "ram pam pam"
+            },
+            {
+                name: "Testowe Mieszkanie",
+                id: "ram pam pam1s"
+            }
+        ],
+    }
+
     const onSubmit = data => handleCreateFlat(data)
 
     function handleJoinFlat(){
@@ -29,16 +42,16 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
         navigation.popToTop()
     }
 
-    function handleCreateFlat(data){
+    function handleCreateFlat(data) {
         console.log(data)
         handleCloseCreateFlat()
         // backend connection
         setCurrentFlat(123)
     }
 
-    function handleClickOnFlat(flat) {
-        setCurrentFlat(flat)
-        console.log(flat)
+    function handleClickOnFlat(flat_id) {
+        setCurrentFlat(flat_id)
+        console.log(flat_id)
         if (currentFlat != null)
             navigation.popToTop()
     }
@@ -64,37 +77,16 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
                     </Col>
                 </Row>
                 <hr/>
-                <Button
-                    buttonStyle={styles.highButton}
-                    title="Gaming house dmowskirgo 69"
-                    onPress={() => handleClickOnFlat(1)}
-                />
-                <Button
-                    buttonStyle={styles.highButton}
-                    title="Go go power rangers 27"
-                    onPress={() => handleClickOnFlat(2)}
-                />
-                <Button
-                    buttonStyle={styles.highButton}
-                    title="Daruide sandrstorm 27"
-                    onPress={() => handleClickOnFlat(3)}
-                />
-                <Button
-                    buttonStyle={styles.highButton}
-                    title="Daruide sandrstorm 27"
-                    onPress={() => handleClickOnFlat(4)}
-                />
-                <Button
-                    buttonStyle={styles.highButton}
-                    title="Daruide sandrstorm 27"
-                    onPress={() => handleClickOnFlat(5)}
-                />
-                <Button
-                    buttonStyle={styles.highButton}
-                    title="Daruide sandrstorm 27"
-                    onPress={() => handleClickOnFlat(6)}
-                />
-
+                {
+                   state.flats.map((flat) => {
+                        return(
+                            <Button
+                                buttonStyle={styles.highButton}
+                                title={flat.name}
+                                key={flat.id}
+                                onPress={() => handleClickOnFlat(flat.id)}
+                            />
+                );})}
                 <Modal show={showJoinFlat} onHide={handleCloseJoinFlat}>
 
                     <Modal.Header closeButton>

@@ -14,5 +14,6 @@ public interface UserService {
     void deleteUser(String id) throws UserServiceException;
     Collection<User> getUsers();
     User getUser(String id) throws UserServiceException;
+    User getUserByUsername(String username) throws UserServiceException;
     UserDto userToDto(User user);
 }

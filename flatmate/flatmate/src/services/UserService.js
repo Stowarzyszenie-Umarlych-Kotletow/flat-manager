@@ -9,7 +9,7 @@ export class UserService {
             method: "POST",
             headers: this.getBasicHeader(),
             body: JSON.stringify(newUser)
-        });
+        }).then((response)=>response.json());
     }
 
     updateUserPassword = (updatePasswordDTO) => {
@@ -17,7 +17,7 @@ export class UserService {
             method: "PATCH",
             headers: this.getBasicHeader(),
             body: JSON.stringify(updatePasswordDTO)
-        });
+        }).then((response)=>response.json());
     }
 
     updateUserEmail = (updateEmailDTO) => {
@@ -25,7 +25,7 @@ export class UserService {
             method: "PATCH",
             headers: this.getBasicHeader(),
             body: JSON.stringify(updateEmailDTO)
-        });
+        }).then((response)=>response.json());
     }
 
     authUser = (authUserDto) => {
@@ -33,21 +33,21 @@ export class UserService {
             method: "POST",
             headers: this.getBasicHeader(),
             body: JSON.stringify(authUserDto)
-        });
+        }).then((response)=>response.json());
     }
 
     getUserById = (id) => {
         return fetch(this.url + `/api/v1/users/${id}`, {
             method: "GET",
             headers: this.getBasicHeader()
-        });
+        }).then((response)=>response.json());
     }
 
     deleteUserById = (id) => {
-        return fetch(this.url + `/api/v1/users/${updatePasswordDTO.id}`, {
+        return fetch(this.url + `/api/v1/users/${id}`, {
             method: "DELETE",
             headers: this.getBasicHeader()
-        });
+        }).then((response)=>response.json());
     }
 
     getBasicHeader = () => {
@@ -56,7 +56,4 @@ export class UserService {
             'Content-type': 'application/json'
         }
     }
-
-
-
 }

@@ -105,6 +105,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) throws UserServiceException {
+        var user = userRepository.findByUsername(username);
+        if(user.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", username));
+        }
+        return user.get();
+    }
+
+    @Override
     public UserDto userToDto(User user) {
         return UserDto.builder()
                 .firstName(user.getFirstName())
