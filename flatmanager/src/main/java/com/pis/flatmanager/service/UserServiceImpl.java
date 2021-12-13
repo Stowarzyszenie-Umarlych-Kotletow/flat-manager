@@ -6,16 +6,20 @@ import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -24,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private Validator validator;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder bcryptEncoder;
 
     public UserServiceImpl(){
 
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
             throw new UserServiceException(String.format("User {} already exists", userDto.username));
         }
         User user = new User(userDto.firstName, userDto.lastName, userDto.username, userDto.email);
-        user.setPasswordHash(passwordEncoder.encode(userDto.password));
+        user.setPasswordHash(bcryptEncoder.encode(userDto.password));
         var violations = validator.validate(user);
         if(!violations.isEmpty()) {
             throw new ValidationException("Validation failed");
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
         if(userToBeVerified.isEmpty()) {
             throw new UserServiceException(String.format("User {} does not exist", userDto.username));
         }
-        return passwordEncoder.matches(userDto.password, userToBeVerified.get().getPasswordHash());
+        return bcryptEncoder.matches(userDto.password, userToBeVerified.get().getPasswordHash());
     }
 
     @Override
@@ -61,7 +65,7 @@ public class UserServiceImpl implements UserService {
         if(user.isEmpty()) {
             throw new UserServiceException(String.format("User {} does not exist", userDto.id));
         }
-        user.get().setPasswordHash(passwordEncoder.encode(userDto.password));
+        user.get().setPasswordHash(bcryptEncoder.encode(userDto.password));
         userRepository.save(user.get());
         return user.get();
     }
@@ -113,5 +117,14 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .id(user.getId().toString())
                 .build();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = userRepository.findByUsername(username);
+        if(user.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPasswordHash(), new ArrayList<>());
     }
 }

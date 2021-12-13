@@ -3,7 +3,7 @@ package com.pis.flatmanager.controller;
 import com.pis.flatmanager.entity.JwtTokenUtil;
 import com.pis.flatmanager.model.jwt.JwtRequest;
 import com.pis.flatmanager.model.jwt.JwtResponse;
-import com.pis.flatmanager.service.JwtUserDetailService;
+import com.pis.flatmanager.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +27,7 @@ public class JwtAuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtUserDetailService userDetailsService;
+    private UserServiceImpl userDetailsService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
