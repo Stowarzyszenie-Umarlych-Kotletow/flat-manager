@@ -9,6 +9,9 @@ import java.util.Collection;
 public interface UserService {
     User createUser(CreateUserDto userDto) throws UserServiceException;
     boolean verifyUser(VerifyUserDto userDto) throws UserServiceException;
+
+    boolean verifyUser(String username, String password) throws UserServiceException;
+
     User updateUserPassword(UpdatePasswordUserDto userDto) throws UserServiceException;
     User updateUserEmail(UpdateEmailUserDto userDto) throws UserServiceException;
     void deleteUser(String id) throws UserServiceException;

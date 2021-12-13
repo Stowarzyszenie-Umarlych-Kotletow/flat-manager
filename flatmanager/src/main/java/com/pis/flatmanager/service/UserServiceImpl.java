@@ -60,6 +60,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public boolean verifyUser(String username, String password) throws UserServiceException {
+        var userToBeVerified = userRepository.findByUsername(username);
+        if(userToBeVerified.isEmpty()) {
+            throw new UserServiceException(String.format("User {} does not exist", username));
+        }
+        return bcryptEncoder.matches(password, userToBeVerified.get().getPasswordHash());
+    }
+
+    @Override
     public User updateUserPassword(UpdatePasswordUserDto userDto) throws ValidationException, UserServiceException {
         var user = userRepository.findById(UUID.fromString(userDto.id));
         if(user.isEmpty()) {

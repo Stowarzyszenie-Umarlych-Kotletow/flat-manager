@@ -6,6 +6,7 @@ import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ValidationException;
@@ -20,7 +21,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
+    @Secured("any")
     public ResponseEntity<?> createUser(@RequestBody CreateUserDto dto) {
         try {
             var userDto = userService.userToDto(userService.createUser(dto));
