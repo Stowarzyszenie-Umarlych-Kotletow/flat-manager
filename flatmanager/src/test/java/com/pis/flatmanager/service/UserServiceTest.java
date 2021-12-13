@@ -6,35 +6,39 @@ import com.pis.flatmanager.dto.UpdatePasswordUserDto;
 import com.pis.flatmanager.exception.UserServiceException;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
-import com.pis.flatmanager.service.interfaces.UserService;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.validation.Validator;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class UserServiceTest {
 
-    @MockBean
+    @Mock
     PasswordEncoder passwordEncoder;
 
-    @MockBean
+    @Mock
+    Validator validator;
+
+    @Mock
     UserRepository userRepository;
 
-    @Autowired
-    private UserService userService;
+    @InjectMocks
+    private UserServiceImpl userService;
 
     @BeforeEach
     void mockPasswordEncoder() {
@@ -43,6 +47,11 @@ public class UserServiceTest {
             Object[] args = invocation.getArguments();
             return (String) args[0];
         }));
+    }
+
+    @BeforeEach
+    void mockValidator() {
+        when(validator.validate(any())).thenReturn(Set.of());
     }
 
     @Test
