@@ -48,10 +48,10 @@ pipeline {
 				}
 			}
 			post {
-			  success {
-			    junit '**/target/*-reports/*.xml'
-			    jacoco(execPattern: 'target/jacoco.exec')
-			    archive "target/**/*"
+			    success {
+			        junit '**/target/*-reports/*.xml'
+			        jacoco(execPattern: 'flatmanager/target/jacoco.exec')
+			        archive "flatmanager/target/**/*"
 					updateGitlabCommitStatus name: 'test', state: 'success'
 			  }
 				failure {
@@ -119,7 +119,8 @@ pipeline {
 								echo "Saving Jenkins artifacts...";
 								archiveArtifacts artifacts: "${artifactPath}", fingerprint: true;
 							}
-							if(targetBranch == 'main' && !isMerging) {
+							shouldDeployMain = targetBranch == 'main' && !isMerging;
+							if(shouldDeployMain) {
 								echo "Deploying to nexus...";
 								nexusArtifactUploader(
 									nexusVersion: NEXUS_VERSION,
@@ -142,10 +143,19 @@ pipeline {
 									]
 								);
 								echo "Deploying docker image...";
-								dockerImg = docker.build("${DOCKER_IMAGE_NAME}:${pom.version}", "-f Dockerfile.ci . --build-arg MAIN_JAR_FILE=${artifactName}");
+								dockerTag = "${DOCKER_IMAGE_NAME}:${pom.version}";
+								dockerImg = docker.build(dockerTag, "-f Dockerfile.ci . --build-arg MAIN_JAR_FILE=${artifactName}");
+								
 								docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIAL) {
 									dockerImg.push();
+									if (shouldDeployMain) {
+										sh "docker tag ${dockerTag} ${DOCKER_IMAGE_NAME}";
+										latestImg = docker.image("${DOCKER_IMAGE_NAME}");
+										latestImg.push();
+										sh "docker rmi ${DOCKER_IMAGE_NAME}";
+									}
 								}
+
 								sh "docker rmi $DOCKER_IMAGE_NAME:${pom.version}";
 								
 

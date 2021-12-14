@@ -1,0 +1,23 @@
+version: '3'
+services:
+  database:
+    image: 'mongo:latest'
+    container_name: flatmanager-mongo
+    environment:
+      - MONGO_INITDB_DATABASE=flatmanager
+    ports:
+      - '127.0.0.1:27017:27017'
+    volumes:
+      - ./flatmanager/data/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+      - flatmanager_mongo_volume:/data/db
+  backend:
+    image: "${REPO_PREFIX}flatmanager/backend:$FLATMANAGER_VERSION"
+    container_name: flatmanager-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "docker"
+    depends_on:
+      - database
+volumes:
+  flatmanager_mongo_volume:
