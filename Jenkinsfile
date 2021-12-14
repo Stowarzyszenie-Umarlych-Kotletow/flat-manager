@@ -45,9 +45,6 @@ pipeline {
 				updateGitlabCommitStatus name: 'test', state: 'pending'
 				dir('flatmanager') {
 					sh 'mvn verify'
-				}   
-				dir('flatmate/flatmate') {
-					sh 'npm test'
 				}
 			}
 			post {
