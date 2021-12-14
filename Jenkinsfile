@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+  agent any
 	environment {
 		DOCKER_IMAGE_NAME = "flatmanager/backend"
 		DOCKER_REGISTRY = "https://ziemniak.cloud:8090"
@@ -11,18 +11,19 @@ pipeline {
 		NEXUS_REPOSITORY = "maven-flatmanager"
 		NEXUS_CREDENTIAL_ID = "nexus"
 	}
-    tools {
-        maven 'maven-3.8.4'
-        jdk 'jdk-11'
-    }
-    options {
-      	gitLabConnection('gitlab.ziemniak.cloud')
-		gitlabBuilds(builds: ['build', 'test', 'deploy'])
-    }
-    triggers {
-        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')
-    }
-    stages{
+  tools {
+    maven 'maven-3.8.4'
+    jdk 'jdk-11'
+		nodejs "node"
+  }
+  options {
+    gitLabConnection('gitlab.ziemniak.cloud')
+	gitlabBuilds(builds: ['build', 'test', 'build-frontend', 'test-frontend', 'deploy'])
+  }
+  triggers {
+    gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')
+  }
+  stages{
 		stage('build') {
 			steps {
 				updateGitlabCommitStatus name: 'build', state: 'pending'
@@ -32,8 +33,8 @@ pipeline {
 			}
 			post {
 				success {
-    				updateGitlabCommitStatus name: 'build', state: 'success'
-    			}
+  				updateGitlabCommitStatus name: 'build', state: 'success'
+  			}
 				failure {
 					updateGitlabCommitStatus name: 'build', state: 'failed'
 				}
@@ -45,18 +46,53 @@ pipeline {
 				dir('flatmanager') {
 					sh 'mvn verify'
 				}   
-			}
-			post {
-			    success {
-			        junit '**/target/*-reports/*.xml'
-			        jacoco(execPattern: 'target/jacoco.exec')
-			        archive "target/**/*"
-					updateGitlabCommitStatus name: 'test', state: 'success'
-			    }
-				failure {
-					updateGitlabCommitStatus name: 'build', state: 'failed'
+				dir('flatmate/flatmate') {
+					sh 'npm test'
 				}
 			}
+			post {
+			  success {
+			    junit '**/target/*-reports/*.xml'
+			    jacoco(execPattern: 'target/jacoco.exec')
+			    archive "target/**/*"
+					updateGitlabCommitStatus name: 'test', state: 'success'
+			  }
+				failure {
+					updateGitlabCommitStatus name: 'test', state: 'failed'
+				}
+			}
+		}
+		stage('build-frontend') {
+			steps {
+				updateGitlabCommitStatus name: 'build-frontend', state: 'pending'
+				dir('flatmate/flatmate') {
+					sh 'npm install'
+				}
+			}
+			post {
+				success {
+					updateGitlabCommitStatus name: 'build-frontend', state: 'success'
+				}
+				failure {
+					updateGitlabCommitStatus name: 'build-frontend', state: 'failed'
+				}
+			}	
+		}
+		stage('test-frontend') {
+			steps {
+				updateGitlabCommitStatus name: 'test-frontend', state: 'pending'
+				dir('flatmate/flatmate') {
+					sh 'npm test'
+				}
+			}
+			post {
+				success {
+  				updateGitlabCommitStatus name: 'test-frontend', state: 'success'
+  			}
+				failure {
+					updateGitlabCommitStatus name: 'test-frontend', state: 'failed'
+				}
+			}	
 		}
 
 		stage('deploy') {
@@ -133,5 +169,5 @@ pipeline {
 				}
 			}
 		}
-    }
+  }
 }
