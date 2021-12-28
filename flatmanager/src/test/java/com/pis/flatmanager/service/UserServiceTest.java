@@ -3,7 +3,8 @@ package com.pis.flatmanager.service;
 import com.pis.flatmanager.dto.CreateUserDto;
 import com.pis.flatmanager.dto.UpdateEmailUserDto;
 import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.exception.UserServiceException;
+import com.pis.flatmanager.exception.UserDuplicateException;
+import com.pis.flatmanager.exception.UserNotFoundException;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() throws UserServiceException {
+    public void createUserTest() throws UserDuplicateException {
         var createUserDto = CreateUserDto.builder()
                 .firstName("Jan")
                 .lastName("Kowalski")
@@ -66,14 +67,14 @@ public class UserServiceTest {
 
         when(userRepository.save(any())).thenReturn(null);
         User user = userService.createUser(createUserDto);
-        assertEquals(user.getFirstName(), createUserDto.firstName);
-        assertEquals(user.getLastName(), createUserDto.lastName);
-        assertEquals(user.getUsername(), createUserDto.username);
-        assertEquals(user.getEmail(), createUserDto.email);
+        assertEquals(user.getFirstName(), createUserDto.getFirstName());
+        assertEquals(user.getLastName(), createUserDto.getLastName());
+        assertEquals(user.getUsername(), createUserDto.getUsername());
+        assertEquals(user.getEmail(), createUserDto.getEmail());
     }
 
     @Test
-    public void updatePasswordUserTest() throws UserServiceException {
+    public void updatePasswordUserTest() throws UserNotFoundException, UserDuplicateException {
 
         var createUserDto = CreateUserDto.builder()
                 .firstName("test")
@@ -93,11 +94,11 @@ public class UserServiceTest {
         userService.updateUserPassword(updatePasswordUserDto);
         var user = userService.getUser(createdUser.getId().toString());
 
-        assertEquals(passwordEncoder.encode(updatePasswordUserDto.password), user.getPasswordHash());
+        assertEquals(passwordEncoder.encode(updatePasswordUserDto.getPassword()), user.getPasswordHash());
     }
 
     @Test
-    public void updateEmailUserTest() throws UserServiceException {
+    public void updateEmailUserTest() throws UserDuplicateException, UserNotFoundException {
         var createUserDto = CreateUserDto.builder()
                 .firstName("test")
                 .lastName("test")
@@ -115,11 +116,11 @@ public class UserServiceTest {
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserEmail(updateEmailUserDto);
         var user = userService.getUser(createdUser.getId().toString());
-        assertEquals(updateEmailUserDto.email, user.getEmail());
+        assertEquals(updateEmailUserDto.getEmail(), user.getEmail());
     }
 
     @Test
-    public void deleteUserTest() throws UserServiceException {
+    public void deleteUserTest() throws UserDuplicateException {
         var createUserDto = CreateUserDto.builder()
                 .firstName("test")
                 .lastName("test")
@@ -134,8 +135,8 @@ public class UserServiceTest {
         try {
             userService.deleteUser(createdUser.getId().toString());
             var user = userService.getUser(createdUser.getId().toString());
-        } catch (UserServiceException e) {
-            assertEquals(e.getMessage(), String.format("User {} does not exist", createdUser.getId().toString()));
+        } catch (UserNotFoundException e) {
+            assertEquals(e.getMessage(), String.format("User %s does not exist", createdUser.getId().toString()));
         }
 
     }

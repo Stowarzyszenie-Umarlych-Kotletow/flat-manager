@@ -2,10 +2,9 @@ package com.pis.flatmanager.model;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Entity
 @Document(collection="users")
 public class User implements Serializable {
 

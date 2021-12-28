@@ -1,13 +1,18 @@
 package com.pis.flatmanager.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Builder
+@Getter
 public class UpdatePasswordUserDto {
 
-    public String id;
+    @NotBlank
+    String id;
+    @NotBlank
     @Size(min=8, max=32)
-    public String password;
+    String password;
 }
