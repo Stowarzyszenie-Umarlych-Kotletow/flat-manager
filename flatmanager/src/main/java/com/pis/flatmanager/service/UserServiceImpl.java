@@ -1,7 +1,8 @@
 package com.pis.flatmanager.service;
 
 import com.pis.flatmanager.dto.*;
-import com.pis.flatmanager.exception.UserServiceException;
+import com.pis.flatmanager.exception.UserDuplicateException;
+import com.pis.flatmanager.exception.UserNotFoundException;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ValidationException;
-import javax.validation.Validator;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -21,9 +20,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private Validator validator;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(){
@@ -31,61 +27,53 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(CreateUserDto userDto) throws ValidationException, UserServiceException {
-        var userToBeChecked = userRepository.findByUsername(userDto.username);
+    public User createUser(CreateUserDto userDto) throws UserDuplicateException {
+        var userToBeChecked = userRepository.findByUsername(userDto.getUsername());
         if(userToBeChecked.isPresent()) {
-            throw new UserServiceException(String.format("User {} already exists", userDto.username));
+            throw new UserDuplicateException(String.format("User %s already exists", userDto.getUsername()));
         }
-        User user = new User(userDto.firstName, userDto.lastName, userDto.username, userDto.email);
-        user.setPasswordHash(passwordEncoder.encode(userDto.password));
-        var violations = validator.validate(user);
-        if(!violations.isEmpty()) {
-            throw new ValidationException("Validation failed");
-        }
+        User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getUsername(), userDto.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
         return user;
     }
 
     @Override
-    public boolean verifyUser(VerifyUserDto userDto) throws UserServiceException {
-        var userToBeVerified = userRepository.findByUsername(userDto.username);
+    public boolean verifyUser(VerifyUserDto userDto) throws UserNotFoundException {
+        var userToBeVerified = userRepository.findByUsername(userDto.getUsername());
         if(userToBeVerified.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", userDto.username));
+            throw new UserNotFoundException(String.format("User %s does not exist", userDto.getUsername()));
         }
-        return passwordEncoder.matches(userDto.password, userToBeVerified.get().getPasswordHash());
+        return passwordEncoder.matches(userDto.getPassword(), userToBeVerified.get().getPasswordHash());
     }
 
     @Override
-    public User updateUserPassword(UpdatePasswordUserDto userDto) throws ValidationException, UserServiceException {
-        var user = userRepository.findById(UUID.fromString(userDto.id));
+    public User updateUserPassword(UpdatePasswordUserDto userDto) throws UserNotFoundException {
+        var user = userRepository.findById(UUID.fromString(userDto.getId()));
         if(user.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", userDto.id));
+            throw new UserNotFoundException(String.format("User %s does not exist", userDto.getId()));
         }
-        user.get().setPasswordHash(passwordEncoder.encode(userDto.password));
+        user.get().setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user.get());
         return user.get();
     }
 
     @Override
-    public User updateUserEmail(UpdateEmailUserDto userDto) throws ValidationException, UserServiceException {
-        var user = userRepository.findById(UUID.fromString(userDto.id));
+    public User updateUserEmail(UpdateEmailUserDto userDto) throws UserNotFoundException {
+        var user = userRepository.findById(UUID.fromString(userDto.getId()));
         if(user.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", userDto.id));
+            throw new UserNotFoundException(String.format("User %s does not exist", userDto.getId()));
         }
-        user.get().setEmail(userDto.email);
-        var violations = validator.validate(user);
-        if(!violations.isEmpty()) {
-            throw new ValidationException("Validation failed");
-        }
+        user.get().setEmail(userDto.getEmail());
         userRepository.save(user.get());
         return user.get();
     }
 
     @Override
-    public void deleteUser(String userId) throws UserServiceException {
+    public void deleteUser(String userId) throws UserNotFoundException {
         var user = userRepository.findById(UUID.fromString(userId));
         if(user.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", userId));
+            throw new UserNotFoundException(String.format("User %s does not exist", userId));
         }
         userRepository.deleteById(UUID.fromString(userId));
     }
@@ -96,19 +84,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String id) throws UserServiceException {
+    public User getUser(String id) throws UserNotFoundException {
         var user = userRepository.findById(UUID.fromString(id));
         if(user.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", id));
+            throw new UserNotFoundException(String.format("User %s does not exist", id));
         }
         return user.get();
     }
 
     @Override
-    public User getUserByUsername(String username) throws UserServiceException {
+    public User getUserByUsername(String username) throws UserNotFoundException {
         var user = userRepository.findByUsername(username);
         if(user.isEmpty()) {
-            throw new UserServiceException(String.format("User {} does not exist", username));
+            throw new UserNotFoundException(String.format("User %s does not exist", username));
         }
         return user.get();
     }

@@ -1,15 +1,17 @@
 package com.pis.flatmanager.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class UserDto {
 
-    public String id;
-    public String firstName;
-    public String lastName;
-    public String username;
-    public String email;
+    String id;
+    String firstName;
+    String lastName;
+    String username;
+    String email;
 
 
 }
