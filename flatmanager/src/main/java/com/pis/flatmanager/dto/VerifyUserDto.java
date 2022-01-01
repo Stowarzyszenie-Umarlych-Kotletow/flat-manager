@@ -1,12 +1,14 @@
 package com.pis.flatmanager.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class VerifyUserDto {
 
     @NotBlank
