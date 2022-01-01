@@ -1,14 +1,16 @@
 package com.pis.flatmanager.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateUserDto {
 
     @NotBlank
@@ -16,6 +18,7 @@ public class CreateUserDto {
     @NotBlank
     String lastName;
     @NotBlank
+    @Size(max=32)
     String username;
     @NotBlank
     @Email
@@ -23,4 +26,5 @@ public class CreateUserDto {
     @NotBlank
     @Size(min=8, max=32)
     String password;
+
 }

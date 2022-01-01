@@ -3,8 +3,9 @@ package com.pis.flatmanager.service;
 import com.pis.flatmanager.dto.CreateUserDto;
 import com.pis.flatmanager.dto.UpdateEmailUserDto;
 import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.exception.UserDuplicateException;
-import com.pis.flatmanager.exception.UserNotFoundException;
+import com.pis.flatmanager.dto.VerifyUserDto;
+import com.pis.flatmanager.exception.EntityDuplicateException;
+import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
 import org.junit.Test;
@@ -21,7 +22,7 @@ import javax.validation.Validator;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -56,14 +57,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() throws UserDuplicateException {
-        var createUserDto = CreateUserDto.builder()
-                .firstName("Jan")
-                .lastName("Kowalski")
-                .username("jkowal")
-                .email("jkowal@test.com")
-                .password("jkowal123")
-                .build();
+    public void createUserTest() throws EntityDuplicateException {
+        var createUserDto = getTestCreateUserDto();
 
         when(userRepository.save(any())).thenReturn(null);
         User user = userService.createUser(createUserDto);
@@ -74,70 +69,121 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatePasswordUserTest() throws UserNotFoundException, UserDuplicateException {
+    public void createUserWithDuplicateTest() {
+        var createUserDto = getTestCreateUserDto();
+        var user = new User(
+                createUserDto.getFirstName(),
+                createUserDto.getLastName(),
+                createUserDto.getUsername(),
+                createUserDto.getEmail()
+        );
 
-        var createUserDto = CreateUserDto.builder()
-                .firstName("test")
-                .lastName("test")
-                .username("test")
-                .email("test@test.com")
-                .password("testtest123")
-                .build();
+        when(userRepository.findByUsername(createUserDto.getUsername())).thenReturn(Optional.of(user));
+        assertThrows(EntityDuplicateException.class, () -> userService.createUser(createUserDto));
+    }
+
+    @Test
+    public void updatePasswordUserTest() throws EntityNotFoundException, EntityDuplicateException {
+
+        var createUserDto = getTestCreateUserDto();
 
         User createdUser = userService.createUser(createUserDto);
 
-        var updatePasswordUserDto = UpdatePasswordUserDto.builder()
-                .id(createdUser.getId().toString())
-                .password("testtest321")
-                .build();
+        var updatePasswordUserDto = new UpdatePasswordUserDto("testtest321");
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
-        userService.updateUserPassword(updatePasswordUserDto);
+        userService.updateUserPassword(createdUser, updatePasswordUserDto.getPassword());
         var user = userService.getUser(createdUser.getId().toString());
 
         assertEquals(passwordEncoder.encode(updatePasswordUserDto.getPassword()), user.getPasswordHash());
     }
 
     @Test
-    public void updateEmailUserTest() throws UserDuplicateException, UserNotFoundException {
-        var createUserDto = CreateUserDto.builder()
-                .firstName("test")
-                .lastName("test")
-                .username("test")
-                .email("test@test.com")
-                .password("testtest123")
-                .build();
+    public void updateEmailUserTest() throws EntityDuplicateException, EntityNotFoundException {
+        var createUserDto = getTestCreateUserDto();
 
         User createdUser = userService.createUser(createUserDto);
 
-        var updateEmailUserDto = UpdateEmailUserDto.builder()
-                .id(createdUser.getId().toString())
-                .email("test@test.eu").build();
-
+        var updateEmailUserDto = new UpdateEmailUserDto("test@test.eu");
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
-        userService.updateUserEmail(updateEmailUserDto);
+        userService.updateUserEmail(createdUser, updateEmailUserDto.getEmail());
         var user = userService.getUser(createdUser.getId().toString());
+
         assertEquals(updateEmailUserDto.getEmail(), user.getEmail());
     }
 
     @Test
-    public void deleteUserTest() throws UserDuplicateException {
-        var createUserDto = CreateUserDto.builder()
-                .firstName("test")
-                .lastName("test")
-                .username("test")
-                .email("test@test.com")
-                .password("testtest123")
-                .build();
+    public void deleteUserTest() throws EntityDuplicateException {
+        var createUserDto = getTestCreateUserDto();
 
         User createdUser = userService.createUser(createUserDto);
-        when(userRepository.findById(any())).thenReturn(Optional.empty());
+        when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
 
-        try {
-            userService.deleteUser(createdUser.getId().toString());
-            var user = userService.getUser(createdUser.getId().toString());
-        } catch (UserNotFoundException e) {
-            assertEquals(e.getMessage(), String.format("User %s does not exist", createdUser.getId().toString()));
-        }
+        userService.deleteUser(createdUser.getId().toString());
+    }
 
+    @Test
+    public void deleteUserWithoutUserTest() {
+        var createUserDto = getTestCreateUserDto();
+        User createdUser = userService.createUser(createUserDto);
+        when(userRepository.findById(createdUser.getId())).thenReturn(Optional.empty());
+        assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(createdUser.getId().toString()));
+    }
+
+    @Test
+    public void deleteAllUsersTest() {
+        var createUserDto = getTestCreateUserDto();
+        userService.createUser(createUserDto);
+        userService.deleteAllUsers();
+    }
+
+    @Test
+    public void verifyUserTest() {
+        var verifyUserDto = new VerifyUserDto("test", "testtest123");
+        var createUserDto = getTestCreateUserDto();
+        User createdUser = userService.createUser(createUserDto);
+
+        when(userRepository.findByUsername(createdUser.getUsername())).thenReturn(Optional.of(createdUser));
+        when(passwordEncoder.matches(any(), any())).thenReturn(true);
+
+        assertTrue(userService.verifyUser(verifyUserDto));
+    }
+
+    @Test
+    public void verifyUserNotVerifiedTest() {
+        var verifyUserDto = new VerifyUserDto("test", "testtest123");
+        var createUserDto = getTestCreateUserDto();
+        User createdUser = userService.createUser(createUserDto);
+
+        when(userRepository.findByUsername(createdUser.getUsername())).thenReturn(Optional.of(createdUser));
+        when(passwordEncoder.matches(any(), any())).thenReturn(false);
+
+        assertFalse(userService.verifyUser(verifyUserDto));
+    }
+
+    @Test
+    public void verifyUserNotFoundTest() {
+        var verifyUserDto = new VerifyUserDto("test", "testtest123");
+        var createUserDto = getTestCreateUserDto();
+        User createdUser = userService.createUser(createUserDto);
+
+        when(userRepository.findByUsername(createdUser.getUsername())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> userService.verifyUser(verifyUserDto));
+    }
+
+
+    @Test
+    public void userToDtoTest() {
+        var user = new User("test", "test", "test", "test@test.com");
+        var dto = userService.userToDto(user);
+        assertEquals(user.getId().toString(), dto.getId());
+        assertEquals(user.getFirstName(), dto.getFirstName());
+        assertEquals(user.getLastName(), dto.getLastName());
+        assertEquals(user.getUsername(), dto.getUsername());
+        assertEquals(user.getEmail(), dto.getEmail());
+    }
+
+    private CreateUserDto getTestCreateUserDto() {
+        return new CreateUserDto("test", "test", "test", "test@test.com", "testtest123");
     }
 }

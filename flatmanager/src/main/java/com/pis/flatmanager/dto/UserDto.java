@@ -2,8 +2,9 @@ package com.pis.flatmanager.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
-@Builder
+@Jacksonized @Builder
 @Getter
 public class UserDto {
 
