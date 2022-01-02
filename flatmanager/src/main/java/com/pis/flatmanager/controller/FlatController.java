@@ -23,52 +23,58 @@ public class FlatController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> createFlat(@Valid @RequestBody CreateFlatDto dto) throws FlatDuplicateException, FlatUnauthorizedException, AccessForbiddenException {
+    public ResponseEntity<?> createFlat(@Valid @RequestBody CreateFlatDto dto) throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         FlatDto flatDto = flatService.flatToDto(flatService.createFlat(user, dto));
         return new ResponseEntity<>(flatDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteFlatById(@PathVariable String id)
-            throws FlatNotFoundException, FlatUnauthorizedException, AccessForbiddenException {
+    @DeleteMapping("{flatId}")
+    public ResponseEntity<?> deleteFlatById(@PathVariable String flatId)
+            throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();
-        flatService.deleteFlat(user, id);
+        flatService.deleteFlat(user, flatId);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{id}/name")
-    public ResponseEntity<?> updateFlatName(@PathVariable String id, @Valid @RequestBody UpdateNameFlatDto dto)
-            throws FlatNotFoundException, FlatUnauthorizedException, FlatDuplicateException, AccessForbiddenException {
+    @PostMapping("/{flatId}/name")
+    public ResponseEntity<?> updateFlatName(@PathVariable String flatId, @Valid @RequestBody UpdateNameFlatDto dto)
+            throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();
-        var updatedDto = flatService.flatToDto(flatService.updateFlatName(user, id, dto));
+        var updatedDto = flatService.flatToDto(flatService.updateFlatName(user, flatId, dto));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getFlatInfo(@PathVariable String id)
-            throws FlatUnauthorizedException, FlatNotFoundException, AccessForbiddenException {
+    @GetMapping("/{flatId}")
+    public ResponseEntity<?> getFlatInfo(@PathVariable String flatId)
+            throws AccessForbiddenException {
         User user = userService.getCurrentUser();
-        var updatedDto = flatService.flatToDto(flatService.getFlatInfo(user, id));
+        var updatedDto = flatService.flatToDto(flatService.getFlatInfo(user, flatId));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/adduser")
-    public ResponseEntity<?> addFlatUser(@PathVariable String id, @Valid @RequestBody AddUserFlatDto dto)
-            throws EntityNotFoundException, FlatNotFoundException, FlatUnauthorizedException, FlatServiceException, AccessForbiddenException {
-        User user = userService.getCurrentUser();
-        var updatedDto = flatService.flatToDto(flatService.addUserToFlat(user, id, dto));
-        return new ResponseEntity<>(updatedDto, HttpStatus.OK);
+    @GetMapping("/{flatId}/users")
+    public ResponseEntity<?> getUsersFromFlat(@PathVariable String flatId) {
+        var users = flatService.getUsersFromFlat(flatId);
+        return new ResponseEntity<>(users.values(), HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/deluser")
-    public ResponseEntity<?> removeFlatUser(@PathVariable String id, @Valid @RequestBody RemoveUserFlatDto dto)
-            throws FlatNotFoundException, FlatUnauthorizedException, FlatServiceException, AccessForbiddenException {
+    @PutMapping("/{flatId}/users")
+    public ResponseEntity<?> addFlatUser(@PathVariable String flatId, @Valid @RequestBody AddUserFlatDto dto)
+            throws EntityNotFoundException, AccessForbiddenException {
+        User user = userService.getCurrentUser();
+        var updatedDto = flatService.flatToDto(flatService.addUserToFlat(user, flatId, dto));
+        return new ResponseEntity<>(updatedDto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}/users/{userId}")
+    public ResponseEntity<?> removeFlatUser(@PathVariable String flatId, @PathVariable String userId)
+            throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();
-        var updatedDto = flatService.flatToDto(flatService.removeUserFromFlat(user, id, dto));
+        var updatedDto = flatService.flatToDto(flatService.removeUserFromFlat(user, flatId, userId));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
     }
 }

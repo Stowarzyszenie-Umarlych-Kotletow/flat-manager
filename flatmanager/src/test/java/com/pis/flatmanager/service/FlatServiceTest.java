@@ -3,7 +3,6 @@ package com.pis.flatmanager.service;
 
 import com.pis.flatmanager.dto.flats.AddUserFlatDto;
 import com.pis.flatmanager.dto.flats.CreateFlatDto;
-import com.pis.flatmanager.dto.flats.RemoveUserFlatDto;
 import com.pis.flatmanager.dto.flats.UpdateNameFlatDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityDuplicateException;
@@ -364,14 +363,10 @@ public class FlatServiceTest {
 
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
-        var dto = new RemoveUserFlatDto(
-                user2.getId().toString()
-        );
-
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        var flatAfterChanges = flatService.removeUserFromFlat(user, flat.getId().toString(), dto);
+        var flatAfterChanges = flatService.removeUserFromFlat(user, flat.getId().toString(), user2.getId().toString());
 
         assertEquals(0, flatAfterChanges.getUsers().size());
         assertFalse(flatAfterChanges.getUsers().containsKey(user2.getId()));
@@ -387,14 +382,10 @@ public class FlatServiceTest {
 
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
-        var dto = new RemoveUserFlatDto(
-                user2.getId().toString()
-        );
-
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        var flatAfterChanges = flatService.removeUserFromFlat(user2, flat.getId().toString(), dto);
+        var flatAfterChanges = flatService.removeUserFromFlat(user2, flat.getId().toString(), user2.getId().toString());
 
         assertEquals(0, flatAfterChanges.getUsers().size());
         assertFalse(flatAfterChanges.getUsers().containsKey(user2.getId()));
@@ -410,13 +401,9 @@ public class FlatServiceTest {
 
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
-        var dto = new RemoveUserFlatDto(
-                user2.getId().toString()
-        );
-
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId().toString(), dto));
+        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId().toString(), user2.getId().toString()));
     }
 
     @Test
@@ -429,14 +416,10 @@ public class FlatServiceTest {
 
         flat.getUsers().put(UUID.randomUUID(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
-        var dto = new RemoveUserFlatDto(
-                user2.getId().toString()
-        );
-
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId().toString(), dto));
+        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId().toString(), user2.getId().toString()));
     }
 
     @Test
@@ -451,14 +434,10 @@ public class FlatServiceTest {
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
         flat.getUsers().put(user3.getId(), new FlatUser(user3.getId(), user3.getUsername(), FlatRole.USER));
 
-        var dto = new RemoveUserFlatDto(
-                user2.getId().toString()
-        );
-
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.removeUserFromFlat(user3, flat.getId().toString(), dto));
+        assertThrows(AccessForbiddenException.class, () -> flatService.removeUserFromFlat(user3, flat.getId().toString(), user2.getId().toString()));
     }
 
     @Test
