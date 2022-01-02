@@ -1,13 +1,16 @@
 package com.pis.flatmanager.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NonNull;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.springframework.data.annotation.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Data
 @Document(collection = "flats")
@@ -16,19 +19,19 @@ public class Flat implements Serializable {
     @Id
     private UUID id = UUID.randomUUID();
 
+    @NotNull
     @NonNull
-    @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     @NonNull
     private FlatUser owner;
+
 
     private LocalDateTime dateCreated = LocalDateTime.now();
 
     // list of maps with keys {id, role, username} and maybe others
     private Map<UUID, FlatUser> users = new HashMap<>();
 
-    // list of references with names (no reason embed task data to flat document)
-    private List<Map.Entry<UUID, String>> tasks = new ArrayList<>();
+    private Map<UUID, FlatTask> tasks = new HashMap<>();
 }

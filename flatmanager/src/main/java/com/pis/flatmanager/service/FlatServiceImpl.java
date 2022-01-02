@@ -27,8 +27,10 @@ public class FlatServiceImpl implements FlatService {
         if (flatRepository.findByName(flatDto.getName()).isPresent())
             throw new EntityDuplicateException(String.format("Flat %s already exists", flatDto.getName()));
 
-        Flat flat = new Flat(flatDto.getName(), new FlatUser(owner.getId(), owner.getUsername(), FlatRole.OWNER));
+        var flatOwner = new FlatUser(owner.getId(), owner.getUsername(), FlatRole.OWNER);
+        Flat flat = new Flat(flatDto.getName(), flatOwner);
 
+        flat.getUsers().put(flatOwner.getUserId(), flatOwner);
         flatRepository.save(flat);
         return flat;
     }
@@ -79,7 +81,7 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public List<Task> getTasksFromFlat() {
+    public List<FlatTask> getTasksFromFlat() {
         return Collections.emptyList();
     }
 
@@ -114,13 +116,13 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Flat removeUserFromFlat(User user, String flatId, RemoveUserFlatDto dto)
+    public Flat removeUserFromFlat(User user, String flatId, String userId)
             throws EntityNotFoundException, AccessForbiddenException {
         Optional<Flat> flat = flatRepository.findById(UUID.fromString(flatId));
         if (flat.isEmpty())
             throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
 
-        var delUser = userService.getUser(dto.getUserId());
+        var delUser = userService.getUser(userId);
 
         var flatUsers = getUsersFromFlat(flatId);
         if(!flatUsers.containsKey(delUser.getId())) {
@@ -128,10 +130,10 @@ public class FlatServiceImpl implements FlatService {
         }
 
         if(flat.get().getOwner().getUserId().equals(user.getId())) {
-            flat.get().getUsers().remove(UUID.fromString(dto.getUserId()));
+            flat.get().getUsers().remove(UUID.fromString(userId));
         } else {
-            if(flatUsers.get(user.getId()).getUserId().equals(UUID.fromString(dto.getUserId()))) {
-                flat.get().getUsers().remove(UUID.fromString(dto.getUserId()));
+            if(flatUsers.get(user.getId()).getUserId().equals(UUID.fromString(userId))) {
+                flat.get().getUsers().remove(UUID.fromString(userId));
             } else {
                 throw new AccessForbiddenException("This user cannot delete other users from this flat");
             }
