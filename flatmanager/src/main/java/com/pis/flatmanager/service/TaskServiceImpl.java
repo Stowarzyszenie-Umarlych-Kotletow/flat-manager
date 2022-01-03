@@ -4,8 +4,10 @@ import com.pis.flatmanager.dto.tasks.CreateTaskDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.FlatTask;
+import com.pis.flatmanager.model.Task;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.FlatRepository;
+import com.pis.flatmanager.repository.TaskRepository;
 import com.pis.flatmanager.service.interfaces.TaskService;
 import com.pis.flatmanager.service.interfaces.UserService;
 import lombok.NoArgsConstructor;
@@ -22,77 +24,74 @@ public class TaskServiceImpl implements TaskService {
     private FlatRepository flatRepository;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
     private UserService userService;
 
     @Override
-    public FlatTask createTask(User user, String flatId, CreateTaskDto taskDto) throws AccessForbiddenException {
-        var flat = flatRepository.findById(UUID.fromString(flatId))
+    public Task createTask(User user, UUID flatId, CreateTaskDto taskDto) throws AccessForbiddenException {
+        var flat = flatRepository.findById(flatId)
                 .orElseThrow(() -> new EntityNotFoundException("Flat with this id does not exist"));
 
         if(!flat.getUsers().containsKey(user.getId()) && !flat.getOwner().getUserId().equals(user.getId())) {
             throw new AccessForbiddenException("Does not have access to this flat");
         }
 
-        var task = new FlatTask(
+        var task = new Task(
+                flatId,
+                taskDto.getName(),
+                user.getId(),
                 taskDto.getStartDate(),
                 taskDto.getTimeToComplete(),
-                taskDto.getRepeatAfter(),
-                taskDto.getName()
+                taskDto.getRepeatAfter()
         );
 
-        flat.getTasks().put(task.getId(), task);
+        flat.getTasks().put(task.getId(), new FlatTask(task.getName()));
         flatRepository.save(flat);
+        taskRepository.save(task);
         return task;
     }
 
     @Override
-    public void deleteTask(User user, String flatId, String taskId) throws AccessForbiddenException {
-        var flat = flatRepository.findById(UUID.fromString(flatId))
+    public void deleteTask(UUID flatId, UUID taskId) throws AccessForbiddenException {
+        var flat = flatRepository.findById(flatId)
                 .orElseThrow(() -> new EntityNotFoundException("Flat with this id does not exist"));
 
-        if(!flat.getUsers().containsKey(user.getId()) && !flat.getOwner().getUserId().equals(user.getId())) {
-            throw new AccessForbiddenException("Does not have access to this flat");
-        }
 
-        if(!flat.getTasks().containsKey(UUID.fromString(taskId))) {
+        if(!flat.getTasks().containsKey(taskId)) {
             throw new EntityNotFoundException("Task with this id does not exist");
         }
 
-        flat.getTasks().remove(UUID.fromString(taskId));
+        flat.getTasks().remove(taskId);
         flatRepository.save(flat);
     }
 
     @Override
-    public FlatTask getTask(User user, String flatId, String taskId) throws AccessForbiddenException {
-        var flat = flatRepository.findById(UUID.fromString(flatId))
+    public Task getTask(UUID flatId, UUID taskId) throws AccessForbiddenException {
+        flatRepository.findById(flatId)
                 .orElseThrow(() -> new EntityNotFoundException("Flat with this id does not exist"));
 
-        if(!flat.getUsers().containsKey(user.getId()) && !flat.getOwner().getUserId().equals(user.getId())) {
-            throw new AccessForbiddenException("Does not have access to this flat");
+        var task = taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task not found"));
+        if(!task.getFlatId().equals(flatId)) {
+            throw new EntityNotFoundException("Flat ids do not match");
         }
 
-        if(!flat.getTasks().containsKey(UUID.fromString(taskId))) {
-            throw new EntityNotFoundException("Task with this id does not exist");
-        }
-
-        return flat.getTasks().get(UUID.fromString(taskId));
+        return task;
     }
 
     @Override
-    public FlatTask updateTask(User user, String flatId, String taskId, FlatTask patchedTask) throws AccessForbiddenException {
-        var flat = flatRepository.findById(UUID.fromString(flatId))
+    public Task updateTask(UUID flatId, Task patchedTask) throws AccessForbiddenException {
+        var flat = flatRepository.findById(flatId)
                 .orElseThrow(() -> new EntityNotFoundException("Flat with this id does not exist"));
 
-        if(!flat.getUsers().containsKey(user.getId()) && !flat.getOwner().getUserId().equals(user.getId())) {
-            throw new AccessForbiddenException("Does not have access to this flat");
-        }
-
-        if(!flat.getTasks().containsKey(UUID.fromString(taskId))) {
+        if(!flat.getTasks().containsKey(patchedTask.getId())) {
             throw new EntityNotFoundException("Task with this id does not exist");
         }
 
-        flat.getTasks().replace(UUID.fromString(taskId), patchedTask);
+        flat.getTasks().replace(patchedTask.getId(), new FlatTask(patchedTask.getName()));
         flatRepository.save(flat);
+        taskRepository.save(patchedTask);
         return patchedTask;
     }
 }

@@ -7,6 +7,7 @@ import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.model.UserFlat;
 import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,39 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User addUserFlat(User user, UserFlat flat) {
+        if(user.getFlats().contains(flat)) {
+            throw new EntityDuplicateException("User is already a member of this flat");
+        }
+        user.getFlats().add(flat);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    public User removeUserFlat(User user, String flatId) {
+        if (!user.getFlats().removeIf(flat -> flat.getId() == UUID.fromString(flatId))) {
+            throw new EntityNotFoundException("Cannot find flat with this id");
+        }
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    public User updateUserFlat(User user, UserFlat flat) {
+        if (user.getFlats().stream().noneMatch(f -> f.getId().equals(flat.getId()))) {
+            throw new EntityNotFoundException("This flat does not exist");
+        }
+        user.getFlats().forEach(f -> {
+            if (f.getId().equals(flat.getId())) {
+                f.setName(flat.getName());
+            }
+        });
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
     public void deleteUser(String userId) throws EntityNotFoundException {
         var user = userRepository.findById(UUID.fromString(userId));
         if(user.isEmpty()) {
@@ -113,6 +147,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .id(user.getId().toString())
+                .flats(user.getFlats())
                 .build();
     }
 

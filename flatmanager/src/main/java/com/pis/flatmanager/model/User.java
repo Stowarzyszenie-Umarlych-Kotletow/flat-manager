@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -46,6 +47,8 @@ public class User implements Serializable {
     private Boolean isActive = false;
 
     private Boolean isAdmin = false;
+
+    private List<UserFlat> flats = new ArrayList<>();
 
     public UserDetails getDetails() {
         return new org.springframework.security.core.userdetails.User(getUsername(), getPasswordHash(), new ArrayList<>());
