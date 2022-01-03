@@ -31,6 +31,10 @@ public class FlatServiceImpl implements FlatService {
         Flat flat = new Flat(flatDto.getName(), flatOwner);
 
         flat.getUsers().put(flatOwner.getUserId(), flatOwner);
+        userService.addUserFlat(owner, new UserFlat(
+                flat.getId(),
+                flat.getName()
+        ));
         flatRepository.save(flat);
         return flat;
     }
@@ -43,6 +47,10 @@ public class FlatServiceImpl implements FlatService {
         if(!flat.get().getOwner().getUserId().equals(user.getId())) {
             throw new AccessForbiddenException("This user is not an owner");
         }
+        flat.get().getUsers().forEach((k, v) -> {
+            User flatUser = userService.getUser(k.toString());
+            userService.removeUserFlat(flatUser, flat.toString());
+        });
 
         flatRepository.deleteById(UUID.fromString(id));
     }
@@ -60,6 +68,14 @@ public class FlatServiceImpl implements FlatService {
         if(!flat.get().getOwner().getUserId().equals(user.getId())) {
             throw new AccessForbiddenException("This user does not have access to rename this flat");
         }
+
+        flat.get().getUsers().forEach((k,v) -> {
+            User flatUser = userService.getUser(k.toString());
+            userService.updateUserFlat(flatUser, new UserFlat(
+                    flat.get().getId(),
+                    flat.get().getName()
+            ));
+        });
 
         flat.get().setName(dto.getName());
         flatRepository.save(flat.get());
@@ -111,6 +127,10 @@ public class FlatServiceImpl implements FlatService {
         );
 
         flat.get().getUsers().put(addUser.getId(), flatUser);
+
+        userService.addUserFlat(addUser, new UserFlat(
+                UUID.fromString(flatId), flat.get().getName()
+        ));
         flatRepository.save(flat.get());
         return flat.get();
     }
@@ -138,6 +158,8 @@ public class FlatServiceImpl implements FlatService {
                 throw new AccessForbiddenException("This user cannot delete other users from this flat");
             }
         }
+
+        userService.removeUserFlat(delUser, flatId);
         flatRepository.save(flat.get());
         return flat.get();
 

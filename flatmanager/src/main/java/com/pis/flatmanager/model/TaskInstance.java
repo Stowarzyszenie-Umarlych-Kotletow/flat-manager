@@ -2,19 +2,20 @@ package com.pis.flatmanager.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @Data
-@Document
-public class FlatTaskInstance {
+public class TaskInstance {
     @Id
     UUID id = UUID.randomUUID();
 
     UUID completedByUser;
 
-    boolean wasCompleted;
+    LocalDateTime dateScheduled;
 
-    UUID taskTemplate;
+    LocalDateTime dateCompleted;
+
 }

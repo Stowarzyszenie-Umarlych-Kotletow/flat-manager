@@ -21,10 +21,13 @@ public class CreateTaskDto implements Serializable {
     @NotBlank
     @Size(max=128)
     String name;
+
     @NotBlank
     LocalDateTime startDate;
+
     @NotNull
     Duration timeToComplete;
+
     @NotNull
     Duration repeatAfter;
 
