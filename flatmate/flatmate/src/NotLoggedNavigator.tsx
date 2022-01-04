@@ -6,15 +6,13 @@ import {LoginScreen} from "./Accounts/LoginScreen";
 
 const NotLoggedStack = createStackNavigator();
 
-export function NotLoggedNavigator({navigation, setUser}) {
-    return (
-        <NotLoggedStack.Navigator
+export function NotLoggedNavigator() {
+    return (<NotLoggedStack.Navigator
             initialRouteName="HomeScreen"
             screenOptions={{
                 headerMode: 'screen',
                 headerTintColor: 'white',
-                headerStyle: {backgroundColor: 'black'},
-                // headerLeft: () =>(<MyIcon/>)
+                headerStyle: {backgroundColor: 'black', height: 75},
                 animationEnabled: true,
 
             }}>
@@ -24,18 +22,13 @@ export function NotLoggedNavigator({navigation, setUser}) {
 
             <NotLoggedStack.Screen name="RegisterScreen" options={{
                 title: 'Register'
-            }}>{
-                props => <RegisterScreen {...props} {...{setUser}}/>
-            }
+            }}>{() => <RegisterScreen />}
             </NotLoggedStack.Screen>
 
             <NotLoggedStack.Screen name="LoginScreen" options={{
                 title: 'Login',
-            }}>{
-                props => <LoginScreen {...props} {...{setUser}}/>
-            }
+            }}>{() => <LoginScreen />}
             </NotLoggedStack.Screen>
 
-        </NotLoggedStack.Navigator>
-    )
+        </NotLoggedStack.Navigator>)
 }

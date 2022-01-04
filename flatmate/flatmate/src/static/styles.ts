@@ -1,7 +1,6 @@
-export default {
-    containerView: {
-        flex: 1,
-    },
+import {StyleSheet} from "react-native";
+
+export default StyleSheet.create({
     accScreenContainer: {
         flex: 1,
     },
@@ -12,22 +11,43 @@ export default {
         marginBottom: 15,
         textAlign: 'center',
     },
-    logoText: {
+    tinyText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 5,
+        textAlign: 'center',
+    },
+    warningText: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 5,
+        color: 'red',
+        textAlign: 'center',
+    },
+    loginLogoText: {
         fontSize: 40,
         fontWeight: "800",
         marginTop: 150,
         marginBottom: 30,
         textAlign: 'center',
+
     },
-    bigText: {
+    logoText: {
         fontSize: 40,
-        fontWeight: "600",
+        fontWeight: "800",
         marginTop: 30,
         marginBottom: 30,
         textAlign: 'center',
     },
+    navbarText: {
+        fontSize: 20,
+        textAlign: 'right',
+        color: "#ffffff"
+    },
     accFormView: {
-        flex: 1
+        flex: 1,
     },
     accFormTextInput: {
         height: 43,
@@ -43,8 +63,16 @@ export default {
         marginBottom: 5,
 
     },
-    bluButton: {
+    blueButton: {
         backgroundColor: '#3897f1',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    greenButton: {
+        backgroundColor: '#5cd07f',
         borderRadius: 5,
         height: 45,
         marginTop: 10,
@@ -59,16 +87,6 @@ export default {
         marginLeft: 25,
         marginRight: 25,
     },
-    barButton: {
-        backgroundColor: '#b6b6b6',
-        borderRadius: 5,
-        height: 40,
-        marginTop: 5,
-        marginBottom: 5,
-
-        marginLeft: 25,
-        marginRight: 25,
-    },
     warnButton: {
         backgroundColor: '#e74040',
         borderRadius: 5,
@@ -77,4 +95,4 @@ export default {
         marginLeft: 25,
         marginRight: 25,
     },
-};
+});
