@@ -1,7 +1,12 @@
 package com.pis.flatmanager.service;
 
-import com.pis.flatmanager.dto.flats.*;
-import com.pis.flatmanager.exception.*;
+import com.pis.flatmanager.dto.flats.AddUserFlatDto;
+import com.pis.flatmanager.dto.flats.CreateFlatDto;
+import com.pis.flatmanager.dto.flats.FlatDto;
+import com.pis.flatmanager.dto.flats.UpdateNameFlatDto;
+import com.pis.flatmanager.exception.AccessForbiddenException;
+import com.pis.flatmanager.exception.EntityDuplicateException;
+import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.*;
 import com.pis.flatmanager.repository.FlatRepository;
 import com.pis.flatmanager.service.interfaces.FlatService;
@@ -16,6 +21,7 @@ import java.util.*;
 @Service
 @NoArgsConstructor
 public class FlatServiceImpl implements FlatService {
+
     @Autowired
     private FlatRepository flatRepository;
 
@@ -40,24 +46,23 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public void deleteFlat(User user, String id) throws EntityNotFoundException, AccessForbiddenException {
-        Optional<Flat> flat = flatRepository.findById(UUID.fromString(id));
-        if (flat.isEmpty()) throw new EntityNotFoundException(String.format("Flat %s does not exist", id));
+    public void deleteFlat(User user, UUID id) throws EntityNotFoundException, AccessForbiddenException {
+        var flat = getFlat(id);
 
-        if(!flat.get().getOwner().getUserId().equals(user.getId())) {
+        if(!flat.getOwner().getUserId().equals(user.getId())) {
             throw new AccessForbiddenException("This user is not an owner");
         }
-        flat.get().getUsers().forEach((k, v) -> {
-            User flatUser = userService.getUser(k.toString());
-            userService.removeUserFlat(flatUser, flat.toString());
+        flat.getUsers().forEach((k, v) -> {
+            User flatUser = userService.getUser(k);
+            userService.removeUserFlat(flatUser, flat.getId());
         });
 
-        flatRepository.deleteById(UUID.fromString(id));
+        flatRepository.deleteById(id);
     }
 
     @Override
-    public Flat updateFlatName(User user, String flatId, UpdateNameFlatDto dto) throws EntityNotFoundException, EntityDuplicateException, AccessForbiddenException {
-        Optional<Flat> flat = flatRepository.findById(UUID.fromString(flatId));
+    public Flat updateFlatName(User user, UUID flatId, UpdateNameFlatDto dto) throws EntityNotFoundException, EntityDuplicateException, AccessForbiddenException {
+        Optional<Flat> flat = flatRepository.findById(flatId);
         if (flat.isEmpty())
             throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
 
@@ -70,7 +75,7 @@ public class FlatServiceImpl implements FlatService {
         }
 
         flat.get().getUsers().forEach((k,v) -> {
-            User flatUser = userService.getUser(k.toString());
+            User flatUser = userService.getUser(k);
             userService.updateUserFlat(flatUser, new UserFlat(
                     flat.get().getId(),
                     flat.get().getName()
@@ -83,29 +88,38 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Flat getFlatInfo(User user, String id)
-            throws EntityNotFoundException, AccessForbiddenException {
-        Optional<Flat> flat = flatRepository.findById(UUID.fromString(id));
-        if (flat.isEmpty())
-            throw new EntityNotFoundException(String.format("Flat %s does not exist", id));
+    public Flat updateFlat(Flat flat) {
+        return flatRepository.save(flat);
+    }
 
-        if(!flat.get().getOwner().getUserId().equals(user.getId()) && !flat.get().getUsers().containsKey(user.getId())) {
+    @Override
+    public Flat getFlat(UUID id) {
+        return flatRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Flat %s does not exist", id)));
+    }
+
+    @Override
+    public Flat getFlatAsUser(User user, UUID id)
+            throws EntityNotFoundException, AccessForbiddenException {
+        var flat = getFlat(id);
+
+        if(!flat.getUsers().containsKey(user.getId())) {
             throw new AccessForbiddenException("This user does not have access to view this flat");
         }
 
-        return flat.get();
+        return flat;
     }
 
     @Override
-    public List<FlatTask> getTasksFromFlat() {
-        return Collections.emptyList();
+    public List<FlatTask> getFlatTasks(UUID flatId) {
+        var flat = flatRepository.findById(flatId).orElseThrow();
+        return new ArrayList<>(flat.getTasks().values());
     }
 
 
     @Override
-    public Flat addUserToFlat(User user, String flatId, AddUserFlatDto dto) throws EntityNotFoundException, AccessForbiddenException {
+    public Flat addUserToFlat(User user, UUID flatId, AddUserFlatDto dto) throws EntityNotFoundException, AccessForbiddenException {
 
-        Optional<Flat> flat = flatRepository.findById(UUID.fromString(flatId));
+        Optional<Flat> flat = flatRepository.findById(flatId);
         if (flat.isEmpty()) throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
 
         User addUser = userService.getUser(dto.getUserId());
@@ -116,7 +130,7 @@ public class FlatServiceImpl implements FlatService {
 
         var flatUsers = getUsersFromFlat(flatId);
 
-        if(flatUsers.containsKey(UUID.fromString(dto.getUserId()))) {
+        if(flatUsers.containsKey(dto.getUserId())) {
             throw new EntityDuplicateException("This user is already assigned to this flat");
         }
 
@@ -129,16 +143,16 @@ public class FlatServiceImpl implements FlatService {
         flat.get().getUsers().put(addUser.getId(), flatUser);
 
         userService.addUserFlat(addUser, new UserFlat(
-                UUID.fromString(flatId), flat.get().getName()
+                flatId, flat.get().getName()
         ));
         flatRepository.save(flat.get());
         return flat.get();
     }
 
     @Override
-    public Flat removeUserFromFlat(User user, String flatId, String userId)
+    public Flat removeUserFromFlat(User user, UUID flatId, UUID userId)
             throws EntityNotFoundException, AccessForbiddenException {
-        Optional<Flat> flat = flatRepository.findById(UUID.fromString(flatId));
+        Optional<Flat> flat = flatRepository.findById(flatId);
         if (flat.isEmpty())
             throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
 
@@ -150,10 +164,10 @@ public class FlatServiceImpl implements FlatService {
         }
 
         if(flat.get().getOwner().getUserId().equals(user.getId())) {
-            flat.get().getUsers().remove(UUID.fromString(userId));
+            flat.get().getUsers().remove(userId);
         } else {
-            if(flatUsers.get(user.getId()).getUserId().equals(UUID.fromString(userId))) {
-                flat.get().getUsers().remove(UUID.fromString(userId));
+            if(flatUsers.get(user.getId()).getUserId().equals(userId)) {
+                flat.get().getUsers().remove(userId);
             } else {
                 throw new AccessForbiddenException("This user cannot delete other users from this flat");
             }
@@ -168,15 +182,15 @@ public class FlatServiceImpl implements FlatService {
     @Override
     public FlatDto flatToDto(Flat flat) {
         return FlatDto.builder()
-                .id(flat.getId().toString())
+                .id(flat.getId())
                 .name(flat.getName())
                 .users(new ArrayList<>(flat.getUsers().values()))
                 .build();
     }
 
     @Override
-    public Map<UUID, FlatUser> getUsersFromFlat(String flatId) {
-        Optional<Flat> flat = flatRepository.findById(UUID.fromString(flatId));
+    public Map<UUID, FlatUser> getUsersFromFlat(UUID flatId) {
+        Optional<Flat> flat = flatRepository.findById(flatId);
         if(flat.isEmpty()) {
             throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
         }

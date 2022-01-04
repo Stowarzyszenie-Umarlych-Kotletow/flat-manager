@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins="*")
@@ -26,7 +27,7 @@ public class UserController  {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<?> getUserById(@PathVariable UUID id) throws EntityNotFoundException {
         var dto = userService.userToDto(userService.getUser(id));
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

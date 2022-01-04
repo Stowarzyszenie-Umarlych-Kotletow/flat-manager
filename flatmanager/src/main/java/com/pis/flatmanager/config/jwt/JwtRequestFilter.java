@@ -1,6 +1,6 @@
 package com.pis.flatmanager.config.jwt;
 
-import com.pis.flatmanager.entity.JwtTokenManager;
+import com.pis.flatmanager.service.JwtTokenManager;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

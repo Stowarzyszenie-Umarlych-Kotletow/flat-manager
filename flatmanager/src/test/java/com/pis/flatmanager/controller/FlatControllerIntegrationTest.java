@@ -1,11 +1,9 @@
 package com.pis.flatmanager.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pis.flatmanager.dto.CreateUserDto;
 import com.pis.flatmanager.dto.flats.CreateFlatDto;
-import com.pis.flatmanager.entity.JwtTokenManager;
 import com.pis.flatmanager.repository.FlatRepository;
-import com.pis.flatmanager.service.interfaces.FlatService;
+import com.pis.flatmanager.service.JwtTokenManager;
 import com.pis.flatmanager.service.interfaces.UserService;
 import com.pis.flatmanager.utils.RequestUtil;
 import org.junit.Test;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -30,7 +27,7 @@ public class FlatControllerIntegrationTest {
     private UserService userService;
 
     @Autowired
-    private FlatService flatService;
+    private RequestUtil requestUtil;
 
     @Autowired
     private FlatRepository flatRepository;
@@ -53,11 +50,8 @@ public class FlatControllerIntegrationTest {
                 .build();
 
         flatRepository.deleteAll();
-        mvc.perform(RequestUtil.json(MockMvcRequestBuilders
-                .post("/api/v1/flats"), createFlatDto, token)
-                .content(asJsonString(createFlatDto))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+        mvc.perform(requestUtil.json(MockMvcRequestBuilders
+                .post("/api/v1/flats"), createFlatDto, token))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value("testflat"));
 
@@ -65,12 +59,5 @@ public class FlatControllerIntegrationTest {
 
     }
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }

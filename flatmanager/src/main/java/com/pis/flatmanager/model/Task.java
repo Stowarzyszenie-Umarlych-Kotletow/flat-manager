@@ -16,7 +16,7 @@ import java.util.*;
 public class Task implements Serializable {
 
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @NotNull
     @NonNull
@@ -34,7 +34,7 @@ public class Task implements Serializable {
 
     Map<UUID, Integer> userDoneCounter = new HashMap<>();
 
-    List<TaskInstance> instances = new ArrayList<>();
+    Set<TaskInstance> instances = new TreeSet<>();
 
     @NotNull
     @NonNull
@@ -46,7 +46,12 @@ public class Task implements Serializable {
     @NonNull
     Duration timeToComplete;
 
-    @NotNull
-    @NonNull
     Duration repeatAfter;
+
+    public boolean canScheduleAt(LocalDateTime date) {
+        if (repeatAfter == null) {
+            return date.equals(startDate);
+        }
+        return date.isAfter(startDate) && (endDate == null || endDate.isAfter(date));
+    }
 }

@@ -1,4 +1,4 @@
-package com.pis.flatmanager.entity;
+package com.pis.flatmanager.service;
 
 import com.pis.flatmanager.dto.VerifyUserDto;
 import com.pis.flatmanager.exception.EntityNotFoundException;

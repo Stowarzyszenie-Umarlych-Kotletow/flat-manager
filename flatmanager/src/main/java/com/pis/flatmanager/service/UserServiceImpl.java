@@ -80,8 +80,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User removeUserFlat(User user, String flatId) {
-        if (!user.getFlats().removeIf(flat -> flat.getId() == UUID.fromString(flatId))) {
+    public User removeUserFlat(User user, UUID flatId) {
+        if (!user.getFlats().removeIf(flat -> flat.getId().equals(flatId))) {
             throw new EntityNotFoundException("Cannot find flat with this id");
         }
         userRepository.save(user);
@@ -103,12 +103,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(String userId) throws EntityNotFoundException {
-        var user = userRepository.findById(UUID.fromString(userId));
+    public void deleteUser(UUID userId) throws EntityNotFoundException {
+        var user = userRepository.findById(userId);
         if(user.isEmpty()) {
             throw new EntityNotFoundException(String.format("User %s does not exist", userId));
         }
-        userRepository.deleteById(UUID.fromString(userId));
+        userRepository.deleteById(userId);
     }
 
     @Override
@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUser(String id) throws EntityNotFoundException {
-        var user = userRepository.findById(UUID.fromString(id));
+    public User getUser(UUID id) throws EntityNotFoundException {
+        var user = userRepository.findById(id);
         if(user.isEmpty()) {
             throw new EntityNotFoundException(String.format("User %s does not exist", id));
         }

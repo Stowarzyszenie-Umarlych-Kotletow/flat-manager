@@ -92,7 +92,7 @@ public class UserServiceTest {
         var updatePasswordUserDto = new UpdatePasswordUserDto("testtest321");
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserPassword(createdUser, updatePasswordUserDto.getPassword());
-        var user = userService.getUser(createdUser.getId().toString());
+        var user = userService.getUser(createdUser.getId());
 
         assertEquals(passwordEncoder.encode(updatePasswordUserDto.getPassword()), user.getPasswordHash());
     }
@@ -106,7 +106,7 @@ public class UserServiceTest {
         var updateEmailUserDto = new UpdateEmailUserDto("test@test.eu");
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
         userService.updateUserEmail(createdUser, updateEmailUserDto.getEmail());
-        var user = userService.getUser(createdUser.getId().toString());
+        var user = userService.getUser(createdUser.getId());
 
         assertEquals(updateEmailUserDto.getEmail(), user.getEmail());
     }
@@ -118,7 +118,7 @@ public class UserServiceTest {
         User createdUser = userService.createUser(createUserDto);
         when(userRepository.findById(any())).thenReturn(Optional.of(createdUser));
 
-        userService.deleteUser(createdUser.getId().toString());
+        userService.deleteUser(createdUser.getId());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class UserServiceTest {
         var createUserDto = getTestCreateUserDto();
         User createdUser = userService.createUser(createUserDto);
         when(userRepository.findById(createdUser.getId())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(createdUser.getId().toString()));
+        assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(createdUser.getId()));
     }
 
     @Test
