@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins="*")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/account")
 public class AccountController {
@@ -36,7 +36,7 @@ public class AccountController {
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/delete")
     public ResponseEntity<?> deleteUser() throws EntityNotFoundException, AccessForbiddenException {
         var user = userService.getCurrentUser();
         userService.deleteUser(user.getId().toString());

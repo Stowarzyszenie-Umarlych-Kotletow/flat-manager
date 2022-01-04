@@ -96,7 +96,7 @@ public class UserControllerIntegrationTest {
                 "test", "test", "username", "username@example.com", "testtest123"
         ));
         var token = getTokenForUser(user);
-        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.post("/api/v1/account"), null, token))
+        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/delete"), null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         var finalObj = userRepository.findById(user.getId());

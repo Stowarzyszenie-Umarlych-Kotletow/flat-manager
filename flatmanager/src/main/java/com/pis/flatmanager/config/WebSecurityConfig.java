@@ -68,8 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated().and()
                         .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors();
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -86,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorities("ADMIN");
 
     }
+
 
 
 }
