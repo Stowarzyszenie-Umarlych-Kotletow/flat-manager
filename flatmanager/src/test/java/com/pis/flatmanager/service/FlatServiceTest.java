@@ -68,7 +68,7 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        flatService.deleteFlat(user, flat.getId().toString());
+        flatService.deleteFlat(user, flat.getId());
 
         verify(flatRepository, times(1)).deleteById(any());
     }
@@ -81,7 +81,7 @@ public class FlatServiceTest {
         ));
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.deleteFlat(user, flat.getId().toString()));
+        assertThrows(EntityNotFoundException.class, () -> flatService.deleteFlat(user, flat.getId()));
         verify(flatRepository, times(0)).deleteById(any());
     }
 
@@ -93,7 +93,7 @@ public class FlatServiceTest {
         ));
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.deleteFlat(user, flat.getId().toString()));
+        assertThrows(AccessForbiddenException.class, () -> flatService.deleteFlat(user, flat.getId()));
         verify(flatRepository, times(0)).deleteById(any());
     }
 
@@ -109,7 +109,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(flatRepository.findByName(any())).thenReturn(Optional.empty());
 
-        var flatAfterChanges = flatService.updateFlatName(user, flat.getId().toString(), dto);
+        var flatAfterChanges = flatService.updateFlatName(user, flat.getId(), dto);
 
         assertEquals(flatAfterChanges.getName(), dto.getName());
         assertEquals(flatAfterChanges.getId(), flat.getId());
@@ -127,7 +127,7 @@ public class FlatServiceTest {
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.updateFlatName(user, flat.getId().toString(), dto));
+        assertThrows(EntityNotFoundException.class, () -> flatService.updateFlatName(user, flat.getId(), dto));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(flatRepository.findByName(any())).thenReturn(Optional.of(flat));
 
-        assertThrows(EntityDuplicateException.class, () -> flatService.updateFlatName(user, flat.getId().toString(), dto));
+        assertThrows(EntityDuplicateException.class, () -> flatService.updateFlatName(user, flat.getId(), dto));
     }
 
     @Test
@@ -157,7 +157,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(flatRepository.findByName(any())).thenReturn(Optional.empty());
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.updateFlatName(user, flat.getId().toString(), dto));
+        assertThrows(AccessForbiddenException.class, () -> flatService.updateFlatName(user, flat.getId(), dto));
     }
 
     @Test
@@ -168,10 +168,12 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
+        flat.getUsers().put(user.getId(), new FlatUser(user.getId(), user.getUsername(), FlatRole.USER));
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        var recFlat = flatService.getFlatInfo(user, flat.getId().toString());
+
+        var recFlat = flatService.getFlatAsUser(user, flat.getId());
         assertEquals(recFlat.getId(), flat.getId());
     }
 
@@ -186,7 +188,7 @@ public class FlatServiceTest {
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> flatService.getFlatInfo(user, flat.getId().toString()));
+        assertThrows(EntityNotFoundException.class, () -> flatService.getFlatAsUser(user, flat.getId()));
 
     }
 
@@ -201,7 +203,7 @@ public class FlatServiceTest {
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        var recFlat = flatService.getFlatInfo(user2, flat.getId().toString());
+        var recFlat = flatService.getFlatAsUser(user2, flat.getId());
         assertEquals(recFlat.getId(), flat.getId());
     }
 
@@ -216,7 +218,7 @@ public class FlatServiceTest {
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        assertThrows(AccessForbiddenException.class, () -> flatService.getFlatInfo(user, flat.getId().toString()));
+        assertThrows(AccessForbiddenException.class, () -> flatService.getFlatAsUser(user, flat.getId()));
     }
 
     @Test
@@ -231,7 +233,7 @@ public class FlatServiceTest {
         flat.getUsers().put(id, new FlatUser(id, user2.getUsername(), FlatRole.USER));
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        assertThrows(AccessForbiddenException.class, () -> flatService.getFlatInfo(user2, flat.getId().toString()));
+        assertThrows(AccessForbiddenException.class, () -> flatService.getFlatAsUser(user2, flat.getId()));
     }
 
     @Test
@@ -243,13 +245,13 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId().toString(), "USER"
+                user2.getId(), "USER"
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        var flatAfterChanges = flatService.addUserToFlat(user, flat.getId().toString(), dto);
+        var flatAfterChanges = flatService.addUserToFlat(user, flat.getId(), dto);
 
         assertTrue(flatAfterChanges.getUsers().containsKey(user2.getId()));
         assertEquals(flatAfterChanges.getUsers().get(user2.getId()).getUsername(), user2.getUsername());
@@ -265,12 +267,12 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId().toString(), "USER"
+                user2.getId(), "USER"
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.addUserToFlat(user, flat.getId().toString(), dto));
+        assertThrows(EntityNotFoundException.class, () -> flatService.addUserToFlat(user, flat.getId(), dto));
 
     }
 
@@ -283,13 +285,13 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user.getId().toString(), "USER"
+                user.getId(), "USER"
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user, flat.getId().toString(), dto));
+        assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user, flat.getId(), dto));
 
     }
 
@@ -302,13 +304,13 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId().toString(), "OWNER"
+                user2.getId(), "OWNER"
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user, flat.getId().toString(), dto));
+        assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user, flat.getId(), dto));
 
     }
 
@@ -321,13 +323,13 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId().toString(), "OWNER"
+                user2.getId(), "OWNER"
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user2, flat.getId().toString(), dto));
+        assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user2, flat.getId(), dto));
 
     }
 
@@ -343,13 +345,13 @@ public class FlatServiceTest {
 
 
         var dto = new AddUserFlatDto(
-                user2.getId().toString(), "USER"
+                user2.getId(), "USER"
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(EntityDuplicateException.class, () -> flatService.addUserToFlat(user, flat.getId().toString(), dto));
+        assertThrows(EntityDuplicateException.class, () -> flatService.addUserToFlat(user, flat.getId(), dto));
 
     }
 
@@ -366,7 +368,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        var flatAfterChanges = flatService.removeUserFromFlat(user, flat.getId().toString(), user2.getId().toString());
+        var flatAfterChanges = flatService.removeUserFromFlat(user, flat.getId(), user2.getId());
 
         assertEquals(0, flatAfterChanges.getUsers().size());
         assertFalse(flatAfterChanges.getUsers().containsKey(user2.getId()));
@@ -385,7 +387,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        var flatAfterChanges = flatService.removeUserFromFlat(user2, flat.getId().toString(), user2.getId().toString());
+        var flatAfterChanges = flatService.removeUserFromFlat(user2, flat.getId(), user2.getId());
 
         assertEquals(0, flatAfterChanges.getUsers().size());
         assertFalse(flatAfterChanges.getUsers().containsKey(user2.getId()));
@@ -403,7 +405,7 @@ public class FlatServiceTest {
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId().toString(), user2.getId().toString()));
+        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId(), user2.getId()));
     }
 
     @Test
@@ -419,7 +421,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId().toString(), user2.getId().toString()));
+        assertThrows(EntityNotFoundException.class, () -> flatService.removeUserFromFlat(user, flat.getId(), user2.getId()));
     }
 
     @Test
@@ -437,7 +439,7 @@ public class FlatServiceTest {
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
 
-        assertThrows(AccessForbiddenException.class, () -> flatService.removeUserFromFlat(user3, flat.getId().toString(), user2.getId().toString()));
+        assertThrows(AccessForbiddenException.class, () -> flatService.removeUserFromFlat(user3, flat.getId(), user2.getId()));
     }
 
     @Test
@@ -453,7 +455,7 @@ public class FlatServiceTest {
         flat.getUsers().put(user3.getId(), new FlatUser(user3.getId(), user3.getUsername(), FlatRole.USER));
 
         var dto = flatService.flatToDto(flat);
-        assertEquals(dto.getId(), flat.getId().toString());
+        assertEquals(dto.getId(), flat.getId());
         assertEquals(dto.getName(), flat.getName());
         assertEquals(dto.getUsers().size(), flat.getUsers().size());
     }

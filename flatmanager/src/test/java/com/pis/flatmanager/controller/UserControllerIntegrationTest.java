@@ -3,7 +3,7 @@ package com.pis.flatmanager.controller;
 import com.pis.flatmanager.dto.CreateUserDto;
 import com.pis.flatmanager.dto.UpdateEmailUserDto;
 import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.entity.JwtTokenManager;
+import com.pis.flatmanager.service.JwtTokenManager;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;
 import com.pis.flatmanager.service.interfaces.UserService;
@@ -43,13 +43,16 @@ public class UserControllerIntegrationTest {
     @Autowired
     private JwtTokenManager jwtTokenManager;
 
+    @Autowired
+    private RequestUtil requestUtil;
+
     @Test
     public void createNewUserTest() throws Exception {
         CreateUserDto createUserDto = new CreateUserDto(
                 "test", "test", "test", "test@example.com", "testtest123"
         );
 
-        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.post("/api/v1/auth/register"), createUserDto))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/auth/register"), createUserDto))
         .andExpect(MockMvcResultMatchers.status().isCreated())
         .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
         .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
@@ -62,7 +65,7 @@ public class UserControllerIntegrationTest {
         var user = createDummyUser("test");
         var token = getTokenForUser(user);
         var updateUserEmailDto = new UpdateEmailUserDto("test@example.com");
-        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/email"), updateUserEmailDto, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/email"), updateUserEmailDto, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
@@ -79,14 +82,14 @@ public class UserControllerIntegrationTest {
 
         var updateUserPasswordDto = new UpdatePasswordUserDto("testtest321");
 
-        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/password"), updateUserPasswordDto, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/password"), updateUserPasswordDto, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").value("username"))
                 .andExpect(MockMvcResultMatchers.jsonPath("email").value("username@example.com"));
 
-        var finalObj = userService.getUser(user.getId().toString());
+        var finalObj = userService.getUser(user.getId());
         assertNotEquals(finalObj.getPasswordHash(), user.getPasswordHash());
     }
 
@@ -96,7 +99,7 @@ public class UserControllerIntegrationTest {
                 "test", "test", "username", "username@example.com", "testtest123"
         ));
         var token = getTokenForUser(user);
-        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/delete"), null, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/delete"), null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         var finalObj = userRepository.findById(user.getId());
@@ -110,7 +113,7 @@ public class UserControllerIntegrationTest {
 
         var token = getTokenForUser(user);
 
-        mockMvc.perform(RequestUtil.json(MockMvcRequestBuilders.get("/api/v1/users"), null, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.get("/api/v1/users"), null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
     }
@@ -123,7 +126,7 @@ public class UserControllerIntegrationTest {
         var token = getTokenForUser(user);
 
         var baseRequest = MockMvcRequestBuilders.get(String.format("/api/v1/users/%s", user.getId().toString()));
-        mockMvc.perform(RequestUtil.json(baseRequest, null, token))
+        mockMvc.perform(requestUtil.json(baseRequest, null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))

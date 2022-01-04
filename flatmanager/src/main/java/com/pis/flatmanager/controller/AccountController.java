@@ -39,7 +39,7 @@ public class AccountController {
     @PostMapping("/delete")
     public ResponseEntity<?> deleteUser() throws EntityNotFoundException, AccessForbiddenException {
         var user = userService.getCurrentUser();
-        userService.deleteUser(user.getId().toString());
+        userService.deleteUser(user.getId());
         return ResponseEntity.ok().build();
     }
 

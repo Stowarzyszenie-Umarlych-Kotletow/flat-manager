@@ -1,4 +1,4 @@
-package com.pis.flatmanager.entity;
+package com.pis.flatmanager.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

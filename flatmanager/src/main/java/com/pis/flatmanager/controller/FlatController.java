@@ -1,7 +1,11 @@
 package com.pis.flatmanager.controller;
 
-import com.pis.flatmanager.dto.flats.*;
-import com.pis.flatmanager.exception.*;
+import com.pis.flatmanager.dto.flats.AddUserFlatDto;
+import com.pis.flatmanager.dto.flats.CreateFlatDto;
+import com.pis.flatmanager.dto.flats.FlatDto;
+import com.pis.flatmanager.dto.flats.UpdateNameFlatDto;
+import com.pis.flatmanager.exception.AccessForbiddenException;
+import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.service.interfaces.FlatService;
 import com.pis.flatmanager.service.interfaces.UserService;
@@ -11,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,7 +35,7 @@ public class FlatController {
     }
 
     @DeleteMapping("{flatId}")
-    public ResponseEntity<?> deleteFlatById(@PathVariable String flatId)
+    public ResponseEntity<?> deleteFlatById(@PathVariable UUID flatId)
             throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();
@@ -39,7 +44,7 @@ public class FlatController {
     }
 
     @PostMapping("/{flatId}/name")
-    public ResponseEntity<?> updateFlatName(@PathVariable String flatId, @Valid @RequestBody UpdateNameFlatDto dto)
+    public ResponseEntity<?> updateFlatName(@PathVariable UUID flatId, @Valid @RequestBody UpdateNameFlatDto dto)
             throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();
@@ -48,21 +53,21 @@ public class FlatController {
     }
 
     @GetMapping("/{flatId}")
-    public ResponseEntity<?> getFlatInfo(@PathVariable String flatId)
+    public ResponseEntity<?> getFlatInfo(@PathVariable UUID flatId)
             throws AccessForbiddenException {
         User user = userService.getCurrentUser();
-        var updatedDto = flatService.flatToDto(flatService.getFlatInfo(user, flatId));
+        var updatedDto = flatService.flatToDto(flatService.getFlatAsUser(user, flatId));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
     }
 
     @GetMapping("/{flatId}/users")
-    public ResponseEntity<?> getUsersFromFlat(@PathVariable String flatId) {
+    public ResponseEntity<?> getUsersFromFlat(@PathVariable UUID flatId) {
         var users = flatService.getUsersFromFlat(flatId);
         return new ResponseEntity<>(users.values(), HttpStatus.OK);
     }
 
     @PutMapping("/{flatId}/users")
-    public ResponseEntity<?> addFlatUser(@PathVariable String flatId, @Valid @RequestBody AddUserFlatDto dto)
+    public ResponseEntity<?> addFlatUser(@PathVariable UUID flatId, @Valid @RequestBody AddUserFlatDto dto)
             throws EntityNotFoundException, AccessForbiddenException {
         User user = userService.getCurrentUser();
         var updatedDto = flatService.flatToDto(flatService.addUserToFlat(user, flatId, dto));
@@ -70,7 +75,7 @@ public class FlatController {
     }
 
     @DeleteMapping("/{flatId}/users/{userId}")
-    public ResponseEntity<?> removeFlatUser(@PathVariable String flatId, @PathVariable String userId)
+    public ResponseEntity<?> removeFlatUser(@PathVariable UUID flatId, @PathVariable UUID userId)
             throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();

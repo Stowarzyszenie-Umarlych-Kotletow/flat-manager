@@ -1,7 +1,7 @@
 package com.pis.flatmanager.controller;
 
 import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.entity.JwtTokenManager;
+import com.pis.flatmanager.service.JwtTokenManager;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.model.jwt.JwtRequest;
 import com.pis.flatmanager.model.jwt.JwtResponse;

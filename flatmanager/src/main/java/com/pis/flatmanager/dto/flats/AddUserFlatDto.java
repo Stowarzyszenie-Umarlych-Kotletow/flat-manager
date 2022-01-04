@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Builder
 @Getter
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class AddUserFlatDto {
 
     @NotBlank
-    String userId;
+    UUID userId;
 
     // available roles: user, owner
     @NotBlank
