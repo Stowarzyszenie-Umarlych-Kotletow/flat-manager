@@ -1,10 +1,12 @@
 import client from "../helpers/authorized-api-client"
 
-export class AccountService {
-    changePassword = (body: ChangePasswordRequest) => client.patch(`/account/password`, body);
-    changeEmail = (body: ChangeEmailRequest) => client.patch(`/account/email`, body);
-    deleteAccount = (body: DeleteAccountRequest) => client.post(`/account/delete`, body);
+export class FlatService {
+    getFlats = () => client.get<FlatInfo[]>(`/flats`);
+    getFlat = (flatId: string) => client.get<FlatInfo>(`/flats/${flatId}`);
+    getFlatUsers = (flatId: string) => client.get<UserInfo[]>(`/flats/${flatId}`);
+    addUserToFlat = (flatId: string, userId: string) => client.put(`/flats/${flatId}/users`, { userId });
+    createFlat = (body: CreateFlatRequest) => client.post<FlatInfo>(`/flats`, body);
 
 };
 
-export default new AccountService();
+export default new FlatService();

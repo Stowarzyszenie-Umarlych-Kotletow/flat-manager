@@ -7,6 +7,7 @@ import com.pis.flatmanager.model.tasks.TaskInstanceInfo;
 import com.pis.flatmanager.model.tasks.TaskInstanceState;
 import com.pis.flatmanager.service.interfaces.TaskSchedulingService;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -30,7 +31,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
     public List<TaskInstanceInfo> getExistingSchedule(Task task, LocalDateTime from, LocalDateTime until) {
         return task.getInstances().stream()
                 .filter(instance -> !from.isAfter(instance.getDateScheduled()) && until.isAfter(instance.getDateScheduled()))
-                .map(instance -> new TaskInstanceInfo(instance.getId(), instance.getCompletedByUserId(), TaskInstanceState.PAST, instance.getDateScheduled())
+                .map(instance -> new TaskInstanceInfo(instance.getId(), ObjectUtils.defaultIfNull(instance.getCompletedByUserId(), instance.getScheduledUserId()), TaskInstanceState.PAST, instance.getDateScheduled())
                 ).collect(Collectors.toList());
     }
 

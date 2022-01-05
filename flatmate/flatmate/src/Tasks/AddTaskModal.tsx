@@ -7,6 +7,7 @@ import {Controller, useForm} from "react-hook-form";
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import DatePicker from 'react-native-neat-date-picker';
 import CustomMultiPicker from "react-native-multiple-select-list";
+import { useFlatContext } from "../store";
 
 export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) {
     // warnings
@@ -15,6 +16,9 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
     // datepicker for task starting and ending day
     const [taskDate, setTaskDate] = useState(null);
     const [showTaskDatePicker, setShowTaskDatePicker] = useState(false);
+
+    const flatContext = useFlatContext();
+
     const openTaskDatePicker = () => {
         setShowTaskDatePicker(true)
     }
@@ -72,15 +76,14 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
     const [selectedUsers, setSelectedUsers] = useState([]);
 
     const getFlatUsers = () => {
-        const userList = {
-            "1": "Adam",
-            "2": "Daniel",
-            "3": "Arek",
-            "4": "David",
-        };
-        //connect backend
-
-        return userList;
+        let obj = {};
+        if(flatContext.users != null) {
+            flatContext.users.forEach(u => {
+                obj[u.id] = u.username;
+            })
+        }
+        return obj;
+        
     }
 
     return (

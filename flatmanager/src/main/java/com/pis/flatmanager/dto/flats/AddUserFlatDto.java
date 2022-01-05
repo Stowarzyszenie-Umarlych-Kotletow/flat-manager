@@ -1,11 +1,12 @@
 package com.pis.flatmanager.dto.flats;
 
+import com.pis.flatmanager.model.FlatRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder
@@ -14,10 +15,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AddUserFlatDto {
 
-    @NotBlank
+    @NotNull
     UUID userId;
 
-    // available roles: user, owner
-    @NotBlank
-    String role = "user";
+    @NotNull
+    FlatRole role = FlatRole.USER;
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class FlatUser {
     @Id
-    UUID userId;
+    UUID id;
     @NotBlank
     String username;
 

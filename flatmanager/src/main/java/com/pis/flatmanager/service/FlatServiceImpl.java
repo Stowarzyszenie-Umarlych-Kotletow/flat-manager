@@ -36,7 +36,7 @@ public class FlatServiceImpl implements FlatService {
         var flatOwner = new FlatUser(owner.getId(), owner.getUsername(), FlatRole.OWNER);
         Flat flat = new Flat(flatDto.getName(), flatOwner);
 
-        flat.getUsers().put(flatOwner.getUserId(), flatOwner);
+        flat.getUsers().put(flatOwner.getId(), flatOwner);
         userService.addUserFlat(owner, new UserFlat(
                 flat.getId(),
                 flat.getName()
@@ -49,7 +49,7 @@ public class FlatServiceImpl implements FlatService {
     public void deleteFlat(User user, UUID id) throws EntityNotFoundException, AccessForbiddenException {
         var flat = getFlat(id);
 
-        if(!flat.getOwner().getUserId().equals(user.getId())) {
+        if(!flat.getOwner().getId().equals(user.getId())) {
             throw new AccessForbiddenException("This user is not an owner");
         }
         flat.getUsers().forEach((k, v) -> {
@@ -70,7 +70,7 @@ public class FlatServiceImpl implements FlatService {
             throw new EntityDuplicateException(String.format("Flat %s already exists", dto.getName()));
         }
 
-        if(!flat.get().getOwner().getUserId().equals(user.getId())) {
+        if(!flat.get().getOwner().getId().equals(user.getId())) {
             throw new AccessForbiddenException("This user does not have access to rename this flat");
         }
 
@@ -124,7 +124,7 @@ public class FlatServiceImpl implements FlatService {
 
         User addUser = userService.getUser(dto.getUserId());
 
-        if(!flat.get().getOwner().getUserId().equals(user.getId()) || !dto.getRole().equals("USER")) {
+        if(!flat.get().getOwner().getId().equals(user.getId()) || !dto.getRole().equals(FlatRole.USER)) {
             throw new AccessForbiddenException("This user cannot be the owner");
         }
 
@@ -137,7 +137,7 @@ public class FlatServiceImpl implements FlatService {
         var flatUser = new FlatUser(
                 addUser.getId(),
                 addUser.getUsername(),
-                FlatRole.valueOf(dto.getRole())
+                dto.getRole()
         );
 
         flat.get().getUsers().put(addUser.getId(), flatUser);
@@ -163,10 +163,10 @@ public class FlatServiceImpl implements FlatService {
             throw new EntityNotFoundException("User does not exist in this flat");
         }
 
-        if(flat.get().getOwner().getUserId().equals(user.getId())) {
+        if(flat.get().getOwner().getId().equals(user.getId())) {
             flat.get().getUsers().remove(userId);
         } else {
-            if(flatUsers.get(user.getId()).getUserId().equals(userId)) {
+            if(flatUsers.get(user.getId()).getId().equals(userId)) {
                 flat.get().getUsers().remove(userId);
             } else {
                 throw new AccessForbiddenException("This user cannot delete other users from this flat");

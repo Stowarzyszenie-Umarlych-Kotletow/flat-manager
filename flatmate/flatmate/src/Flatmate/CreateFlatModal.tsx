@@ -4,20 +4,25 @@ import styles from "../static/styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../store";
+import flatSlice, {createFlat} from "../features/flat";
 
-export function CreateFlatModal({showCreateFlatModal, setShowCreateFlatModal, setCurrentFlat}) {
+export function CreateFlatModal({ setShowCreateFlatModal}) {
 
-    function handleCreateFlat(data) {
-        setShowCreateFlatModal(false);
-        console.log(data.flatname);
-        // backend connection
-        var flat_id = 123;
-        setCurrentFlat(flat_id);
+    const flats = useAppSelector(state => state.flat.flats);
+    const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
+    const dispatch = useAppDispatch();
+
+    function handleCreateFlat(data: CreateFlatRequest) {
+        dispatch(createFlat(data)).unwrap().then((success) => {
+            setShowCreateFlatModal(false);
+            dispatch(flatSlice.actions.setCurrentFlat(success.id));
+        });
     }
 
     const {control, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
-            flatname: '',
+            name: '',
         },
     });
 
@@ -28,14 +33,14 @@ export function CreateFlatModal({showCreateFlatModal, setShowCreateFlatModal, se
             rounded
             actionsBordered
             style={{zIndex: 1000}}
-            visible={showCreateFlatModal}
+            visible={true}
             modalTitle={<ModalTitle title="Create flat"  align="left" />}
             onTouchOutside={() => { setShowCreateFlatModal(false)}}
         >
             <ModalContent>
                 <Controller
                     control={control}
-                    name="flatname"
+                    name="name"
                     rules={{
                     maxLength: 100,
                     }}

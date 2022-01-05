@@ -5,6 +5,10 @@ import {useState} from "react";
 import styles from "../static/styles";
 import {Text, TextInput} from "react-native";
 import {Button} from "react-native-elements";
+import userService from "../services/user.service";
+import { useAppDispatch, useAppSelector } from "../store";
+import {addUser} from "../features/flat";
+import axios, { AxiosError } from "axios";
 
 function parseData(data) {
     let parsedData = {
@@ -13,9 +17,11 @@ function parseData(data) {
     return parsedData;
 }
 
-export function AddUserToFlatModal({showAddUserToFlatModal, setShowAddUserToFlatModal}) {
+export function AddUserToFlatModal({setShowAddUserToFlatModal}) {
 
-    const [showUsernameWarning, setUsernameWarning] = useState(false);
+    const [usernameWarning, setUsernameWarning] = useState(null);
+    const dispatch = useAppDispatch();
+    const selectedFlatId = useAppSelector((state) => state.flat.selectedFlatId);
 
     const {control, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
@@ -23,14 +29,21 @@ export function AddUserToFlatModal({showAddUserToFlatModal, setShowAddUserToFlat
         },
     });
 
-    async function addUser(data) {
+    async function completeAddUser(data) {
+        let warning: string = null;
         if (data.username) {
-            data = parseData(data);
-            // send user to backend
-            setUsernameWarning(false);
+            try {
+            const userId = (await userService.getUserByUsername(data.username)).data.id;
+            await dispatch(addUser({flatId: selectedFlatId, userId})).unwrap();
+            
+            setShowAddUserToFlatModal(false);
+            } catch (err) {
+                warning = `Cannot add user (${err.message})`;
+            }
         } else {
-            setUsernameWarning(true);
+            warning = "The username must not be empty";
         }
+        setUsernameWarning(warning);
     }
 
 
@@ -39,7 +52,7 @@ export function AddUserToFlatModal({showAddUserToFlatModal, setShowAddUserToFlat
             rounded
             actionsBordered
             style={{zIndex: 1000}}
-            visible={showAddUserToFlatModal}
+            visible={true}
             modalTitle={<ModalTitle title="Add user" align="left"/>}
             onTouchOutside={() => {
                 setShowAddUserToFlatModal(false);
@@ -60,11 +73,11 @@ export function AddUserToFlatModal({showAddUserToFlatModal, setShowAddUserToFlat
                         />)}
                     name="username"
                 />
-                {!showUsernameWarning ? null : <Text style={styles.warningText}> Username cannot be empty </Text>}
+                {!usernameWarning == null ? null : <Text style={styles.warningText}>{usernameWarning}</Text>}
                 <Button
                     buttonStyle={styles.blueButton}
                     title="Add User"
-                    onPress={handleSubmit(addUser)}
+                    onPress={handleSubmit(completeAddUser)}
                 />
                 <Button
                     buttonStyle={styles.blueButton}

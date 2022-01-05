@@ -7,6 +7,7 @@ import {AddTaskModal} from '../Tasks/AddTaskModal';
 import {AddUserToFlatModal} from './AddUserToFlatModal';
 import {BottomNavigationBar} from './BottomNavigationBar';
 import {TaskDetailsModal} from "../Tasks/TaskDetailsModal";
+import { useAppDispatch, useFlatContext } from "../store";
 
 export function DashboardScreen({navigation}) {
     // adding user
@@ -20,6 +21,9 @@ export function DashboardScreen({navigation}) {
 
     // event state
     const [taskState, setTaskState] = useState({});
+
+    const flatContext = useFlatContext();
+    const dispatch = useAppDispatch();
 
     // todays tasks that are assigned to you
     // all tasks that are not marked as completed or failed
@@ -50,15 +54,9 @@ export function DashboardScreen({navigation}) {
         return dailyTasks;
     }
 
-    function getFlatName() {
-        return "Flatname"
-        // backend connection
-        // get flatname from backend
-    }
-
     return (<View style={{maxHeight: 'calc(100vh - 75px)'}}>
         <div style={{overflow: "scroll", height: 'calc(100vh - 150px)', display: "flex", flexDirection: "column"}}>
-            <Text style={styles.logoText}>{getFlatName()}</Text>
+            <Text style={styles.logoText}>{flatContext?.name}</Text>
             <Text style={styles.smallText}>Your debts: 10 zł</Text>
             <Text style={styles.smallText}>Your tasks for today:</Text>
 
@@ -71,9 +69,7 @@ export function DashboardScreen({navigation}) {
                     onPress={()=>{
                         setTaskState(dailyTask);
                         setShowTaskDetailsModal(true);
-                    }
-                    }
-
+                    }}
                 />
                 );
             })}
@@ -81,10 +77,9 @@ export function DashboardScreen({navigation}) {
                 showTaskCreationModal={showTaskCreationModal}
                 setShowTaskCreationModal={setShowTaskCreationModal}
             />
-            <AddUserToFlatModal
-                showAddUserToFlatModal={showAddUserToFlatModal}
+            {showAddUserToFlatModal ? (<AddUserToFlatModal
                 setShowAddUserToFlatModal={setShowAddUserToFlatModal}
-            />
+            />) : null}
             <TaskDetailsModal
                 show={showTaskDetailsModal}
                 setShow={setShowTaskDetailsModal}

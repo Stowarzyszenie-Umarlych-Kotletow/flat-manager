@@ -5,17 +5,18 @@ import styles from "../static/styles";
 import {Button} from "react-native-elements";
 import {Controller, useForm} from "react-hook-form";
 import accountService from "../services/account.service";
-import {useAppDispatch, useAppSelector} from "../store";
+import {useAppDispatch, useAppSelector, useFlatContext} from "../store";
 import auth from "../features/auth";
 import {Modal, ModalContent, ModalTitle} from "react-native-modals"
 
 
-export function ManageScreen({navigation, currentFlat}) {
+export function ManageScreen({navigation}) {
     const {control, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
             password: '',
         },
     });
+    const flatContext = useFlatContext();
     const dispatch = useAppDispatch();
 
     const [showAccountDeletionBox, setShowAccountDeletionBox] = useState(false);
@@ -44,7 +45,7 @@ export function ManageScreen({navigation, currentFlat}) {
     return (
         <View style={styles.accScreenContainer}>
             <Text style={styles.logoText}>Manage account</Text>
-            {currentFlat != null ? (
+            {flatContext != null ? (
                 <Button
                     buttonStyle={styles.blueButton}
                     title="Manage flats"
