@@ -7,16 +7,22 @@ import taskService from "../services/task.service";
 
 interface FlatContext extends FlatInfo {
     users?: UserInfo[];
-    tasks?: TaskInfo[];
+    tasks?: Task[];
 }
 
 interface FlatContextMap {
     [flatId: string]: FlatContext;
 }
 
+interface TaskContextMap {
+    [taskId: string]: Task;
+}
+
 interface FlatState {
     selectedFlatId?: string;
     flats: FlatContextMap;
+    tasks?: TaskContextMap;
+    
 }
 
 interface FlatUpdate<T> {
@@ -24,7 +30,13 @@ interface FlatUpdate<T> {
     data: T;
 }
 
-const initialState: FlatState = { selectedFlatId: null, flats: {}};
+interface TaskUpdate<T> {
+    id: string;
+    data: T;
+}
+
+
+const initialState: FlatState = { selectedFlatId: null, flats: {}, tasks: {}};
 
 export const getFlat = createAsyncThunk(
     "flat/getFlat",
@@ -83,13 +95,23 @@ export const addUser = createAsyncThunk(
     }
 )
 
+export const getFlatTasks = createAsyncThunk(
+    "flat/getFlatTasks",
+    async (flatId: any, {dispatch}) => {
+        const {data} = await taskService.getFlatTasks(flatId);
+        console.log("gotten tasks", data);
+        dispatch(flatSlice.actions.setFlatTasks({id: flatId, data: data}));
+        console.log("gotten tasks AFTER", data);
+        return data;
+    }
+)
+
 function getContext(state: FlatState, flatId: string): FlatContext {
     if (!(flatId in state)) {
         throw new Error("Can't update missing flat");
     }
     return state.flats[flatId];
 }
-
 
 
 const flatSlice = createSlice({

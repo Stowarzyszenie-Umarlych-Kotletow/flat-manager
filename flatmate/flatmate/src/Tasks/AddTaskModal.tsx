@@ -8,6 +8,7 @@ import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import DatePicker from 'react-native-neat-date-picker';
 import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlatContext } from "../store";
+import taskService from "../services/task.service";
 
 export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) {
     // warnings

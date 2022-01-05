@@ -2,11 +2,6 @@ enum TaskState {
     SCHEDULED, PAST, FUTURE
 }
 
-interface TaskInfo {
-    id: string;
-    name: string;
-}
-
 interface TaskInstanceInfo {
     id: string;
     userId?: string;
@@ -14,7 +9,9 @@ interface TaskInstanceInfo {
     date: Date;
 }
 
-interface Task extends TaskInfo {
+interface Task {
+    id: string;
+    name: string;
     flatId: string;
     description?: string;
     ownerId: string;

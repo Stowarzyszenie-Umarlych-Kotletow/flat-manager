@@ -4,15 +4,18 @@ import styles from "../static/styles";
 import {Text, View} from "react-native";
 import {Button} from "react-native-elements";
 import {CreateFlatModal} from "./CreateFlatModal";
-import { useAppDispatch, useAppSelector } from "../store";
-import flatSlice, { getUserFlats } from "../features/flat";
+import { useAppDispatch, useFlatContext, useAppSelector } from "../store";
+import flatSlice, { getUserFlats, getFlatTasks } from "../features/flat";
+
 
 export function ManageFlatsScreen({navigation}) {
     const [showCreateFlatModal, setShowCreateFlatModal] = useState(false);
 
     const flats = useAppSelector(state => state.flat.flats);
+    const test_f = useAppSelector(state => state);
     const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
     const dispatch = useAppDispatch();
+    const flatContext = useFlatContext();
 
     React.useEffect(() => {
         dispatch(getUserFlats());
@@ -24,6 +27,8 @@ export function ManageFlatsScreen({navigation}) {
         if (flatId !== null)
             navigation.popToTop();
         console.log(flatId);
+        console.log("state", test_f)
+        dispatch(getFlatTasks(flatContext?.id));
     }
 
     return (
