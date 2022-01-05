@@ -12,6 +12,7 @@ export function ViewCalendarScreen() {
 
     const tasks = useAppSelector(state => state.flat.tasks);
     const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
+    const [eventAr, setEventsAr] = useState([]);
 
   
 
@@ -38,10 +39,12 @@ export function ViewCalendarScreen() {
             }); 
             
         });
-        return events;
+        setEventsAr(events);
     };
 
-    console.log(convertTasks().then(eventer => {return eventer}));
+    React.useEffect(() => {
+       convertTasks();
+    }, []);
     function eventClicked(event) {
         setTaskState(event)
         setShowTaskDetailsModal(true)
@@ -56,7 +59,7 @@ export function ViewCalendarScreen() {
             height: "calc(100vh - 75px)",
         }}>
             <Calendar
-                events={[]}
+                events={eventAr}
                 height={510}
                 mode={'month'}
                 showTime={true}
