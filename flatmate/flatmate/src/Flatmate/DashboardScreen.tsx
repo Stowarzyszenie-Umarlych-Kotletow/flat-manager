@@ -8,7 +8,7 @@ import {AddUserToFlatModal} from './AddUserToFlatModal';
 import {BottomNavigationBar} from './BottomNavigationBar';
 import {TaskDetailsModal} from "../Tasks/TaskDetailsModal";
 import { useAppDispatch, useFlatContext, useAppSelector } from "../store";
-import flatSlice, { getFlatTasks } from "../features/flat";
+import { getFlatTasks } from "../features/flat";
 
 export function DashboardScreen({navigation}) {
     // adding user
@@ -18,8 +18,8 @@ export function DashboardScreen({navigation}) {
     const [taskState, setTaskState] = useState({});
 
     
-    const tasks = useAppSelector(state => state.flat.tasks);
     const flatContext = useFlatContext();
+    const tasks = useAppSelector(state => state.flat.tasks);
     const dispatch = useAppDispatch();
 
     // todays tasks that are assigned to you

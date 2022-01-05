@@ -30,12 +30,6 @@ interface FlatUpdate<T> {
     data: T;
 }
 
-interface TaskUpdate<T> {
-    id: string;
-    data: T;
-}
-
-
 const initialState: FlatState = { selectedFlatId: null, flats: {}, tasks: {}};
 
 export const getFlat = createAsyncThunk(
@@ -99,9 +93,7 @@ export const getFlatTasks = createAsyncThunk(
     "flat/getFlatTasks",
     async (flatId: any, {dispatch}) => {
         const {data} = await taskService.getFlatTasks(flatId);
-        console.log("gotten tasks", data);
-        dispatch(flatSlice.actions.setFlatTasks({id: flatId, data: data}));
-        console.log("gotten tasks AFTER", data);
+        dispatch(flatSlice.actions.setFlatTasks({flatId, data}));
         return data;
     }
 )
@@ -122,7 +114,7 @@ const flatSlice = createSlice({
             state.selectedFlatId = payload;
         },
         setFlatTasks(state, {payload: {id, data}}) {
-            getContext(state, id).tasks = data;
+            state.tasks = data;
         },
         setFlatUsers(state, {payload: {id, data}}) {
             getContext(state, id).users = data;
