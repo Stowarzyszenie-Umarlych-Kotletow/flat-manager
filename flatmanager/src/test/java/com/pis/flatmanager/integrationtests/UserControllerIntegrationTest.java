@@ -1,8 +1,8 @@
-package com.pis.flatmanager.controller;
+package com.pis.flatmanager.integrationtests;
 
-import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.dto.UpdateEmailUserDto;
-import com.pis.flatmanager.dto.UpdatePasswordUserDto;
+import com.pis.flatmanager.dto.users.CreateUserDto;
+import com.pis.flatmanager.dto.users.UpdateEmailUserDto;
+import com.pis.flatmanager.dto.users.UpdatePasswordUserDto;
 import com.pis.flatmanager.service.JwtTokenManager;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.repository.UserRepository;

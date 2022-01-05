@@ -1,18 +1,19 @@
-package com.pis.flatmanager.dto;
+package com.pis.flatmanager.dto.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatePasswordUserDto {
+public class UpdateEmailUserDto implements Serializable {
 
     @NotBlank
-    @Size(min=8, max=32)
-    String password;
+    @Email
+    String email;
 }

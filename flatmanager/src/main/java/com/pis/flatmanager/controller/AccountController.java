@@ -1,7 +1,7 @@
 package com.pis.flatmanager.controller;
 
-import com.pis.flatmanager.dto.UpdateEmailUserDto;
-import com.pis.flatmanager.dto.UpdatePasswordUserDto;
+import com.pis.flatmanager.dto.users.UpdateEmailUserDto;
+import com.pis.flatmanager.dto.users.UpdatePasswordUserDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.User;

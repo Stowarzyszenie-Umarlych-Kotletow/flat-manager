@@ -1,4 +1,4 @@
-package com.pis.flatmanager.dto;
+package com.pis.flatmanager.dto.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

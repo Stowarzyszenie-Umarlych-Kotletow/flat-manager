@@ -1,4 +1,4 @@
-package com.pis.flatmanager.dto;
+package com.pis.flatmanager.dto.users;
 
 import com.pis.flatmanager.model.UserFlat;
 import lombok.Builder;

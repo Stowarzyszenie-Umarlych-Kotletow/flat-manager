@@ -1,7 +1,7 @@
-package com.pis.flatmanager.controller;
+package com.pis.flatmanager.integrationtests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pis.flatmanager.dto.CreateUserDto;
+import com.pis.flatmanager.dto.users.CreateUserDto;
 import com.pis.flatmanager.dto.flats.CreateFlatDto;
 import com.pis.flatmanager.dto.flats.FlatDto;
 import com.pis.flatmanager.dto.tasks.CreateTaskDto;
