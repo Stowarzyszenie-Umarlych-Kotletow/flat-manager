@@ -31,8 +31,8 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         return task.getInstances().stream()
                 .filter(instance -> !from.isAfter(instance.getDateScheduled()) && until.isAfter(instance.getDateScheduled()))
                 .map(instance -> new TaskInstanceInfo(instance.getId(),
-                        instance.getCompletedByUserId(),
                         instance.getScheduledUserId(),
+                        instance.getCompletedByUserId(),
                         TaskInstanceState.PAST,
                         instance.getDateScheduled())
                 ).collect(Collectors.toList());

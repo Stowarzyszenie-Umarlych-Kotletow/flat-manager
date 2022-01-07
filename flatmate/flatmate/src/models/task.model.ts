@@ -1,10 +1,10 @@
-enum TaskState {
+export enum TaskState {
     SCHEDULED = "SCHEDULED",
     PAST = "PAST", 
     FUTURE = "FUTURE"
 }
 
-interface TaskInstanceInfo {
+export interface TaskInstanceInfo {
     id: string;
     userId?: string;
     completedByUserId?: string;
@@ -12,7 +12,7 @@ interface TaskInstanceInfo {
     date: string;
 }
 
-interface Task {
+export interface Task {
     id: string;
     name: string;
     flatId: string;

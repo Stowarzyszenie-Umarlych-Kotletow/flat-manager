@@ -33,7 +33,7 @@ export function ViewCalendarScreen() {
 
     function getCalendar() {
         if (!taskSchedule) {
-            return;
+            return [];
         }
         const events = [];
         const schedule = taskSchedule.taskInstances;

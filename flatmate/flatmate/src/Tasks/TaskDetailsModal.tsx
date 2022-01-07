@@ -6,6 +6,7 @@ import * as React from "react";
 import { useFlat } from "../features/hooks";
 import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../features/api/flat-api";
 import { asDate } from "../helpers/date-helper";
+import { TaskInstanceInfo, TaskState } from "../models/task.model";
 
 export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }: 
     {setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean}) {
@@ -40,8 +41,8 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
         return timeStr;
     }
 
-    if (isLoading) return null;
-
+    if (isLoading || !task) return null;
+    console.log(taskInstance);
     return (
         <Modal
             width={0.9}
@@ -56,15 +57,17 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
                 <Text style={styles.tinyText}>User assigned to task at {sliceDate(taskInstance.date)} by {getUsername(taskInstance.userId)}</Text>
                 <Text style={styles.tinyText}>Task </Text>
                 <Text style={styles.smallText}>Users in periodic task {task.name}:</Text>
-
-                <Button
-                    buttonStyle={styles.greenButton}
-                    title="Set as Completed"
-                    onPress={() => {
-                        completeTask();
-                        setShow(false);
-                    }}
-                />
+                {
+                    (taskInstance.state == TaskState.SCHEDULED && !taskInstance.completedByUserId) ?
+                    <Button
+                        buttonStyle={styles.greenButton}
+                        title="Set as Completed"
+                        onPress={() => {
+                            completeTask();
+                            setShow(false);
+                        }}
+                    /> : null
+                }
                 {
                     deletable == true
                     &&
