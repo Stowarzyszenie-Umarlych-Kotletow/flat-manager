@@ -1,14 +1,15 @@
-import {Modal, ModalContent, ModalTitle} from "react-native-modals";
-import {Controller, useForm} from "react-hook-form";
+import { Modal, ModalContent, ModalTitle } from "react-native-modals";
+import { Controller, useForm } from "react-hook-form";
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import styles from "../static/styles";
-import {Text, TextInput} from "react-native";
-import {Button} from "react-native-elements";
+import { Text, TextInput } from "react-native";
+import { Button } from "react-native-elements";
 import userService from "../services/user.service";
 import { useAppDispatch, useAppSelector } from "../store";
-import {addUser} from "../features/flat";
 import axios, { AxiosError } from "axios";
+import { useFlat } from "../features/hooks";
+import { api, useAddUserToFlatMutation, useGetUserByUsernameQuery } from "../features/api";
 
 function parseData(data) {
     let parsedData = {
@@ -17,13 +18,14 @@ function parseData(data) {
     return parsedData;
 }
 
-export function AddUserToFlatModal({setShowAddUserToFlatModal}) {
+export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 
     const [usernameWarning, setUsernameWarning] = useState(null);
     const dispatch = useAppDispatch();
-    const selectedFlatId = useAppSelector((state) => state.flat.selectedFlatId);
+    const { flatId } = useFlat();
+    const [addUser] = useAddUserToFlatMutation();
 
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             username: '',
         },
@@ -31,14 +33,17 @@ export function AddUserToFlatModal({setShowAddUserToFlatModal}) {
 
     async function completeAddUser(data) {
         let warning: string = null;
-        if (data.username) {
+        const username = data.username;
+        if (username) {
             try {
-            const userId = (await userService.getUserByUsername(data.username)).data.id;
-            await dispatch(addUser({flatId: selectedFlatId, userId})).unwrap();
-            
-            setShowAddUserToFlatModal(false);
+                const action = api.endpoints.getUserByUsername.initiate({username});
+                const userId = (await dispatch(action).unwrap()).id;
+                
+                await addUser({ flatId, userId }).unwrap();
+
+                setShowAddUserToFlatModal(false);
             } catch (err) {
-                warning = `Cannot add user (${err.message})`;
+                warning = `Cannot add user (error ${err.status})`;
             }
         } else {
             warning = "The username must not be empty";
@@ -48,44 +53,44 @@ export function AddUserToFlatModal({setShowAddUserToFlatModal}) {
 
 
     return (<Modal
-            width={0.9}
-            rounded
-            actionsBordered
-            style={{zIndex: 1000}}
-            visible={true}
-            modalTitle={<ModalTitle title="Add user" align="left"/>}
-            onTouchOutside={() => {
-                setShowAddUserToFlatModal(false);
-            }}
-        >
-            <ModalContent>
-                <Controller
-                    control={control}
-                    rules={{
-                        maxLength: 100,
-                    }}
-                    render={({field: {onChange, onBlur, value}}) => (<TextInput
-                            style={styles.accFormTextInput}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            placeholder="Username"
-                        />)}
-                    name="username"
-                />
-                {!usernameWarning == null ? null : <Text style={styles.warningText}>{usernameWarning}</Text>}
-                <Button
-                    buttonStyle={styles.blueButton}
-                    title="Add User"
-                    onPress={handleSubmit(completeAddUser)}
-                />
-                <Button
-                    buttonStyle={styles.blueButton}
-                    title="Close"
-                    onPress={() => {
-                        setShowAddUserToFlatModal(false);
-                    }}
-                />
-            </ModalContent>
-        </Modal>)
+        width={0.9}
+        rounded
+        actionsBordered
+        style={{ zIndex: 1000 }}
+        visible={true}
+        modalTitle={<ModalTitle title="Add user" align="left" />}
+        onTouchOutside={() => {
+            setShowAddUserToFlatModal(false);
+        }}
+    >
+        <ModalContent>
+            <Controller
+                control={control}
+                rules={{
+                    maxLength: 100,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (<TextInput
+                    style={styles.accFormTextInput}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Username"
+                />)}
+                name="username"
+            />
+            {!usernameWarning == null ? null : <Text style={styles.warningText}>{usernameWarning}</Text>}
+            <Button
+                buttonStyle={styles.blueButton}
+                title="Add User"
+                onPress={handleSubmit(completeAddUser)}
+            />
+            <Button
+                buttonStyle={styles.blueButton}
+                title="Close"
+                onPress={() => {
+                    setShowAddUserToFlatModal(false);
+                }}
+            />
+        </ModalContent>
+    </Modal>)
 }

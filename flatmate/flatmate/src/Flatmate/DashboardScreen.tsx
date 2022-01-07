@@ -8,7 +8,6 @@ import {AddUserToFlatModal} from './AddUserToFlatModal';
 import {BottomNavigationBar} from './BottomNavigationBar';
 import {TaskDetailsModal} from "../Tasks/TaskDetailsModal";
 import { useAppDispatch, useFlatContext, useAppSelector } from "../store";
-import { getFlatTasks } from "../features/flat";
 
 export function DashboardScreen({navigation}) {
     // adding user
@@ -27,7 +26,7 @@ export function DashboardScreen({navigation}) {
     // (failed means nobody marked them as completed before the deadline)
 
     React.useEffect(() => {
-        dispatch(getFlatTasks(flatContext?.id));
+        //dispatch(getFlatTasks(flatContext?.id));
     }, []);
 
     return (<View style={{maxHeight: 'calc(100vh - 75px)'}}>

@@ -32,71 +32,6 @@ interface FlatUpdate<T> {
 
 const initialState: FlatState = { selectedFlatId: null, flats: {}, tasks: {}};
 
-export const getFlat = createAsyncThunk(
-    "flat/getFlat",
-    async (id: string, {dispatch}) => {
-        const {data} = await flatService.getFlat(id);
-        await dispatch(flatSlice.actions.addFlat({id, data}));
-        await dispatch(updateFlatUsers(id)).unwrap();
-        await dispatch(updateFlatTasks(id)).unwrap();
-        return data;
-    }
-);
-
-export const getUserFlats = createAsyncThunk(
-    "flat/getUserFlats",
-    async (_, {dispatch}) => {
-        const {data} = await flatService.getFlats();
-        data.forEach(flatData => {
-            dispatch(flatSlice.actions.addFlat({id: flatData.id, data: flatData}));
-        });
-        return data;
-    }
-);
-
-export const updateFlatUsers = createAsyncThunk(
-    "flat/updateUsers",
-    async (id: string, {dispatch}) => {
-        const {data} = await flatService.getFlatUsers(id);
-        dispatch(flatSlice.actions.setFlatUsers({id, data}));
-        return data;
-    }
-)
-
-export const updateFlatTasks = createAsyncThunk(
-    "flat/updateTasks",
-    async (id: string, {dispatch}) => {
-        const {data} = await taskService.getFlatTasks(id);
-        dispatch(flatSlice.actions.setFlatTasks({id, data}));
-        return data;
-    }
-)
-export const createFlat = createAsyncThunk(
-    "flat/create",
-    async (body: CreateFlatRequest, {dispatch}) => {
-        const {data} = await flatService.createFlat(body);
-        dispatch(flatSlice.actions.addFlat({id: data.id, data}));
-        return data;
-    }
-)
-
-export const addUser = createAsyncThunk(
-    "flat/addUser",
-    async ({flatId, userId}: any, {dispatch}) => {
-        const {data} = await flatService.addUserToFlat(flatId, userId);
-        await dispatch(updateFlatUsers(flatId)).unwrap();
-        return data;
-    }
-)
-
-export const getFlatTasks = createAsyncThunk(
-    "flat/getFlatTasks",
-    async (flatId: any, {dispatch}) => {
-        const {data} = await taskService.getFlatTasks(flatId);
-        dispatch(flatSlice.actions.setFlatTasks({flatId, data}));
-        return data;
-    }
-)
 
 function getContext(state: FlatState, flatId: string): FlatContext {
     if (!(flatId in state)) {
@@ -112,15 +47,6 @@ const flatSlice = createSlice({
     reducers: {
         setCurrentFlat(state, {payload}: PayloadAction<string>) {
             state.selectedFlatId = payload;
-        },
-        setFlatTasks(state, {payload: {id, data}}) {
-            state.tasks = data;
-        },
-        setFlatUsers(state, {payload: {id, data}}) {
-            getContext(state, id).users = data;
-        },
-        addFlat(state, {payload: {id, data}}: PayloadAction<FlatUpdate<FlatInfo>>) {
-            state.flats[id] = data;
         }
     },
     extraReducers: {

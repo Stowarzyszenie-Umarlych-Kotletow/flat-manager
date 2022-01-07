@@ -5,7 +5,7 @@ import {Controller, useForm} from "react-hook-form";
 import * as React from "react";
 import {useAppDispatch} from "../store";
 import {LoginRequest} from "../models/api/auth";
-import {login} from "../features/auth";
+import {useLoginMutation} from "../features/api";
 
 export function parseData(data) {
     const parsedData: LoginRequest = {
@@ -22,19 +22,13 @@ export function LoginScreen() {
             password: '',
         },
     });
-    
-    const dispatch = useAppDispatch();
+
+    const [login, {isError, status}] = useLoginMutation();
+
 
     async function onLoginPress(data) {
         let parsedData = parseData(data);
-        dispatch(login(parsedData))
-            .unwrap()
-            .then(() => {
-                console.log("Logged in!");
-            }, (err) => {
-                console.log("Error!");
-                console.log(err);
-            });
+        login(parsedData);
     }
 
     return (

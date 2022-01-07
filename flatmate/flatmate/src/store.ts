@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, applyMiddleware } from '@reduxjs/toolkit'
 import {
   persistStore,
   persistReducer,
@@ -13,10 +13,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import auth from "./features/auth"
 import storage from '@react-native-async-storage/async-storage';
 import flat, { getFlatContext } from './features/flat';
+import { api } from './features/api';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 const rootReducer = combineReducers({
   auth: auth.reducer,
-  flat: flat.reducer
+  flat: flat.reducer,
+  [api.reducerPath]: api.reducer
 });
 const persistConfig = {
   key: 'root',
@@ -33,8 +36,11 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
+    }).concat(api.middleware)
 });
+
+setupListeners(store.dispatch);
+
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>

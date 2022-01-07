@@ -9,7 +9,7 @@ import {ViewCalendarScreen} from "./Tasks/ViewCalendarScreen";
 import {ChangePasswordScreen} from "./Accounts/ChangePasswordScreen";
 import {Text} from "react-native";
 import {useAppDispatch, useAppSelector, useFlatContext} from "./store";
-import {getFlat} from "./features/flat";
+import { useFlat } from "./features/hooks";
 
 const userSettings = require("./static/userGear.svg") as string;
 
@@ -18,14 +18,9 @@ const LoggedStack = createStackNavigator();
 export function LoggedNavigator({navigation}) {
     const username = useAppSelector((state) => state.auth.user?.username);
     
-    const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
-    const flatContext = useFlatContext();
+    const {flatId, flat} = useFlat();
     const dispatch = useAppDispatch();
 
-    React.useEffect(() => {
-        if (selectedFlatId != null)
-            dispatch(getFlat(selectedFlatId));
-    }, [selectedFlatId]);
 
     return (<LoggedStack.Navigator
         screenOptions={{
@@ -44,7 +39,7 @@ export function LoggedNavigator({navigation}) {
             ),
             animationEnabled: true,
         }}>
-        {flatContext == null ? (<LoggedStack.Screen name="FirstManageFlatsScreen" options={{
+        {flat == null ? (<LoggedStack.Screen name="FirstManageFlatsScreen" options={{
             title: 'Manage flats'
         }}>
             {props => <ManageFlatsScreen {...props}/>}

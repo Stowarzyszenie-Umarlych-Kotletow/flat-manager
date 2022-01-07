@@ -5,21 +5,15 @@ import {Text, View} from "react-native";
 import {Button} from "react-native-elements";
 import {CreateFlatModal} from "./CreateFlatModal";
 import { useAppDispatch, useFlatContext, useAppSelector } from "../store";
-import flatSlice, { getUserFlats, getFlatTasks } from "../features/flat";
+import { useGetFlatsQuery } from "../features/api";
+import flatSlice from "../features/flat";
 
 
 export function ManageFlatsScreen({navigation}) {
     const [showCreateFlatModal, setShowCreateFlatModal] = useState(false);
 
-    const flats = useAppSelector(state => state.flat.flats);
-    const test_f = useAppSelector(state => state);
-    const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
-    const dispatch = useAppDispatch();
-    const flatContext = useFlatContext();
-
-    React.useEffect(() => {
-        dispatch(getUserFlats());
-    }, []);
+    const dispatch =  useAppDispatch();
+    const {currentData: flats = []} = useGetFlatsQuery();
 
 
     function handleClickOnFlat(flatId) {
@@ -27,8 +21,6 @@ export function ManageFlatsScreen({navigation}) {
         if (flatId !== null)
             navigation.popToTop();
         console.log(flatId);
-        console.log("state", test_f)
-        dispatch(getFlatTasks(flatContext?.id));
     }
 
     return (
