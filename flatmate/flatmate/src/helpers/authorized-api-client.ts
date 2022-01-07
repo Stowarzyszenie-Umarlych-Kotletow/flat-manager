@@ -24,7 +24,6 @@ client.interceptors.response.use(res => {
         console.log("Logout because of received 401");
         store.dispatch(auth.actions.logout());
     }
-    handleDates(res.data);
     return res;
 }, err => {
     return Promise.reject(err);

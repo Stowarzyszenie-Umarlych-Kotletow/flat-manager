@@ -1,60 +1,80 @@
-import {Modal, ModalContent, ModalTitle} from "react-native-modals";
-import {Text} from "react-native";
+import { Modal, ModalContent, ModalTitle } from "react-native-modals";
+import { Text } from "react-native";
 import styles from "../static/styles";
-import {Button} from "react-native-elements";
+import { Button } from "react-native-elements";
 import * as React from "react";
+import { useFlat } from "../features/hooks";
+import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../features/api/flat-api";
+import { asDate } from "../helpers/date-helper";
 
-export function TaskDetailsModal({show, setShow, taskData, deletable= true}) {
-    function completeTask(task_id) {
+export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }: 
+    {setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean}) {
+
+    const { flatId, flatUsers } = useFlat();
+
+    const {isLoading, currentData: task = null} = useGetFlatTaskQuery({flatId, taskId}); 
+    const [setTaskCompleted] = useSetFlatTaskCompletedMutation();
+
+
+    function getUsername(userId: string): string {
+        for(let user of flatUsers) {
+            return user.username;
+        }
+        return "Unknown user";
+    }
+
+    async function completeTask() {
         // backend connection
         // set task as complete in backend
+        await setTaskCompleted({flatId, taskId, taskInstanceId: taskInstance.id});
     }
 
-    function deleteTask(task_id) {
-        // backend connection
-        // delete task from backend
+    function deleteTask() {
+        // TODO
     }
 
-    function sliceData(time) {
-        if (time==undefined) {return " ";}
-        time = time.toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw' })
-        time = time.slice(0, -3);
-        return time.toString();
+    function sliceDate(time: string) {
+        if (time == undefined) { return " "; }
+        let timeStr = asDate(time).toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw' })
+        timeStr = timeStr.slice(0, -3);
+        return timeStr;
     }
+
+    if (isLoading) return null;
 
     return (
         <Modal
             width={0.9}
             rounded
             actionsBordered
-            style={{zIndex: 1000}}
-            visible={show}
-            modalTitle={ <ModalTitle title={taskData.title} align="left" /> }
-            onTouchOutside={() => { setShow(false);}}
+            style={{ zIndex: 1000 }}
+            visible={true}
+            modalTitle={<ModalTitle title={task.name} align="left" />}
+            onTouchOutside={() => { setShow(false); }}
         >
             <ModalContent>
-                <Text style={styles.tinyText}>User assigned to task at {sliceData(taskData.start)} by {taskData._assignee}</Text>
+                <Text style={styles.tinyText}>User assigned to task at {sliceDate(taskInstance.date)} by {getUsername(taskInstance.userId)}</Text>
                 <Text style={styles.tinyText}>Task </Text>
-                <Text style={styles.smallText}>Users in periodic task {taskData.title}:</Text>
-                
+                <Text style={styles.smallText}>Users in periodic task {task.name}:</Text>
+
                 <Button
                     buttonStyle={styles.greenButton}
                     title="Set as Completed"
                     onPress={() => {
-                        completeTask(taskData._id);
+                        completeTask();
                         setShow(false);
                     }}
                 />
                 {
-                    deletable==true
+                    deletable == true
                     &&
                     <Button
-                    buttonStyle={styles.warnButton}
-                    title="Delete task"
-                    onPress={() => {
-                        deleteTask(taskData._id);
-                        setShow(false);
-                    }}
+                        buttonStyle={styles.warnButton}
+                        title="Delete task"
+                        onPress={() => {
+                            deleteTask();
+                            setShow(false);
+                        }}
                     />
                 }
 

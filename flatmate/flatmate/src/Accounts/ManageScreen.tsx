@@ -4,11 +4,11 @@ import { Text, TextInput, View } from "react-native";
 import styles from "../static/styles";
 import { Button } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
-import accountService from "../services/account.service";
 import { useAppDispatch, useAppSelector } from "../store";
 import auth from "../features/auth";
 import { Modal, ModalContent, ModalTitle } from "react-native-modals"
 import { useFlat } from "../features/hooks";
+import { useDeleteAccountMutation } from "../features/api/user-api";
 
 
 export function ManageScreen({ navigation }) {
@@ -20,6 +20,7 @@ export function ManageScreen({ navigation }) {
 
     const dispatch = useAppDispatch();
     const { flatId } = useFlat();
+    const [deleteAccount] = useDeleteAccountMutation();
 
     const [showAccountDeletionBox, setShowAccountDeletionBox] = useState(false);
     const [showIncorrectPasswordWarning, setShowIncorrectPasswordWarning] = useState(false);
@@ -29,7 +30,7 @@ export function ManageScreen({ navigation }) {
         let password = data.password;
 
         try {
-            await accountService.deleteAccount({ password });
+            await deleteAccount({ password }).unwrap();
             console.log("próba usunięcia się powiodła");
             handleLogOut();
         } catch {

@@ -48,19 +48,18 @@ export function DashboardScreen({ navigation }) {
                     />
                 );
             })}
-            <AddTaskModal
-                showTaskCreationModal={showTaskCreationModal}
+            {showTaskCreationModal ? (<AddTaskModal
                 setShowTaskCreationModal={setShowTaskCreationModal}
-            />
+            />): null}
             {showAddUserToFlatModal ? (<AddUserToFlatModal
                 setShowAddUserToFlatModal={setShowAddUserToFlatModal}
             />) : null}
-            <TaskDetailsModal
-                show={showTaskDetailsModal}
+            {showTaskDetailsModal ? (<TaskDetailsModal
                 setShow={setShowTaskDetailsModal}
-                taskData={taskState}
+                taskId={null}
+                taskInstance={null}
                 deletable={false}
-            />
+            />) : null}
         </div>
         <BottomNavigationBar
             openUserAdd={() => { setShowAddUserToFlatModal(true); }}

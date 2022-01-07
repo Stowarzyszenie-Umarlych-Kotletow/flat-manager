@@ -1,12 +1,15 @@
 enum TaskState {
-    SCHEDULED, PAST, FUTURE
+    SCHEDULED = "SCHEDULED",
+    PAST = "PAST", 
+    FUTURE = "FUTURE"
 }
 
 interface TaskInstanceInfo {
     id: string;
     userId?: string;
+    completedByUserId?: string;
     state: TaskState;
-    date: Date;
+    date: string;
 }
 
 interface Task {

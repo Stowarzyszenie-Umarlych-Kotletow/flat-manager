@@ -4,20 +4,17 @@ interface CreateTaskRequest {
     endDate?: Date;
     description?: string;
     userIds: string[];
-}
-
-interface CreateTaskResponse {
-    id: string;
-    name: string;
+    repeatAfter?: number;
+    timeToComplete?: number;
 }
 
 interface GetScheduleRequest {
-    from?: Date;
-    until: Date;
+    from?: string;
+    until: string;
 }
 
 interface GetScheduleResponse {
-    currentDate: Date;
+    currentDate: string;
     taskInstances: TaskSchedule;
     
 }

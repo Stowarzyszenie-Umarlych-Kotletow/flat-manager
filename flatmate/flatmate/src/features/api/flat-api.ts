@@ -1,4 +1,4 @@
-import {api} from "./api"
+import { api } from "./api"
 
 type FlatQuery = {
     flatId: string;
@@ -7,7 +7,7 @@ type FlatQuery = {
 type FlatQueryData<T> = {
     flatId: string;
     data: T;
-}   
+}
 
 export const flatApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -38,19 +38,29 @@ export const flatApi = api.injectEndpoints({
         }),
         createFlatTask: builder.mutation<void, FlatQueryData<CreateTaskRequest>>({
             query: ({ flatId, data }) => ({ url: `/flats/${flatId}/tasks`, method: 'PUT', data }),
-            invalidatesTags: (res, _, { flatId }) => [{ type: 'flatUsers', id: flatId }]
+            invalidatesTags: (res, _, { flatId }) => [{ type: 'flatTasks', id: flatId }]
         }),
         createFlat: builder.mutation<FlatInfo, CreateFlatRequest>({
             query: (data) => ({ url: `/flats`, method: 'POST', data }),
             invalidatesTags: (res, _, req) => ['flats']
         }),
         getFlatSchedule: builder.query<GetScheduleResponse, FlatQueryData<GetScheduleRequest>>({
-            query: ({flatId, data}) => ({url: `/flats/${flatId}/tasks-schedule`, method: 'POST'}),
+            query: ({ flatId, data }) => ({ url: `/flats/${flatId}/tasks-schedule`, method: 'POST', data }),
             providesTags: ['flatSchedule']
+        }),
+        getFlatTask: builder.query<Task, { flatId: string, taskId: string }>({
+            query: ({ flatId, taskId }) => ({ url: `/flats/${flatId}/tasks/${taskId}` }),
+            providesTags: (res, _, {taskId}) => [{type: 'flatTask', id: taskId}]
+        }),
+        setFlatTaskCompleted: builder.mutation<void, { flatId: string, taskId: string, taskInstanceId: string }>({
+            query: ({ flatId, taskId, taskInstanceId }) =>
+                ({ url: `/flats/${flatId}/${taskId}/instances/${taskInstanceId}/completed`, method: 'POST' }),
+            invalidatesTags: (res, _, {taskId}) => [{type: 'flatTask', id: taskId}]
         })
     })
 });
 
 export const {
     useGetFlatQuery, useGetFlatsQuery, useAddUserToFlatMutation, useCreateFlatMutation, useGetFlatUsersQuery,
-    useCreateFlatTaskMutation, useGetFlatScheduleQuery, useGetFlatTasksQuery } = flatApi;
+    useCreateFlatTaskMutation, useGetFlatScheduleQuery, useGetFlatTasksQuery, useGetFlatTaskQuery,
+    useSetFlatTaskCompletedMutation } = flatApi;

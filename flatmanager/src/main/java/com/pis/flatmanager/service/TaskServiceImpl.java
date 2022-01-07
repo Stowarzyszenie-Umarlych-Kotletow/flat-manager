@@ -61,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
-        flat.getTasks().put(task.getId(), new FlatTask(task.getName()));
+        flat.getTasks().put(task.getId(), new FlatTask(task.getId(), task.getName()));
         flatService.updateFlat(flat);
         taskRepository.save(task);
         return task;
@@ -95,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
 
-        flat.getTasks().replace(patchedTask.getId(), new FlatTask(patchedTask.getName()));
+        flat.getTasks().replace(patchedTask.getId(), new FlatTask(patchedTask.getId(), patchedTask.getName()));
         flatService.updateFlat(flat);
         taskRepository.save(patchedTask);
         return patchedTask;

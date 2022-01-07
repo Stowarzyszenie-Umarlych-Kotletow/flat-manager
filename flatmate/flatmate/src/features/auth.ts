@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginRequest, RegisterRequest } from "../models/api/auth";
-import authService from "../services/auth.service";
 import jwt from "jwt-decode";
-import accountService from "../services/account.service";
+
 
 interface AuthToken {
     username: string;

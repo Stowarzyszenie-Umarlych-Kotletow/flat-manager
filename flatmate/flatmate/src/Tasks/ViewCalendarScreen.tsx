@@ -1,57 +1,72 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Calendar} from 'react-native-big-calendar';
-import {TaskDetailsModal} from "./TaskDetailsModal";
-import { useAppDispatch, useFlatContext, useAppSelector } from "../store";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Calendar } from 'react-native-big-calendar';
+import { TaskDetailsModal } from "./TaskDetailsModal";
+import { useAppDispatch, useAppSelector } from "../store";
+import { flatApi, useGetFlatScheduleQuery } from '../features/api/flat-api';
+import { useFlat } from '../features/hooks';
+import { asDate, handleDates, withDates } from '../helpers/date-helper';
+import TaskEvent from './event.model';
 
-import taskService from "../services/task.service";
 
 
 export function ViewCalendarScreen() {
-           
+    let query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
+    const { flatId, flatTasks } = useFlat();
+    const dispatch = useAppDispatch();
+    const { isLoading, currentData: taskSchedule} = useGetFlatScheduleQuery({ flatId, data: query }, {refetchOnMountOrArgChange: true});
+    
 
-    const tasks = useAppSelector(state => state.flat.tasks);
-    const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
-    const [eventAr, setEventsAr] = useState([]);
+    useEffect(() => {
+        dispatch(flatApi.util.invalidateTags([{type: 'flatTasks', id: flatId}]));
+    }, []);
 
-  
+    const getTaskName = (taskId: string) => {
+        console.log(flatTasks);
+        for (let task of flatTasks) {
+            if (taskId === task.id) {
+                return task.name;
+            }
+        }
+        return "Unknown task";
+    }
 
-   async function convertTasks () {
-        var date = await taskService.getFlatSchedule(selectedFlatId, {from: new Date('December 17, 1995 03:24:00'), until: new Date('December 17, 2095 03:24:00')});
-     
-        var events = [];
-        var tast_vars = date.data.taskInstances;
-        Object.values(tast_vars).map(task_var => { 
-            Object.values(task_var).map(task => {
-
-            var name = "";
-            Object.values(tasks).map(tasker => {
-                if(tasker.id == task.id){ name = tasker.name}
-            })
-            events.push({
-                title: name,
-                _id: task.id,
-                _assignee: task.userId,
-                _deadline: task.date,
-                start: task.date,
-                end: task.date,
-            }) 
-            }); 
-            
-        });
-        setEventsAr(events);
+    function getCalendar() {
+        if (!taskSchedule) {
+            return;
+        }
+        const events = [];
+        const schedule = taskSchedule.taskInstances;
+        for (let [taskId, taskInstances] of Object.entries(schedule)) {
+            Object.values(taskInstances).map(instance => {
+                const name = getTaskName(taskId);
+                console.log(instance);
+                events.push({
+                    title: name,
+                    taskId: taskId,
+                    instance: instance,
+                    isCompleted: !!instance.completedByUserId,
+                    state: instance.state,
+                    start: asDate(instance.date),
+                    end: asDate(instance.date),
+                });
+            });
+        }
+        return events;
     };
 
-    React.useEffect(() => {
-       convertTasks();
-    }, []);
+
     function eventClicked(event) {
-        setTaskState(event)
+        setActiveTaskInstance({instance: event.instance, taskId: event.taskId});
         setShowTaskDetailsModal(true)
     }
 
+    function doRenderEvent(event: TaskEvent, props) {
+        return <div>{event.title}</div>
+    }
+
     const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);
-    const [taskState, setTaskState] = useState({});
+    const [activeTaskInstance, setActiveTaskInstance] = useState({instance: null, taskId: null});
 
     return (
         <View style={{
@@ -59,7 +74,7 @@ export function ViewCalendarScreen() {
             height: "calc(100vh - 75px)",
         }}>
             <Calendar
-                events={eventAr}
+                events={getCalendar()}
                 height={510}
                 mode={'month'}
                 showTime={true}
@@ -68,12 +83,15 @@ export function ViewCalendarScreen() {
                 onPressEvent={
                     event => eventClicked(event)
                 }
+                renderEvent={doRenderEvent}
             />
-            <TaskDetailsModal
-                show={showTaskDetailsModal}
+            {showTaskDetailsModal ? (<TaskDetailsModal
                 setShow={setShowTaskDetailsModal}
-                taskData={taskState}
-            />
+                taskId={activeTaskInstance.taskId}
+                taskInstance={activeTaskInstance.instance}
+                deletable={false}
+            
+            />) : null}
         </View>
     );
 }

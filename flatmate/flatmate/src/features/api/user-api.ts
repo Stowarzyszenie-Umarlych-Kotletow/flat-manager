@@ -1,6 +1,8 @@
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "../../models/api/auth";
 import { api } from "./api";
 import auth from "../auth";
+import { DeleteAccountRequest } from "../../models/api/account";
+import authSlice from "../auth";
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -27,13 +29,15 @@ export const userApi = api.injectEndpoints({
         register: builder.mutation<RegisterResponse, RegisterRequest>({
             query: (data) => ({ url: '/auth/register', method: 'POST', data })
         }),
-        logout: builder.mutation<null, void>({
-            queryFn: () => ({data: null}),
-            async onQueryStarted(_, { dispatch }) {
-                dispatch(auth.actions.logout());
+        deleteAccount: builder.mutation<void, DeleteAccountRequest>({
+            query: (data) => ({url: '/account/delete', method: 'POST', data}),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                await queryFulfilled;
+                dispatch(api.util.resetApiState());
+                dispatch(authSlice.actions.logout());
             }
-        }),
+        })
     }),
 });
 
-export const { useLoginMutation, useGetSelfQuery, useGetUserByUsernameQuery, useRegisterMutation } = userApi;
+export const { useLoginMutation, useGetSelfQuery, useGetUserByUsernameQuery, useRegisterMutation, useDeleteAccountMutation } = userApi;
