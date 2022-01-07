@@ -8,17 +8,17 @@ import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../feature
 import { asDate } from "../helpers/date-helper";
 import { TaskInstanceInfo, TaskState } from "../models/task.model";
 
-export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }: 
-    {setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean}) {
+export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }:
+    { setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean }) {
 
     const { flatId, flatUsers } = useFlat();
 
-    const {isLoading, currentData: task = null} = useGetFlatTaskQuery({flatId, taskId}); 
+    const { isLoading, currentData: task = null } = useGetFlatTaskQuery({ flatId, taskId });
     const [setTaskCompleted] = useSetFlatTaskCompletedMutation();
 
 
     function getUsername(userId: string): string {
-        for(let user of flatUsers) {
+        for (let user of flatUsers) {
             return user.username;
         }
         return "Unknown user";
@@ -27,7 +27,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
     async function completeTask() {
         // backend connection
         // set task as complete in backend
-        await setTaskCompleted({flatId, taskId, taskInstanceId: taskInstance.id});
+        await setTaskCompleted({ flatId, taskId, taskInstanceId: taskInstance.id });
     }
 
     function deleteTask() {
@@ -50,23 +50,28 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
             actionsBordered
             style={{ zIndex: 1000 }}
             visible={true}
-            modalTitle={<ModalTitle title={task.name} align="left" />}
+            modalTitle={<ModalTitle title={task?.name} align="left" />}
             onTouchOutside={() => { setShow(false); }}
         >
             <ModalContent>
                 <Text style={styles.tinyText}>User assigned to task at {sliceDate(taskInstance.date)} by {getUsername(taskInstance.userId)}</Text>
                 <Text style={styles.tinyText}>Task </Text>
                 <Text style={styles.smallText}>Users in periodic task {task.name}:</Text>
+                <ul>
+                    {Object.keys(task.userDoneCounter).map(userId => {
+                        return <li>{getUsername(userId)}</li>
+                    })}
+                </ul>
                 {
                     (taskInstance.state == TaskState.SCHEDULED && !taskInstance.completedByUserId) ?
-                    <Button
-                        buttonStyle={styles.greenButton}
-                        title="Set as Completed"
-                        onPress={() => {
-                            completeTask();
-                            setShow(false);
-                        }}
-                    /> : null
+                        <Button
+                            buttonStyle={styles.greenButton}
+                            title="Set as Completed"
+                            onPress={() => {
+                                completeTask();
+                                setShow(false);
+                            }}
+                        /> : null
                 }
                 {
                     deletable == true

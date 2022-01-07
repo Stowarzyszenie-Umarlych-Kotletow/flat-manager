@@ -9,7 +9,7 @@ import DatePicker from 'react-native-neat-date-picker';
 import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlat } from "../features/hooks";
 import { useCreateFlatTaskMutation } from "../features/api/flat-api";
-import { create } from "yup/lib/array";
+
 
 export function AddTaskModal({ setShowTaskCreationModal }) {
     // warnings
@@ -31,10 +31,8 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
         setShowTaskDatePicker(false)
         setValue('start', start);
         setValue('end', end);
-        console.log(start.toISOString());
-        console.log(end.toISOString());
     }
-    const { control, handleSubmit, setValue,  formState: { errors,  } } = useForm({
+    const { control, handleSubmit, setValue, formState: { errors, } } = useForm({
         defaultValues: {
             taskName: '',
             taskPeriod: 1,
@@ -48,19 +46,19 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
         return true;
     }
 
-    const submitTask = async(data: any) => {
-        if(!validateForm(data))
+    const submitTask = async (data: any) => {
+        if (!validateForm(data))
             return;
         const request: CreateTaskRequest = {
             name: data.taskName,
             startDate: data.start,
             endDate: data.end,
             userIds: selectedUsers,
-            timeToComplete: data.taskDeadline * 86400 - 1,
+            timeToComplete: data.taskDeadline * 86400 - 1 /* timeToComplete < repeatAfter */,
             repeatAfter: data.taskPeriod * 86400
         };
 
-        await createTask({flatId, data: request}).unwrap();
+        await createTask({ flatId, data: request }).unwrap();
         hideTaskCreationModal();
     }
 

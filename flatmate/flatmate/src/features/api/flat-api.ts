@@ -1,3 +1,4 @@
+import { Task } from "../../models/task.model";
 import { api } from "./api"
 
 type FlatQuery = {

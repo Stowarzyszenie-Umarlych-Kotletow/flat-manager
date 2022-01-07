@@ -5,13 +5,15 @@ import { TaskDetailsModal } from "./TaskDetailsModal";
 import { useAppDispatch, useAppSelector } from "../store";
 import { flatApi, useGetFlatScheduleQuery } from '../features/api/flat-api';
 import { useFlat } from '../features/hooks';
-import { asDate, handleDates, withDates } from '../helpers/date-helper';
 import TaskEvent from './event.model';
+import { scheduleToEvents } from './helpers';
 
 
 
 export function ViewCalendarScreen() {
-    let query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
+    //TODO: choose query range
+    const query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
+    
     const { flatId, flatTasks } = useFlat();
     const dispatch = useAppDispatch();
     const { isLoading, currentData: taskSchedule} = useGetFlatScheduleQuery({ flatId, data: query }, {refetchOnMountOrArgChange: true});
@@ -22,7 +24,6 @@ export function ViewCalendarScreen() {
     }, []);
 
     const getTaskName = (taskId: string) => {
-        console.log(flatTasks);
         for (let task of flatTasks) {
             if (taskId === task.id) {
                 return task.name;
@@ -32,29 +33,8 @@ export function ViewCalendarScreen() {
     }
 
     function getCalendar() {
-        if (!taskSchedule) {
-            return [];
-        }
-        const events = [];
-        const schedule = taskSchedule.taskInstances;
-        for (let [taskId, taskInstances] of Object.entries(schedule)) {
-            Object.values(taskInstances).map(instance => {
-                const name = getTaskName(taskId);
-                console.log(instance);
-                events.push({
-                    title: name,
-                    taskId: taskId,
-                    instance: instance,
-                    isCompleted: !!instance.completedByUserId,
-                    state: instance.state,
-                    start: asDate(instance.date),
-                    end: asDate(instance.date),
-                });
-            });
-        }
-        return events;
-    };
-
+        return scheduleToEvents(taskSchedule?.taskInstances, getTaskName);
+    }
 
     function eventClicked(event) {
         setActiveTaskInstance({instance: event.instance, taskId: event.taskId});

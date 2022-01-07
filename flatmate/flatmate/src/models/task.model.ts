@@ -22,4 +22,9 @@ export interface Task {
     endDate?: Date;
     timeToComplete: number;
     repeatEvery?: number;
+    userDoneCounter: UserDoneCounter;
+}
+
+export interface UserDoneCounter {
+    [userId: string]: number;
 }
