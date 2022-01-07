@@ -4,8 +4,8 @@ import styles from "../static/styles";
 import {Text, View} from "react-native";
 import {Button} from "react-native-elements";
 import {CreateFlatModal} from "./CreateFlatModal";
-import { useAppDispatch, useFlatContext, useAppSelector } from "../store";
-import { useGetFlatsQuery } from "../features/api";
+import { useAppDispatch, useAppSelector } from "../store";
+import { useGetFlatsQuery } from "../features/api/flat-api";
 import flatSlice from "../features/flat";
 
 

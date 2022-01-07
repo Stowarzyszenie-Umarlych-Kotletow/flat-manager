@@ -1,11 +1,11 @@
-import {Text, TextInput, View} from "react-native";
+import { Text, TextInput, View } from "react-native";
 import styles from "../static/styles";
-import {Button} from "react-native-elements";
-import {Controller, useForm} from "react-hook-form";
+import { Button } from "react-native-elements";
+import { Controller, useForm } from "react-hook-form";
 import * as React from "react";
-import {useAppDispatch} from "../store";
-import {LoginRequest} from "../models/api/auth";
-import {useLoginMutation} from "../features/api";
+import { useAppDispatch } from "../store";
+import { LoginRequest } from "../models/api/auth";
+import { useLoginMutation } from "../features/api/user-api";
 
 export function parseData(data) {
     const parsedData: LoginRequest = {
@@ -16,14 +16,14 @@ export function parseData(data) {
 }
 
 export function LoginScreen() {
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             username: '',
             password: '',
         },
     });
 
-    const [login, {isError, status}] = useLoginMutation();
+    const [login, { isError, status }] = useLoginMutation();
 
 
     async function onLoginPress(data) {
@@ -39,7 +39,7 @@ export function LoginScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}
@@ -55,7 +55,7 @@ export function LoginScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}

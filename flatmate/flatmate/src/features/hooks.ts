@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useAppSelector } from "../store";
-import { useGetFlatQuery, useGetFlatUsersQuery } from "./api";
+import { useGetFlatQuery, useGetFlatTasksQuery, useGetFlatUsersQuery } from "./api/flat-api";
 
 export const useAuth = () => {
     const user = useAppSelector(state => state.auth.user);
@@ -10,9 +10,10 @@ export const useAuth = () => {
 
 export const useFlat = () => {
     const flatId = useSelectedFlatId();
-    const {currentData: flat} = useGetFlatQuery({flatId}, {skip: !flatId});
-    const {currentData: flatUsers} = useGetFlatUsersQuery({flatId}, {skip: !flatId});
-    return useMemo(() => ({flatId, flat, flatUsers}), [flatId, flat, flatUsers]);
+    const {currentData: flat = null} = useGetFlatQuery({flatId}, {skip: !flatId});
+    const {currentData: flatUsers = []} = useGetFlatUsersQuery({flatId}, {skip: !flatId});
+    const {currentData: flatTasks = []} = useGetFlatTasksQuery({flatId}, {skip: !flatId});
+    return useMemo(() => ({flatId, flat, flatUsers, flatTasks}), [flatId, flat, flatUsers, flatTasks]);
 }
 
 export const useSelectedFlatId = () => useAppSelector(state => state.flat.selectedFlatId);

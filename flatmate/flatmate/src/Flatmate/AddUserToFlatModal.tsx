@@ -9,7 +9,9 @@ import userService from "../services/user.service";
 import { useAppDispatch, useAppSelector } from "../store";
 import axios, { AxiosError } from "axios";
 import { useFlat } from "../features/hooks";
-import { api, useAddUserToFlatMutation, useGetUserByUsernameQuery } from "../features/api";
+import { userApi } from "../features/api/user-api";
+import { useAddUserToFlatMutation } from "../features/api/flat-api";
+
 
 function parseData(data) {
     let parsedData = {
@@ -36,7 +38,7 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
         const username = data.username;
         if (username) {
             try {
-                const action = api.endpoints.getUserByUsername.initiate({username});
+                const action = userApi.endpoints.getUserByUsername.initiate({username});
                 const userId = (await dispatch(action).unwrap()).id;
                 
                 await addUser({ flatId, userId }).unwrap();

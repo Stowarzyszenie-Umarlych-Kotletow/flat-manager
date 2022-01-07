@@ -6,7 +6,7 @@ import * as React from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import { useAppDispatch } from "../store";
-import { useRegisterMutation } from "../features/api";
+import { useRegisterMutation } from "../features/api/user-api";
 import { RegisterRequest } from "../models/api/auth";
 
 export function parseData(data): RegisterRequest {

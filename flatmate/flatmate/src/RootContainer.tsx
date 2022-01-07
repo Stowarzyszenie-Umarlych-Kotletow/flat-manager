@@ -4,7 +4,6 @@ import { NotLoggedNavigator } from './NotLoggedNavigator';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from './store';
 import auth from "./features/auth";
-import { useGetSelfQuery } from "./features/api";
 import { useAuth } from './features/hooks';
 import React from 'react';
 

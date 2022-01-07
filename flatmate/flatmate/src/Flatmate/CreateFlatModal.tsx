@@ -6,7 +6,7 @@ import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../store";
 import flatSlice from "../features/flat";
-import { useCreateFlatMutation } from "../features/api";
+import { useCreateFlatMutation } from "../features/api/flat-api";
 
 export function CreateFlatModal({ setShowCreateFlatModal}) {
 
