@@ -19,7 +19,7 @@ export function ManageFlatsScreen({navigation}) {
     function handleClickOnFlat(flatId) {
         dispatch(flatSlice.actions.setCurrentFlat(flatId));
         if (flatId !== null)
-            navigation.popToTop();
+            navigation.navigate('DashboardScreen');
         console.log(flatId);
     }
 

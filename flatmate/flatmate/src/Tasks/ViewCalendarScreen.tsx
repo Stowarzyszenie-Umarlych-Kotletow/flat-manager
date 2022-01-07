@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Calendar } from 'react-native-big-calendar';
-import { TaskDetailsModal } from "./TaskDetailsModal";
-import { useAppDispatch, useAppSelector } from "../store";
-import { flatApi, useGetFlatScheduleQuery } from '../features/api/flat-api';
-import { useFlat } from '../features/hooks';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {Button} from 'react-native-elements';
+import {Calendar} from 'react-native-big-calendar';
+import {TaskDetailsModal} from "./TaskDetailsModal";
+import {useAppDispatch} from "../store";
+import {flatApi, useGetFlatScheduleQuery} from '../features/api/flat-api';
+import {useFlat} from '../features/hooks';
 import TaskEvent from './event.model';
-import { scheduleToEvents } from './helpers';
-
+import {scheduleToEvents} from './helpers';
+import {TaskState} from '../models/task.model'
+import styles from "../static/styles";
 
 
 export function ViewCalendarScreen() {
@@ -42,7 +44,33 @@ export function ViewCalendarScreen() {
     }
 
     function doRenderEvent(event: TaskEvent, props) {
-        return <div>{event.title}</div>
+        let style = {}
+        if (event.isCompleted) {
+            if (event.instance.state == TaskState.PAST){
+                style = styles.eventCompleted;
+            }
+            else {
+                style = styles.eventFail;
+            }
+        }
+        else { // not completed
+            if(event.instance.state == TaskState.SCHEDULED) {
+                style = styles.eventPending
+            }
+            else if (event.instance.state == TaskState.FUTURE) {
+                style = styles.eventFuture
+            }
+            else if (event.instance.state == TaskState.PAST) {
+                style = styles.eventCompleted
+            }
+        }
+
+        return <Button
+            buttonStyle={style}
+            title={event.title}
+            onPress={() => eventClicked(event)}
+            // props={props}
+        />
     }
 
     const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);

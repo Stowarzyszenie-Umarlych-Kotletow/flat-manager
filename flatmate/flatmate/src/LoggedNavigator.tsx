@@ -8,7 +8,7 @@ import {DashboardScreen} from "./Flatmate/DashboardScreen";
 import {ViewCalendarScreen} from "./Tasks/ViewCalendarScreen";
 import {ChangePasswordScreen} from "./Accounts/ChangePasswordScreen";
 import {Text} from "react-native";
-import {useAppDispatch, useAppSelector, useFlatContext} from "./store";
+import {useAppDispatch, useAppSelector} from "./store";
 import { useFlat } from "./features/hooks";
 
 const userSettings = require("./static/userGear.svg") as string;
