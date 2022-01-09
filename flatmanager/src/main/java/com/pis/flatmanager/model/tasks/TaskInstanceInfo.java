@@ -12,6 +12,7 @@ import java.util.UUID;
 public class TaskInstanceInfo {
     UUID id;
     UUID userId;
+    UUID completedByUserId;
     @Setter
     TaskInstanceState state;
     LocalDateTime date;

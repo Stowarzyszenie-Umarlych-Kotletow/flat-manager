@@ -5,16 +5,16 @@ import {Button} from "react-native-elements";
 import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../store";
-import flatSlice, {createFlat} from "../features/flat";
+import flatSlice from "../features/flat";
+import { useCreateFlatMutation } from "../features/api/flat-api";
 
 export function CreateFlatModal({ setShowCreateFlatModal}) {
 
-    const flats = useAppSelector(state => state.flat.flats);
-    const selectedFlatId = useAppSelector(state => state.flat.selectedFlatId);
+    const [createFlat] = useCreateFlatMutation();
     const dispatch = useAppDispatch();
 
     function handleCreateFlat(data: CreateFlatRequest) {
-        dispatch(createFlat(data)).unwrap().then((success) => {
+        createFlat(data).unwrap().then((success) => {
             setShowCreateFlatModal(false);
             dispatch(flatSlice.actions.setCurrentFlat(success.id));
         });

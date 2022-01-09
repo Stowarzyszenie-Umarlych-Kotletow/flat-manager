@@ -1,15 +1,18 @@
-enum TaskState {
-    SCHEDULED, PAST, FUTURE
+export enum TaskState {
+    SCHEDULED = "SCHEDULED",
+    PAST = "PAST", 
+    FUTURE = "FUTURE"
 }
 
-interface TaskInstanceInfo {
+export interface TaskInstanceInfo {
     id: string;
     userId?: string;
+    completedByUserId?: string;
     state: TaskState;
-    date: Date;
+    date: string;
 }
 
-interface Task {
+export interface Task {
     id: string;
     name: string;
     flatId: string;
@@ -19,4 +22,9 @@ interface Task {
     endDate?: Date;
     timeToComplete: number;
     repeatEvery?: number;
+    userDoneCounter: UserDoneCounter;
+}
+
+export interface UserDoneCounter {
+    [userId: string]: number;
 }

@@ -1,76 +1,80 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {Button} from 'react-native-elements';
 import {Calendar} from 'react-native-big-calendar';
 import {TaskDetailsModal} from "./TaskDetailsModal";
+import {useAppDispatch} from "../store";
+import {flatApi, useGetFlatScheduleQuery} from '../features/api/flat-api';
+import {useFlat} from '../features/hooks';
+import TaskEvent from './event.model';
+import {scheduleToEvents} from './helpers';
+import {TaskState} from '../models/task.model'
+import styles from "../static/styles";
 
 
 export function ViewCalendarScreen() {
-    const events = [
-        {
-            title: 'Wyrzucanie smieci',
-            _id: "wyrzID",
-            _assignee: "Maciek",
-            _deadline: new Date(2022, 0, 13),
-            start: new Date(2022, 0, 11),
-            end: new Date(2022, 0, 11)
-        },
-        {
-            title: 'Wyrzucanie smieci',
-            _id: "wyrzID",
-            _assignee: "Wladek",
-            _deadline: new Date(2022, 0, 13 + 7),
-            start: new Date(2022, 0, 11 + 7),
-            end: new Date(2022, 0, 11 + 7)
-        },
-        {
-            title: 'Wyrzucanie smieci',
-            _id: "wyrzID",
-            _assignee: "Adrian",
-            _deadline: new Date(2022, 0, 13 + 14),
-            start: new Date(2022, 0, 11 + 14),
-            end: new Date(2022, 0, 11 + 14)
-        },
-        {
-            title: 'Jedzenie Grzybow',
-            _id: "jedzID",
-            _assignee: "Bocian",
-            _deadline: new Date(2022, 0, 13),
-            start: new Date(2022, 0, 11),
-            end: new Date(2022, 0, 11)
-        },
-        {
-            title: 'Jedzenie Grzybow',
-            _id: "jedzID",
-            _assignee: "Kuba",
-            _deadline: new Date(2022, 0, 13+4),
-            start: new Date(2022, 0, 11 + 4),
-            end: new Date(2022, 0, 11 + 4)
-        },
-        {
-            title: 'Jedzenie Grzybow',
-            _id: "jedzID",
-            _assignee: "Bocian",
-            _deadline: new Date(2022, 0, 13+8),
-            start: new Date(2022, 0, 11 + 8),
-            end: new Date(2022, 0, 11 + 8)
-        },
-        {
-            title: 'Jedzenie Grzybow',
-            _id: "jedzID",
-            _assignee: "Kuba",
-            _deadline: new Date(2022, 0, 13+12),
-            start: new Date(2022, 0, 11 + 12),
-            end: new Date(2022, 0, 11 + 12)
-        },
-    ]
+    //TODO: choose query range
+    const query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
+    
+    const { flatId, flatTasks } = useFlat();
+    const dispatch = useAppDispatch();
+    const { isLoading, currentData: taskSchedule} = useGetFlatScheduleQuery({ flatId, data: query }, {refetchOnMountOrArgChange: true});
+    
+
+    useEffect(() => {
+        dispatch(flatApi.util.invalidateTags([{type: 'flatTasks', id: flatId}]));
+    }, []);
+
+    const getTaskName = (taskId: string) => {
+        for (let task of flatTasks) {
+            if (taskId === task.id) {
+                return task.name;
+            }
+        }
+        return "Unknown task";
+    }
+
+    function getCalendar() {
+        return scheduleToEvents(taskSchedule?.taskInstances, getTaskName);
+    }
 
     function eventClicked(event) {
-        setTaskState(event)
+        setActiveTaskInstance({instance: event.instance, taskId: event.taskId});
         setShowTaskDetailsModal(true)
     }
 
+    function doRenderEvent(event: TaskEvent, props) {
+        let style = {}
+        if (event.isCompleted) {
+            if (event.instance.state == TaskState.PAST){
+                style = styles.eventCompleted;
+            }
+            else {
+                style = styles.eventFail;
+            }
+        }
+        else { // not completed
+            if(event.instance.state == TaskState.SCHEDULED) {
+                style = styles.eventPending
+            }
+            else if (event.instance.state == TaskState.FUTURE) {
+                style = styles.eventFuture
+            }
+            else if (event.instance.state == TaskState.PAST) {
+                style = styles.eventCompleted
+            }
+        }
+
+        return <Button
+            buttonStyle={style}
+            title={event.title}
+            onPress={() => eventClicked(event)}
+            // props={props}
+        />
+    }
+
     const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);
-    const [taskState, setTaskState] = useState({});
+    const [activeTaskInstance, setActiveTaskInstance] = useState({instance: null, taskId: null});
 
     return (
         <View style={{
@@ -78,7 +82,7 @@ export function ViewCalendarScreen() {
             height: "calc(100vh - 75px)",
         }}>
             <Calendar
-                events={events}
+                events={getCalendar()}
                 height={510}
                 mode={'month'}
                 showTime={true}
@@ -87,12 +91,15 @@ export function ViewCalendarScreen() {
                 onPressEvent={
                     event => eventClicked(event)
                 }
+                renderEvent={doRenderEvent}
             />
-            <TaskDetailsModal
-                show={showTaskDetailsModal}
+            {showTaskDetailsModal ? (<TaskDetailsModal
                 setShow={setShowTaskDetailsModal}
-                taskData={taskState}
-            />
+                taskId={activeTaskInstance.taskId}
+                taskInstance={activeTaskInstance.instance}
+                deletable={false}
+            
+            />) : null}
         </View>
     );
 }

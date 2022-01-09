@@ -33,7 +33,6 @@ public class CreateTaskDto implements Serializable {
     @DurationMin(minutes = 5)
     Duration timeToComplete;
 
-    @NotNull
     Duration repeatAfter;
 
     LocalDateTime endDate;

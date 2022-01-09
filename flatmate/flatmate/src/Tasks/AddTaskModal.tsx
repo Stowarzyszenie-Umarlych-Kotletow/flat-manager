@@ -1,24 +1,25 @@
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import styles from "../static/styles";
-import {Text, TextInput} from "react-native";
-import {Button} from "react-native-elements";
-import {Controller, useForm} from "react-hook-form";
-import {Modal, ModalContent, ModalTitle} from "react-native-modals";
+import { Text, TextInput } from "react-native";
+import { Button } from "react-native-elements";
+import { Controller, useForm } from "react-hook-form";
+import { Modal, ModalContent, ModalTitle } from "react-native-modals";
 import DatePicker from 'react-native-neat-date-picker';
 import CustomMultiPicker from "react-native-multiple-select-list";
-import { useFlatContext } from "../store";
-import taskService from "../services/task.service";
+import { useFlat } from "../features/hooks";
+import { useCreateFlatTaskMutation } from "../features/api/flat-api";
 
-export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) {
+
+export function AddTaskModal({ setShowTaskCreationModal }) {
     // warnings
     const [showTaskNameWarning, setTaskNameWarning] = useState(false);
     const [showTaskDateWarning, setTaskDateWarning] = useState(false);
     // datepicker for task starting and ending day
-    const [taskDate, setTaskDate] = useState(null);
     const [showTaskDatePicker, setShowTaskDatePicker] = useState(false);
 
-    const flatContext = useFlatContext();
+    const { flatId, flat, flatUsers } = useFlat();
+    const [createTask] = useCreateFlatTaskMutation();
 
     const openTaskDatePicker = () => {
         setShowTaskDatePicker(true)
@@ -28,63 +29,51 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
     }
     const onTaskDatePickerConfirm = (start, end) => {
         setShowTaskDatePicker(false)
-        setTaskDate({'start': start, 'end': end});
-        console.log(taskDate);
+        setValue('start', start);
+        setValue('end', end);
     }
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const { control, handleSubmit, setValue, formState: { errors, } } = useForm({
         defaultValues: {
             taskName: '',
             taskPeriod: 1,
             taskDeadline: 1,
-        },
+            start: new Date(),
+            end: null
+        }
     });
 
-    async function createTask(data) {
-        var submitFails = false;
+    const validateForm = (data) => {
+        return true;
+    }
 
-        if (data.taskName) {
-            console.log(data);
-            setTaskNameWarning(false);
-        } else {
-            console.log("Task Name cannot be empty");
-            setTaskNameWarning(true);
-            submitFails = true;
-        }
+    const submitTask = async (data: any) => {
+        if (!validateForm(data))
+            return;
+        const request: CreateTaskRequest = {
+            name: data.taskName,
+            startDate: data.start,
+            endDate: data.end,
+            userIds: selectedUsers,
+            timeToComplete: data.taskDeadline * 86400 - 1 /* timeToComplete < repeatAfter */,
+            repeatAfter: data.taskPeriod * 86400
+        };
 
-        if (taskDate) {
-            console.log(taskDate);
-            setTaskDateWarning(false);
-        } else {
-            console.log("Task Date cannot be empty");
-            setTaskDateWarning(true);
-            submitFails = true;
-        }
-        if (!submitFails) {
-            // backend connection
-            // send taks to backend
-            console.log(data);
-            console.log(taskDate);
-            console.log(selectedUsers);
-            hideTaskCreationModal();
-        }
+        await createTask({ flatId, data: request }).unwrap();
+        hideTaskCreationModal();
     }
 
     const hideTaskCreationModal = () => {
-        setTaskDate(null);
         setShowTaskCreationModal(false);
     }
 
     const [selectedUsers, setSelectedUsers] = useState([]);
 
-    const getFlatUsers = () => {
+    const getUserSelectList = () => {
         let obj = {};
-        if(flatContext.users != null) {
-            flatContext.users.forEach(u => {
-                obj[u.id] = u.username;
-            })
-        }
+        flatUsers.forEach(u => {
+            obj[u.id] = u.username;
+        })
         return obj;
-        
     }
 
     return (
@@ -92,9 +81,9 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
             width={0.9}
             rounded
             actionsBordered
-            style={{zIndex: 1000, height: "95vh", overflow: "scroll"}}
-            visible={showTaskCreationModal}
-            modalTitle={<ModalTitle title="Add task" align="left"/>}
+            style={{ zIndex: 1000, height: "95vh", overflow: "scroll" }}
+            visible={true}
+            modalTitle={<ModalTitle title="Add task" align="left" />}
             onTouchOutside={() => {
                 hideTaskCreationModal()
             }}
@@ -106,7 +95,7 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
                     rules={{
                         maxLength: 100,
                     }}
-                    render={({field: {onChange, onBlur, value}}) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={styles.accFormTextInput}
                             onBlur={onBlur}
@@ -138,7 +127,7 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
                     rules={{
                         maxLength: 100,
                     }}
-                    render={({field: {onChange, onBlur, value}}) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={styles.accFormTextInput}
                             onBlur={onBlur}
@@ -156,7 +145,7 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
                     rules={{
                         maxLength: 100,
                     }}
-                    render={({field: {onChange, onBlur, value}}) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={styles.accFormTextInput}
                             onBlur={onBlur}
@@ -170,13 +159,13 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
                 />
                 <Text style={styles.tinyText}> Assign Users to Task </Text>
                 <CustomMultiPicker
-                    options={getFlatUsers()}
-                    search={true} 
+                    options={getUserSelectList()}
+                    search={true}
                     multiple={true} //
                     placeholder={"Search"}
                     placeholderTextColor={'#757575'}
-                    returnValue={"label"} 
-                    callback={(res) => { setSelectedUsers(res); }} 
+                    returnValue={"value"}
+                    callback={(res: any[]) => { setSelectedUsers(res.filter(val => !!val)); }}
                     rowBackgroundColor={"#eee"}
                     rowHeight={40}
                     rowRadius={5}
@@ -189,7 +178,7 @@ export function AddTaskModal({showTaskCreationModal, setShowTaskCreationModal}) 
                 <Button
                     buttonStyle={styles.blueButton}
                     title="Create Task"
-                    onPress={handleSubmit(createTask)}
+                    onPress={handleSubmit(submitTask)}
                 />
                 <Button
                     buttonStyle={styles.blueButton}

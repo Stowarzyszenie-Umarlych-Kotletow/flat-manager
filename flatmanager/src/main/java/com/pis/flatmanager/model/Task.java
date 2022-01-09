@@ -1,5 +1,6 @@
 package com.pis.flatmanager.model;
 
+import com.pis.flatmanager.dto.tasks.TaskDto;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
@@ -53,5 +54,10 @@ public class Task implements Serializable {
             return date.equals(startDate);
         }
         return date.isAfter(startDate) && (endDate == null || endDate.isAfter(date));
+    }
+
+    public TaskDto asDto() {
+        return new TaskDto(getId(), getFlatId(), getName(), getOwnerId(), getDescription(), getUserDoneCounter(),
+                getStartDate(), getEndDate(), getTimeToComplete(), getRepeatAfter());
     }
 }

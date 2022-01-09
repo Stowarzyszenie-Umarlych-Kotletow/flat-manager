@@ -11,7 +11,8 @@ import java.util.UUID;
 @Data
 public class FlatTask implements Serializable {
     @Id
-    UUID id = UUID.randomUUID();
+    @NonNull
+    UUID id;
 
     @NotBlank
     @NonNull

@@ -1,12 +1,10 @@
-import axios from "axios";
 import store from "../store";
 import auth from "../features/auth";
 import { getConfig } from "./api-client";
 import { handleDates } from "./date-helper";
-
+import axios from "axios";
 
 const client = axios.create(getConfig());
-
 
 
 client.interceptors.request.use(req => {
@@ -26,10 +24,10 @@ client.interceptors.response.use(res => {
         console.log("Logout because of received 401");
         store.dispatch(auth.actions.logout());
     }
-    handleDates(res.data);
     return res;
 }, err => {
     return Promise.reject(err);
 });
+
 
 export default client;

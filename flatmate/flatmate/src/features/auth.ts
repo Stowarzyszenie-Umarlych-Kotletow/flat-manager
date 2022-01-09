@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginRequest, RegisterRequest } from "../models/api/auth";
-import authService from "../services/auth.service";
 import jwt from "jwt-decode";
-import accountService from "../services/account.service";
+
 
 interface AuthToken {
     username: string;
@@ -17,33 +15,6 @@ interface AuthState {
 }
 const initialState: AuthState = { isLoggedIn: false };
 
-export const login = createAsyncThunk(
-    "auth/login",
-    async (body: LoginRequest, {dispatch}) => {
-        const response = await authService.login(body);
-        dispatch(authSlice.actions.setToken(response.data.token));
-        return response.data;
-    }
-);
-
-export const register = createAsyncThunk(
-    "auth/register",
-    async (body: RegisterRequest, api) => {
-        const response = await authService.register(body);
-        const { username, password } = body;
-        api.dispatch(login({ username, password }));
-        return response.data;
-    }
-)
-
-export const getUser = createAsyncThunk(
-    "auth/getUser",
-    async (payload, api) => {
-        const response = await accountService.getSelf();
-        api.dispatch(authSlice.actions.setUser(response.data));
-        return response.data;
-    }
-)
 
 export const verifyToken = (token: AuthToken) => {
     return token != null && token.expires_at > Date.now();
@@ -75,9 +46,7 @@ const authSlice = createSlice({
         }
     },
     extraReducers: {
-        [getUser.rejected]: (state, action) => {
-            console.log("Failed to retrieve current user");
-        }
+
     }
 });
 
