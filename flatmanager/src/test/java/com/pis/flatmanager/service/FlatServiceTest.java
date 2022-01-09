@@ -43,9 +43,9 @@ public class FlatServiceTest {
         var user = new User("test", "test", "test", "test@test.com");
         when(flatRepository.findByName(any())).thenReturn(Optional.empty());
 
-        var flat = flatService.createFlat(user, new CreateFlatDto(
+        var flat = flatService.createFlat(user, CreateFlatDto.builder().name(
                 "testFlat"
-        ));
+        ).build());
 
         assertEquals("testFlat", flat.getName());
         assertEquals(user.getId(), flat.getOwner().getId());
@@ -58,7 +58,7 @@ public class FlatServiceTest {
         var user = new User("test", "test", "test", "test@test.com");
         when(flatRepository.findByName(any())).thenReturn(Optional.of(new Flat("testFlat", new FlatUser(UUID.randomUUID(), "test", FlatRole.OWNER))));
 
-        assertThrows(EntityDuplicateException.class, () -> flatService.createFlat(user, new CreateFlatDto("testFlat")));
+        assertThrows(EntityDuplicateException.class, () -> flatService.createFlat(user, CreateFlatDto.builder().name("testFlat").build()));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new UpdateNameFlatDto("testFlat2");
+        var dto = UpdateNameFlatDto.builder().name("testFlat2").build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(flatRepository.findByName(any())).thenReturn(Optional.empty());
@@ -123,7 +123,7 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new UpdateNameFlatDto("testFlat2");
+        var dto = UpdateNameFlatDto.builder().name("testFlat2").build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -137,7 +137,7 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new UpdateNameFlatDto("testFlat2");
+        var dto = UpdateNameFlatDto.builder().name("testFlat2").build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(flatRepository.findByName(any())).thenReturn(Optional.of(flat));
@@ -152,7 +152,7 @@ public class FlatServiceTest {
                 UUID.randomUUID(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new UpdateNameFlatDto("testFlat2");
+        var dto = UpdateNameFlatDto.builder().name("testFlat2").build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(flatRepository.findByName(any())).thenReturn(Optional.empty());
@@ -244,9 +244,8 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new AddUserFlatDto(
-                user2.getId(), FlatRole.USER
-        );
+        var dto = AddUserFlatDto.builder().userId(
+                user2.getId()).role(FlatRole.USER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
@@ -266,9 +265,8 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new AddUserFlatDto(
-                user2.getId(), FlatRole.USER
-        );
+        var dto = AddUserFlatDto.builder().userId(
+                user2.getId()).role(FlatRole.USER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -284,9 +282,8 @@ public class FlatServiceTest {
                 user2.getId(), user2.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new AddUserFlatDto(
-                user.getId(), FlatRole.USER
-        );
+        var dto = AddUserFlatDto.builder().userId(
+                user.getId()).role(FlatRole.USER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
@@ -303,9 +300,8 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new AddUserFlatDto(
-                user2.getId(), FlatRole.OWNER
-        );
+        var dto = AddUserFlatDto.builder().userId(
+                user2.getId()).role(FlatRole.OWNER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
@@ -322,9 +318,8 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
-        var dto = new AddUserFlatDto(
-                user2.getId(), FlatRole.OWNER
-        );
+        var dto = AddUserFlatDto.builder().userId(
+                user2.getId()).role(FlatRole.OWNER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);
@@ -344,9 +339,8 @@ public class FlatServiceTest {
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
 
-        var dto = new AddUserFlatDto(
-                user2.getId(), FlatRole.USER
-        );
+        var dto = AddUserFlatDto.builder().userId(
+                user2.getId()).role(FlatRole.USER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
         when(userService.getUser(any())).thenReturn(user2);

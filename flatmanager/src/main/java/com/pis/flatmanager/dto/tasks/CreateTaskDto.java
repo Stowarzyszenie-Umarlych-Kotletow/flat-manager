@@ -1,9 +1,6 @@
 package com.pis.flatmanager.dto.tasks;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.time.DurationMin;
 
 import javax.validation.constraints.NotBlank;
@@ -16,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Value
 @Builder
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CreateTaskDto implements Serializable {
 
     @NotBlank

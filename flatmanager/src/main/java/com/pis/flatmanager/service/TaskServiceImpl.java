@@ -124,7 +124,7 @@ public class TaskServiceImpl implements TaskService {
         var flat = flatService.getFlat(flatId);
         var now = LocalDateTime.now();
 
-        var result = new TasksScheduleDto(now, new HashMap<>());
+        var result = TasksScheduleDto.builder().currentDate(now).taskInstances(new HashMap<>()).build();
         for (var taskId : flat.getTasks().keySet()) {
             var task = getTask(taskId);
             var taskFrom = ObjectUtils.defaultIfNull(from, task.getStartDate());
