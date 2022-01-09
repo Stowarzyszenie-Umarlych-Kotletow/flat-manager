@@ -2,6 +2,8 @@ package com.pis.flatmanager.config.jwt;
 
 import com.pis.flatmanager.service.JwtTokenManager;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +22,9 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
+    private static final String BEARER_PREFIX = "Bearer ";
+
     @Autowired
     private UserDetailsService jwtUserDetailsService;
 
@@ -30,22 +35,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        final String requestTokenHeader = request.getHeader("Authorization");
+        String requestTokenHeader = request.getHeader("Authorization");
 
         String username = null;
         String jwtToken = null;
 
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER_PREFIX)) {
+            jwtToken = requestTokenHeader.substring(BEARER_PREFIX.length());
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-//                System.out.println("Unable to get JWT Token");
+                LOGGER.warn("Unable to get JWT token");
             } catch (ExpiredJwtException e) {
-//                System.out.println("JWT Token has expired");
+                LOGGER.info("JWT Token has expired");
             }
         } else {
-//            logger.warn("JWT Token does not begin with Bearer String");
+            LOGGER.warn("JWT Token does not begin with Bearer String");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

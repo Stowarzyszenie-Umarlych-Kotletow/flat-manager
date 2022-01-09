@@ -2,6 +2,7 @@ package com.pis.flatmanager.controller;
 
 import com.pis.flatmanager.dto.users.UpdateEmailUserDto;
 import com.pis.flatmanager.dto.users.UpdatePasswordUserDto;
+import com.pis.flatmanager.dto.users.UserDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.User;
@@ -22,7 +23,7 @@ public class AccountController {
     private UserService userService;
 
     @PostMapping("/email")
-    public ResponseEntity<?> updateUserEmail(@Valid @RequestBody UpdateEmailUserDto dto) throws EntityNotFoundException, AccessForbiddenException {
+    public ResponseEntity<UserDto> updateUserEmail(@Valid @RequestBody UpdateEmailUserDto dto) throws EntityNotFoundException, AccessForbiddenException {
         var user = userService.getCurrentUser();
         var updatedDto = userService.userToDto(userService.updateUserEmail(user, dto.getEmail()));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
@@ -30,7 +31,7 @@ public class AccountController {
     }
 
     @PostMapping("/password")
-    public ResponseEntity<?> updateUserPassword(@Valid @RequestBody UpdatePasswordUserDto dto) throws EntityNotFoundException, AccessForbiddenException {
+    public ResponseEntity<UserDto> updateUserPassword(@Valid @RequestBody UpdatePasswordUserDto dto) throws EntityNotFoundException, AccessForbiddenException {
         var user = userService.getCurrentUser();
         var updatedDto = userService.userToDto(userService.updateUserPassword(user, dto.getPassword()));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
@@ -44,7 +45,7 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getCurrentUser() throws AccessForbiddenException {
+    public ResponseEntity<UserDto> getCurrentUser() throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         return ResponseEntity.ok(userService.userToDto(user));
     }
