@@ -38,7 +38,7 @@ public class FlatController {
         return new ResponseEntity<>(flatDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{flatId}")
+    @DeleteMapping("/{flatId}")
     public ResponseEntity<?> deleteFlatById(@PathVariable UUID flatId)
             throws AccessForbiddenException {
 

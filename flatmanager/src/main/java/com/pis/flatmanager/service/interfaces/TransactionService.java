@@ -11,10 +11,10 @@ import java.util.UUID;
 
 public interface TransactionService {
 
-    TransactionGroup createTransactionGroup(User user, UUID flatId, CreateTransactionGroupDto dto) throws AccessForbiddenException;
+    TransactionGroup createTransactionGroup(User user, CreateTransactionGroupDto dto) throws AccessForbiddenException;
     void deleteTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException;
     TransactionGroup getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException;
-    List<TransactionGroup> getTransactionsByFlatId(User user, UUID flatId) throws AccessForbiddenException;
+    List<TransactionGroup> getTransactionGroupsByFlatId(User user, UUID flatId) throws AccessForbiddenException;
 
     TransactionGroup addTransaction(User user, UUID transactionGroupId, AddTransactionDto dto) throws AccessForbiddenException;
     void removeTransaction(User user, UUID transactionGroupId, UUID transactionId) throws AccessForbiddenException;

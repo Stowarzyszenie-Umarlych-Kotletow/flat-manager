@@ -28,11 +28,11 @@ public class TransactionServiceImpl implements TransactionService {
     private FlatService flatService;
 
     @Override
-    public TransactionGroup createTransactionGroup(User user, UUID flatId, CreateTransactionGroupDto dto) throws AccessForbiddenException {
-        if(!flatService.checkIfUserInFlat(flatId, user.getId())) {
-            throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), flatId));
+    public TransactionGroup createTransactionGroup(User user, CreateTransactionGroupDto dto) throws AccessForbiddenException {
+        if(!flatService.checkIfUserInFlat(dto.getFlatId(), user.getId())) {
+            throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), dto.getFlatId()));
         }
-        var transactionGroup = new TransactionGroup(dto.getName(), user.getId(), flatId);
+        var transactionGroup = new TransactionGroup(dto.getName(), user.getId(), dto.getFlatId());
         return transactionRepository.save(transactionGroup);
     }
 
@@ -57,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionGroup> getTransactionsByFlatId(User user, UUID flatId) throws AccessForbiddenException {
+    public List<TransactionGroup> getTransactionGroupsByFlatId(User user, UUID flatId) throws AccessForbiddenException {
         if(!flatService.checkIfUserInFlat(flatId, user.getId())) {
             throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), flatId));
         }
