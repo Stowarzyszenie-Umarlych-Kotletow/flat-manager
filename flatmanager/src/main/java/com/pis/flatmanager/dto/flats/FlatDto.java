@@ -1,5 +1,6 @@
 package com.pis.flatmanager.dto.flats;
 
+import com.pis.flatmanager.model.FlatUser;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,5 +14,5 @@ public class FlatDto {
 
     String name;
 
-    List<?> users;
+    List<FlatUser> users;
 }

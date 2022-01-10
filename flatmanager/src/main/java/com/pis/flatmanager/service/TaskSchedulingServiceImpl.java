@@ -30,7 +30,11 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
     public List<TaskInstanceInfo> getExistingSchedule(Task task, LocalDateTime from, LocalDateTime until) {
         return task.getInstances().stream()
                 .filter(instance -> !from.isAfter(instance.getDateScheduled()) && until.isAfter(instance.getDateScheduled()))
-                .map(instance -> new TaskInstanceInfo(instance.getId(), instance.getCompletedByUserId(), TaskInstanceState.PAST, instance.getDateScheduled())
+                .map(instance -> new TaskInstanceInfo(instance.getId(),
+                        instance.getScheduledUserId(),
+                        instance.getCompletedByUserId(),
+                        TaskInstanceState.PAST,
+                        instance.getDateScheduled())
                 ).collect(Collectors.toList());
     }
 
@@ -72,7 +76,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         var selectedUser = getNextScheduledUser(userCounter);
         if (selectedUser != null)
             userCounter.merge(selectedUser, 1, Integer::sum);
-        return new TaskInstanceInfo(UUID.randomUUID(), selectedUser, TaskInstanceState.FUTURE, time);
+        return new TaskInstanceInfo(UUID.randomUUID(), null, selectedUser, TaskInstanceState.FUTURE, time);
     }
 
     public List<TaskInstanceInfo> scheduleInstances(Task task, LocalDateTime until, int maxInstances) {

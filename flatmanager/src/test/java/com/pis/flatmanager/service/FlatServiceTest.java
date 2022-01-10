@@ -48,7 +48,7 @@ public class FlatServiceTest {
         ));
 
         assertEquals("testFlat", flat.getName());
-        assertEquals(user.getId(), flat.getOwner().getUserId());
+        assertEquals(user.getId(), flat.getOwner().getId());
         assertEquals(user.getUsername(), flat.getOwner().getUsername());
         assertEquals(FlatRole.OWNER, flat.getOwner().getRole());
     }
@@ -113,7 +113,7 @@ public class FlatServiceTest {
 
         assertEquals(flatAfterChanges.getName(), dto.getName());
         assertEquals(flatAfterChanges.getId(), flat.getId());
-        assertEquals(flatAfterChanges.getOwner().getUserId(), flat.getOwner().getUserId());
+        assertEquals(flatAfterChanges.getOwner().getId(), flat.getOwner().getId());
     }
 
     @Test
@@ -245,7 +245,7 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId(), "USER"
+                user2.getId(), FlatRole.USER
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
@@ -267,7 +267,7 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId(), "USER"
+                user2.getId(), FlatRole.USER
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.empty());
@@ -285,7 +285,7 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user.getId(), "USER"
+                user.getId(), FlatRole.USER
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
@@ -304,7 +304,7 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId(), "OWNER"
+                user2.getId(), FlatRole.OWNER
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
@@ -323,7 +323,7 @@ public class FlatServiceTest {
         ));
 
         var dto = new AddUserFlatDto(
-                user2.getId(), "OWNER"
+                user2.getId(), FlatRole.OWNER
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
@@ -345,7 +345,7 @@ public class FlatServiceTest {
 
 
         var dto = new AddUserFlatDto(
-                user2.getId(), "USER"
+                user2.getId(), FlatRole.USER
         );
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));

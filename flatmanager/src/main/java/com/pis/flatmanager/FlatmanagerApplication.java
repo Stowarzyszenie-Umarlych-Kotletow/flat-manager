@@ -3,6 +3,7 @@ package com.pis.flatmanager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,8 @@ public class FlatmanagerApplication {
 		ObjectMapper mapper = JsonMapper.builder()
 				.findAndAddModules()
 				.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+				.configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false)
+				.defaultDateFormat(new StdDateFormat().withColonInTimeZone(true))
 				.build();
 		return mapper;
 	}

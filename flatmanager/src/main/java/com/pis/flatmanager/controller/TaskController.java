@@ -40,10 +40,11 @@ public class TaskController {
     private ObjectMapper objectMapper;
 
     @PutMapping("/{flatId}/tasks")
-    public ResponseEntity<?> createTask(@PathVariable UUID flatId, @Valid @RequestBody CreateTaskDto dto) throws AccessForbiddenException {
+    public ResponseEntity<?> createTask(@PathVariable UUID flatId,
+                                        @Valid @RequestBody CreateTaskDto dto) throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         var task = taskService.createTask(user, flatId, dto);
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        return new ResponseEntity<>(task.asDto(), HttpStatus.CREATED);
     }
 
     @GetMapping("/{flatId}/tasks")
@@ -52,26 +53,45 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{flatId}/tasks/{taskId}")
+    public ResponseEntity<?> getTasks(@PathVariable UUID flatId,
+                                      @PathVariable UUID taskId) throws AccessForbiddenException {
+        var task = taskService.getTask(taskId);
+        return new ResponseEntity<>(task.asDto(), HttpStatus.CREATED);
+    }
+
     @PostMapping("/{flatId}/tasks-schedule")
-    public ResponseEntity<?> getTasksSchedule(@PathVariable UUID flatId, @Valid @RequestBody GetScheduleDto params) throws AccessForbiddenException {
+    public ResponseEntity<?> getTasksSchedule(@PathVariable UUID flatId,
+                                              @Valid @RequestBody GetScheduleDto params) throws AccessForbiddenException {
         var schedule = taskService.getTasksSchedule(flatId, params.getFrom(), params.getUntil());
         return new ResponseEntity<>(schedule, HttpStatus.OK);
     }
 
     @DeleteMapping("/{flatId}/tasks/{taskId}")
-    public ResponseEntity<?> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId) throws AccessForbiddenException {
+    public ResponseEntity<?> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId)
+            throws AccessForbiddenException {
         taskService.deleteTask(taskId);
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{flatId}/tasks/{taskId}/instances/{taskInstanceId}/completed")
+    public ResponseEntity<?> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId,
+                                        @PathVariable UUID taskInstanceId) throws AccessForbiddenException {
+        var user = userService.getCurrentUser();
+        taskService.setCompletedBy(user, taskId, taskInstanceId);
+        return ResponseEntity.ok().build();
+    }
+
     @PatchMapping(path = "/{flatId}/tasks/{taskId}", consumes = "application/json-patch+json")
-    public ResponseEntity<?> updateTask(@PathVariable UUID flatId, @PathVariable UUID taskId, @RequestBody JsonPatch patch) throws AccessForbiddenException, JsonPatchException, JsonProcessingException {
+    public ResponseEntity<?> updateTask(@PathVariable UUID flatId,
+                                        @PathVariable UUID taskId, @RequestBody JsonPatch patch)
+            throws AccessForbiddenException, JsonPatchException, JsonProcessingException {
         Task task = taskService.getTask(taskId);
         var patchedTask = applyPatchToTask(patch, task);
         if(!patchedTask.getId().equals(task.getId())) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(taskService.updateTask(patchedTask));
+        return ResponseEntity.ok(taskService.updateTask(patchedTask).asDto());
     }
 
 

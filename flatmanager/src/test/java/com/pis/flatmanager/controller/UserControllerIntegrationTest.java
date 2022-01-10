@@ -125,7 +125,7 @@ public class UserControllerIntegrationTest {
 
         var token = getTokenForUser(user);
 
-        var baseRequest = MockMvcRequestBuilders.get(String.format("/api/v1/users/%s", user.getId().toString()));
+        var baseRequest = MockMvcRequestBuilders.get(String.format("/api/v1/users/by/id/%s", user.getId().toString()));
         mockMvc.perform(requestUtil.json(baseRequest, null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))

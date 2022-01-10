@@ -60,6 +60,13 @@ public class FlatController {
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getUserFlats()
+            throws AccessForbiddenException {
+        User user = userService.getCurrentUser();
+        return new ResponseEntity<>(user.getFlats(), HttpStatus.OK);
+    }
+
     @GetMapping("/{flatId}/users")
     public ResponseEntity<?> getUsersFromFlat(@PathVariable UUID flatId) {
         var users = flatService.getUsersFromFlat(flatId);
