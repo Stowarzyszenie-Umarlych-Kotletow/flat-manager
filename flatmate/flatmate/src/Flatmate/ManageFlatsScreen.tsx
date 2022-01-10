@@ -4,36 +4,23 @@ import styles from "../static/styles";
 import {Text, View} from "react-native";
 import {Button} from "react-native-elements";
 import {CreateFlatModal} from "./CreateFlatModal";
+import { useAppDispatch, useAppSelector } from "../store";
+import { useGetFlatsQuery } from "../features/api/flat-api";
+import flatSlice from "../features/flat";
 
-export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFlat}) {
+
+export function ManageFlatsScreen({navigation}) {
     const [showCreateFlatModal, setShowCreateFlatModal] = useState(false);
 
-    function getFlats() {
-        const flats = [
-            {
-                name: "Rzeczna 21", 
-                id: "231f13d12"
-            }, {
-                name: "Domek - wyjzad w Bieszczady", 
-                id: "edq21eq21s"
-            }, {
-                name: "Domek - wyjzad w Bieszczady2", 
-                id: "edq21ewrreq21s"
-            }, {
-                name: "Domek - wyjzad w Bieszczady3", 
-                id: "edq2wer1eq21s"
-            }
-        ];
-        // backend connection
-        // get flats user is assigned to
+    const dispatch =  useAppDispatch();
+    const {currentData: flats = []} = useGetFlatsQuery();
 
-        return flats;
-    }
 
-    function handleClickOnFlat(flat_id) {
-        setCurrentFlat(flat_id)
-        console.log(flat_id)
-        if (currentFlat != null) navigation.popToTop()
+    function handleClickOnFlat(flatId) {
+        dispatch(flatSlice.actions.setCurrentFlat(flatId));
+        if (flatId !== null)
+            navigation.navigate('DashboardScreen');
+        console.log(flatId);
     }
 
     return (
@@ -51,7 +38,7 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
             title="Create flat"
             onPress={() => setShowCreateFlatModal(true)}
         />
-        {getFlats().map((flat) => {
+        {Object.values(flats).map((flat) => {
             return (<Button
                     buttonStyle={styles.highButton}
                     title={flat.name}
@@ -59,10 +46,9 @@ export function ManageFlatsScreen({navigation, currentFlat = null, setCurrentFla
                     onPress={() => handleClickOnFlat(flat.id)}
                 />);
         })}
-        <CreateFlatModal
-            showCreateFlatModal={showCreateFlatModal}
+        {showCreateFlatModal ? (<CreateFlatModal
             setShowCreateFlatModal={setShowCreateFlatModal}
-            setCurrentFlat={setCurrentFlat}
-        />
+        />) : null}
+        
     </View>)
 }

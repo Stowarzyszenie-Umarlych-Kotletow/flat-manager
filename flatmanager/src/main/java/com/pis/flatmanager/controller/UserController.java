@@ -26,9 +26,14 @@ public class UserController  {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/by/id/{id}")
     public ResponseEntity<?> getUserById(@PathVariable UUID id) throws EntityNotFoundException {
         var dto = userService.userToDto(userService.getUser(id));
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+    @GetMapping("/by/username/{username}")
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username) throws EntityNotFoundException {
+        var dto = userService.userToDto(userService.getUserByUsername(username));
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

@@ -1,13 +1,13 @@
-import {Text, TextInput, View} from "react-native";
+import { Text, TextInput, View } from "react-native";
 import styles from "../static/styles";
-import {Button} from "react-native-elements";
-import {Controller, useForm} from "react-hook-form";
+import { Button } from "react-native-elements";
+import { Controller, useForm } from "react-hook-form";
 import * as React from "react";
-import {yupResolver} from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
-import {useAppDispatch} from "../store";
-import {register} from "../features/auth";
-import {RegisterRequest} from "../models/api/auth";
+import { useAppDispatch } from "../store";
+import { useRegisterMutation } from "../features/api/user-api";
+import { RegisterRequest } from "../models/api/auth";
 
 export function parseData(data): RegisterRequest {
     let parsedData = {
@@ -33,7 +33,7 @@ export function RegisterScreen() {
         email: Yup.string().required("Please enter your email").matches(/@/, "Incorrect email")
     }).required();
 
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             firstName: '',
             lastName: '',
@@ -44,12 +44,12 @@ export function RegisterScreen() {
         },
         resolver: yupResolver(schema)
     });
-    const dispatch = useAppDispatch();
+    const [register, { isSuccess }] = useRegisterMutation();
     const onSubmit = data => onRegisterPress(data)
 
     function onRegisterPress(data) {
         let parsedData = parseData(data);
-        dispatch(register(parsedData));
+        register(parsedData);
     }
 
 
@@ -61,7 +61,7 @@ export function RegisterScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}
@@ -77,7 +77,7 @@ export function RegisterScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}
@@ -93,7 +93,7 @@ export function RegisterScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}
@@ -109,7 +109,7 @@ export function RegisterScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}
@@ -125,7 +125,7 @@ export function RegisterScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}
@@ -142,7 +142,7 @@ export function RegisterScreen() {
                 rules={{
                     maxLength: 100,
                 }}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.accFormTextInput}
                         onBlur={onBlur}

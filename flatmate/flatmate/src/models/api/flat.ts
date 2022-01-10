@@ -1,0 +1,3 @@
+interface CreateFlatRequest {
+    name: string;
+}

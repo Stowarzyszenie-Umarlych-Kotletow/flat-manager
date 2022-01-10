@@ -1,6 +1,18 @@
 import {StyleSheet} from "react-native";
 
 export default StyleSheet.create({
+    eventFail: {
+        backgroundColor: 'red'
+    },
+    eventPending: {
+        backgroundColor: "blue"
+    },
+    eventCompleted: {
+        backgroundColor: "green"
+    },
+    eventFuture: {
+        backgroundColor: "indigo"
+    },
     accScreenContainer: {
         flex: 1,
     },
