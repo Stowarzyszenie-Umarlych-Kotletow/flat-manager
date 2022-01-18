@@ -1,11 +1,11 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
-import {Image, Text, TouchableOpacity, View} from "react-native";
+import {Image, TextInput, View} from "react-native";
 import styles from "../static/styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker';
-
+import {Controller, useForm} from "react-hook-form";
 
 export function UploadBillModal ({ setShowUploadBillModal}) {
     const [imageUri, setImageUri] = useState(null);
@@ -20,9 +20,19 @@ export function UploadBillModal ({ setShowUploadBillModal}) {
         }
     };
 
+    function handleUploadPhoto(data: CreateFlatRequest) {
+        // backend connection
+        console.log(data.name);
+        console.log(imageUri);
+    }
+
+    const {control, handleSubmit, formState: {errors}} = useForm({
+        defaultValues: {
+            name: '',
+        },
+    });
 
     function uploadPhoto() {
-        console.log(imageUri);
     }
 
     const  checkForCameraRollPermission=async()=>{
@@ -45,7 +55,7 @@ export function UploadBillModal ({ setShowUploadBillModal}) {
             actionsBordered
             style={{zIndex: 1000}}
             visible={true}
-            modalTitle={<ModalTitle title="Create flat"  align="left" />}
+            modalTitle={<ModalTitle title="Upload Bill"  align="left" />}
             onTouchOutside={() => { setShowUploadBillModal(false)}}
         >
             <ModalContent>
@@ -59,10 +69,26 @@ export function UploadBillModal ({ setShowUploadBillModal}) {
                         onPress={addImage}
                     />
                 </View>
+                <Controller
+                    control={control}
+                    name="name"
+                    rules={{
+                    maxLength: 100,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        style={styles.accFormTextInput}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="Name"
+                    />
+                    )}
+                />
                 <Button
                     buttonStyle={styles.greenButton}
                     title="Send"
-                    onPress={uploadPhoto}
+                    onPress={handleSubmit(handleUploadPhoto)}
                 />
                 <Button
                     buttonStyle={styles.warnButton}

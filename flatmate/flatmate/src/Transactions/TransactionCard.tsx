@@ -1,7 +1,9 @@
 import * as React from "react";
+import {useState} from "react";
 import styles from "../static/styles";
-import {Text, View} from "react-native";
+import {Text, View, TouchableOpacity} from "react-native";
 import { TransactionShare } from "./TransactionShare";
+import { TransactionDetailsModal } from "./TransactionDetailsModal";
 
 
 export function TransactionCard({transactionGroup}) {
@@ -14,22 +16,29 @@ export function TransactionCard({transactionGroup}) {
 		}
     let username = names[userid];
     return username ? username : "Name not found"
-
 	} 
 
+	const [showTransactionDetails, setShowTransactionDetails] = useState(false);
 
 
   return (
-    <View style={styles.transactionCard}>
-    <Text style={styles.bigText}>Transactions paid by {getUsername(transactionGroup.paid_by)}</Text>
-    { Object.values(transactionGroup.transactions).map((transaction) => {
-      return (
-        <View key={transaction["id"]}>
-          <Text style={styles.smallText}>Name: {transaction["name"]} Total: {transaction["total"]}zł</Text>
-          <TransactionShare transaction={transaction}/>
-        </View>
-      );
-    })}
-    </View>
+    <TouchableOpacity 
+      style={styles.transactionGroupCard}
+      onPress={()=>{setShowTransactionDetails(true)}}
+    >
+      <View style={styles.viewRow}>
+        <Text style={styles.smallText}>{transactionGroup.title}</Text>
+        <Text style={styles.smallText}>{transactionGroup.date}</Text>
+      </View>
+
+      <View style={styles.viewRow}>
+        <Text style={styles.smallText}>{getUsername(transactionGroup.paid_by)}</Text>
+        <Text style={styles.smallText}>{transactionGroup.total}</Text>
+      </View>
+
+      {showTransactionDetails? (
+        <TransactionDetailsModal setShowTransactionDetailsModal={setShowTransactionDetails} transactionGroup={transactionGroup}/>
+      ): null}
+    </TouchableOpacity>
   );
 };

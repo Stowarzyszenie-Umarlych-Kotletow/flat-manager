@@ -1,3 +1,4 @@
+import { Background } from "@react-navigation/elements";
 import {StyleSheet} from "react-native";
 import { withTheme } from "react-native-elements";
 
@@ -30,6 +31,13 @@ export default StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         textAlign: 'center',
+    },
+    smallTextStart: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 5,
+        textAlign: 'auto',
     },
     bigText: {
         fontSize: 25,
@@ -77,8 +85,8 @@ export default StyleSheet.create({
         borderColor: '#eaeaea',
         backgroundColor: '#fafafa',
         paddingLeft: 10,
-        marginLeft: 15,
-        marginRight: 15,
+        marginLeft: 5,
+        marginRight: 5,
         marginTop: 5,
         marginBottom: 5,
 
@@ -126,13 +134,34 @@ export default StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
     },
-    transactionCard: {
+    transactionGroupCard: {
         border: '1px solid rgb(0, 102, 255)',
         borderRadius: 5,
-        paddingVertical: 20,
         paddingHorizontal: 20,
-        marginBottom: 20,
+        marginTop: 20,
         marginStart: 20,
-        marginEnd: 20
+        marginEnd: 20,
+    },
+    transactionCardResolved: {
+        borderBottomColor: 'rgb(153, 255, 102)',
+        borderBottomWidth: 1,
+        borderRadius: 5,
+        marginTop: 5,
+    },
+    transactionCardUnresolved: {
+        borderBottomColor: 'rgb(255, 153, 204)',
+        borderBottomWidth: 1,
+        borderRadius: 5,
+        marginTop: 5,
+    },
+    transactionItems: {
+        borderLeftColor: '#000000',
+        borderLeftWidth: 4,
+        paddingStart: 5,
+    },
+    viewRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-between"
     },
 });
