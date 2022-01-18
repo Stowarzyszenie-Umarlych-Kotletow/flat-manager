@@ -1,18 +1,23 @@
 package com.pis.flatmanager.controller;
 
+import com.pis.flatmanager.dto.external.OcrResponseProduct;
 import com.pis.flatmanager.dto.transactions.AddTransactionDto;
 import com.pis.flatmanager.dto.transactions.CreateTransactionGroupDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.model.TransactionGroup;
 import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.service.interfaces.FileService;
 import com.pis.flatmanager.service.interfaces.TransactionService;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +31,9 @@ public class TransactionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FileService fileService;
 
     @PostMapping
     public ResponseEntity<TransactionGroup> createGroup(@Valid @RequestBody CreateTransactionGroupDto dto) throws AccessForbiddenException {
@@ -69,5 +77,11 @@ public class TransactionController {
         return ResponseEntity.ok().build();
     }
 
-
+    @PostMapping(path="/{groupId}/transactions/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<List<OcrResponseProduct>> uploadFile(@PathVariable UUID groupId, @RequestPart("file") MultipartFile file) throws AccessForbiddenException, IOException {
+        return new ResponseEntity<>(
+                fileService.processReceipt(userService.getCurrentUser(), file),
+                HttpStatus.OK
+        );
+    }
 }
