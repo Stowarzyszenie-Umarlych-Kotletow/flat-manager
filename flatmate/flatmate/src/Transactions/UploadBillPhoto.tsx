@@ -12,6 +12,7 @@ export function UploadBillModal ({ setShowUploadBillModal, uploadPhoto}) {
         let image_data = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
+            base64: false
             }
         );
         if (!image_data["cancelled"]) {
