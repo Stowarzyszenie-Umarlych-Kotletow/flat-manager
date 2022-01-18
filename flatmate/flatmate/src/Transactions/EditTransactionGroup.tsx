@@ -98,7 +98,9 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 		): <Text style={styles.bigText}> {transactionGroup.title} </Text>}
 
 		<Text style={styles.tinyText}> Items </Text>
-		{ Object.values(items).map((item) => {
+		{Object.keys(items).length === 0 ? (<Text> No Items Yet </Text>) : null } 
+
+		{Object.values(items).map((item) => {
 
 				function changeItemsName(value) {
 					let new_items = items;
@@ -132,7 +134,8 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 						onPress={() => {removeItem(item["id"])}}
 					/>
 		 		</View>
-		 )})}
+		 )})
+		}
 
 		<Text style={styles.tinyText}> Assign Users to Transaction Group </Text>
 		<CustomMultiPicker
