@@ -1,6 +1,7 @@
 import * as React from "react";
 import styles from "../static/styles";
 import {Text, View} from "react-native";
+import { TransactionShare } from "./TransactionShare";
 
 
 export function TransactionCard({transactionGroup}) {
@@ -16,17 +17,16 @@ export function TransactionCard({transactionGroup}) {
 
 	} 
 
+
+
   return (
     <View style={styles.transactionCard}>
     <Text style={styles.bigText}>Transactions paid by {getUsername(transactionGroup.paid_by)}</Text>
     { Object.values(transactionGroup.transactions).map((transaction) => {
       return (
         <View key={transaction["id"]}>
-          <Text style={styles.smallText}>Name: {transaction["name"]} Total: {transaction["total"]}</Text>
-          {/* {
-            Object.values(transaction["shares"]).map(([share]) => {
-              <Text key={share.id} style={styles.tinyText}>{getUsername(share.id)} - {share.value * transaction["total"] / 100}</Text>
-          })} */}
+          <Text style={styles.smallText}>Name: {transaction["name"]} Total: {transaction["total"]}zł</Text>
+          <TransactionShare transaction={transaction}/>
         </View>
       );
     })}

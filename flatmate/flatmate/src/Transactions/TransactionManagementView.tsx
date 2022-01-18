@@ -16,8 +16,8 @@ export function TransactionManagementView() {
 						name: "ciasteczka",
 						total: 10,
 						shares: [
-							{id: 123, value : 60},
-							{id: 124, value : 40},
+							{id: 123, percentage : 60},
+							{id: 124, percentage : 40},
 						],
 					},
 					{
@@ -25,8 +25,8 @@ export function TransactionManagementView() {
 						name: "chipsy 4 paczki",
 						total: 15,
 						shares: [
-							{id: 123, value : 75},
-							{id: 124, value : 25},
+							{id: 123, percentage : 75},
+							{id: 124, percentage : 25},
 						],
 					},
 					{
@@ -34,8 +34,14 @@ export function TransactionManagementView() {
 						name: "papier toaletowy",
 						total: 20,
 						shares: [
-							{id: 123, value : 50},
-							{id: 124, value : 50},
+							{
+								id: 123, 
+								percentage : 50
+							},
+							{
+								id: 124, 
+								percentage : 50
+							},
 						],
 					}
 				],
@@ -45,32 +51,32 @@ export function TransactionManagementView() {
 				paid_by: 124,
 				transactions: [
 					{
-						id: 1,
+						id: 4,
 						name: "mleko czekoladowe",
 						total: 12,
 						shares: [
-							{id: 122, value : 50},
-							{id: 124, value : 50},
+							{id: 122, percentage : 50},
+							{id: 124, percentage : 50},
 						],
 					},
 					{
-						id: 2,
+						id: 5,
 						name: "fajerwerki",
 						total: 15,
 						shares: [
-							{id: 121, value : 25},
-							{id: 124, value : 75},
+							{id: 121, percentage : 25},
+							{id: 124, percentage : 75},
 						],
 					},
 					{
-						id: 3,
+						id: 6,
 						name: "ekspres do kawy",
 						total: 400,
 						shares: [
-							{id: 121, value : 25},
-							{id: 122, value : 25},
-							{id: 123, value : 25},
-							{id: 124, value : 25},
+							{id: 121, percentage : 25},
+							{id: 122, percentage : 25},
+							{id: 123, percentage : 25},
+							{id: 124, percentage : 25},
 						],
 					}
 				],
