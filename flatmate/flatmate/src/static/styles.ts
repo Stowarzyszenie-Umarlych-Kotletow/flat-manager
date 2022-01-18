@@ -135,7 +135,8 @@ export default StyleSheet.create({
         alignItems: "center",
     },
     transactionGroupCard: {
-        border: '1px solid rgb(0, 102, 255)',
+        borderColor: 'rgb(0, 102, 255)',
+        borderWidth: 1,
         borderRadius: 5,
         paddingHorizontal: 20,
         marginTop: 20,
