@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+import { withTheme } from "react-native-elements";
 
 export default StyleSheet.create({
     eventFail: {
@@ -107,4 +108,15 @@ export default StyleSheet.create({
         marginLeft: 25,
         marginRight: 25,
     },
+    imageUploadContainer: {
+        padding:50,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+    columnView: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+    }
 });

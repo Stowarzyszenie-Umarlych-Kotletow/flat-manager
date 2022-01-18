@@ -6,6 +6,7 @@ import { Button } from "react-native-elements";
 import { AddTaskModal } from '../Tasks/AddTaskModal';
 import { AddUserToFlatModal } from './AddUserToFlatModal';
 import { BottomNavigationBar } from './BottomNavigationBar';
+import { UploadBillModal } from './UploadBillPhoto'
 import { TaskDetailsModal } from "../Tasks/TaskDetailsModal";
 import { useAppDispatch, useAppSelector } from "../store";
 import { useFlat } from "../features/hooks";
@@ -22,6 +23,7 @@ export function DashboardScreen({ navigation }) {
     const [showAddUserToFlatModal, setShowAddUserToFlatModal] = useState(false);
     const [showTaskCreationModal, setShowTaskCreationModal] = useState(false);
     const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);
+    const [showUploadBillModal, setShowUploadBillModal] = useState(false);
     const [taskState, setTaskState] = useState<TaskEvent>(null);
 
 
@@ -76,11 +78,21 @@ export function DashboardScreen({ navigation }) {
                 taskInstance={taskState.instance}
                 deletable={false}
             />) : null}
+
+            {showUploadBillModal ? (
+                <UploadBillModal 
+                    setShowUploadBillModal={setShowUploadBillModal}
+                />
+            ) : null
+
+            }
         </div>
         <BottomNavigationBar
             openUserAdd={() => { setShowAddUserToFlatModal(true); }}
             openTaskAdd={() => { setShowTaskCreationModal(true); }}
             openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
+            openUploadPhoto={() => {setShowUploadBillModal(true);}}
         />
+        
     </View>)
 }

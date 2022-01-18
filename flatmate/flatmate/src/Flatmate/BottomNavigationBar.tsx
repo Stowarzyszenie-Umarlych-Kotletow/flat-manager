@@ -5,9 +5,10 @@ const addTask = require("../static/addTask.svg") as string;
 const addUser = require("../static/addUser.svg") as string;
 const gear = require("../static/gear.svg") as string;
 const bill = require("../static/bill.svg") as string;
+const coins = require("../static/coins.svg") as string;
 
 
-export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar}) {
+export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, openUploadPhoto}) {
     return (
         <footer style={{
             backgroundColor: '#3333ff',
@@ -28,11 +29,18 @@ export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar}) {
                 <Text> Add task </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {console.log("user upload")}}
+                onPress={() => {openUploadPhoto()}}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
                 <img src={bill} alt="open settings" style={{width: '35px', height: '35px'}}/>
                 <Text> Upload Bill </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {console.log("manage transactions")}}
+                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+            >
+                <img src={coins} alt="open settings" style={{width: '35px', height: '35px'}}/>
+                <Text> Manage Transactions </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openUserAdd()}
@@ -53,7 +61,7 @@ export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar}) {
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
                 <img src={gear} alt="open settings" style={{width: '35px', height: '35px'}}/>
-                <Text> Settings</Text>
+                <Text> Flat Settings</Text>
             </TouchableOpacity>
 
             
