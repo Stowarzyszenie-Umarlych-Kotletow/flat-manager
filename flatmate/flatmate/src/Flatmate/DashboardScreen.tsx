@@ -8,7 +8,6 @@ import { AddUserToFlatModal } from './AddUserToFlatModal';
 import { BottomNavigationBar } from './BottomNavigationBar';
 import { UploadBillModal } from './UploadBillPhoto'
 import { TaskDetailsModal } from "../Tasks/TaskDetailsModal";
-import { useAppDispatch, useAppSelector } from "../store";
 import { useFlat } from "../features/hooks";
 import { useGetFlatScheduleQuery } from "../features/api/flat-api";
 import { scheduleToEvents } from "../Tasks/helpers";
@@ -92,6 +91,7 @@ export function DashboardScreen({ navigation }) {
             openTaskAdd={() => { setShowTaskCreationModal(true); }}
             openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
             openUploadPhoto={() => {setShowUploadBillModal(true);}}
+            openTransactionManager={() => {navigation.navigate('TransactionManagementView')}}
         />
         
     </View>)

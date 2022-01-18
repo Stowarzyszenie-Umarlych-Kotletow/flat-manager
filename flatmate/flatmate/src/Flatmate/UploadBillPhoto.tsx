@@ -3,7 +3,7 @@ import {Image, Text, TouchableOpacity, View} from "react-native";
 import styles from "../static/styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -24,6 +24,19 @@ export function UploadBillModal ({ setShowUploadBillModal}) {
     function uploadPhoto() {
         console.log(imageUri);
     }
+
+    const  checkForCameraRollPermission=async()=>{
+        const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert("Please grant camera roll permissions inside your system's settings");
+        }else{
+          console.log('Media Permissions are granted')
+        }
+    } 
+
+    useEffect(() => {
+        checkForCameraRollPermission()
+      }, []);
 
     return (
         <Modal

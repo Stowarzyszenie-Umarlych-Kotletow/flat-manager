@@ -31,6 +31,13 @@ export default StyleSheet.create({
         marginBottom: 5,
         textAlign: 'center',
     },
+    bigText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 5,
+        textAlign: 'center',
+    },
     warningText: {
         fontSize: 13,
         fontWeight: 'bold',
@@ -118,5 +125,14 @@ export default StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-    }
+    },
+    transactionCard: {
+        backgroundColor: '#444444dd',
+        borderRadius: 5,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        marginStart: 20,
+        marginEnd: 20
+    },
 });
