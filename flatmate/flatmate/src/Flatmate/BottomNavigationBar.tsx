@@ -8,7 +8,7 @@ const bill = require("../static/bill.svg") as string;
 const coins = require("../static/coins.svg") as string;
 
 
-export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, openUploadPhoto, openTransactionManager}) {
+export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, openTransactionManager}) {
     return (
         <footer style={{
             backgroundColor: '#3333ff',
@@ -27,13 +27,6 @@ export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, ope
             >
                 <img src={addTask} alt="add task" style={{width: '35px', height: '35px'}}/>
                 <Text> Add task </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {openUploadPhoto()}}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
-            >
-                <img src={bill} alt="open settings" style={{width: '35px', height: '35px'}}/>
-                <Text> Upload Bill </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {openTransactionManager()}}

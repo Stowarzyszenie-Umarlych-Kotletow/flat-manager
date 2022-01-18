@@ -164,4 +164,38 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "space-between"
     },
+    viewRowCrowdy: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-around"
+    },
+    blueButtonSmall: {
+        backgroundColor: '#3897f1',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+        width: 200
+    },
+    greenButtonSmall: {
+        backgroundColor: '#5cd07f',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+        width: 200
+        
+    },
+    redButtonSmall: {
+        backgroundColor: '#e74040',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+        width: 200
+    }
 });
+

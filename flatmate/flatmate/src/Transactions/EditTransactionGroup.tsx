@@ -7,6 +7,7 @@ import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
 import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlat } from "../features/hooks";
+import { UploadBillModal } from './UploadBillPhoto'
 
 
 export function EditTransactionGroup({setShowAddTransactionGroup, transactionGroup, isNewGroup}) {
@@ -17,7 +18,8 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
   });
 
   function handleAddTransactionGroup(data) {
-    
+		setShowAddTransactionGroup(false)
+		// backend connection
   }
 	
 	const { flatId, flat, flatUsers } = useFlat();
@@ -43,6 +45,7 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 		//backend connection
 		console.log(new_items);
   }
+
 	function removeItem(id) {
 		let its = Object.assign({}, items);
 		delete its[id];
@@ -50,10 +53,16 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 		//backend connection
 	}
 
+	function uploadPhoto(uri) {
+		console.log(uri);
+		//backend connection
+	}
+
 
 
   const [items, setItems] = useState({});
   const [transactionsId, setTransactionsId] = useState(0);
+	const [showUploadBillModal, setShowUploadBillModal] = useState(false);
 
   return (
     <Modal
@@ -144,22 +153,40 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 			scrollViewHeight={130}
 		/>
 
-		<Button
-			buttonStyle={styles.blueButton}
-			title="Add Item"
-			onPress={() => {addItem()}}
-		/>
+
+		<View style={styles.viewRowCrowdy}>
+			<Button
+				buttonStyle={styles.blueButtonSmall}
+				title="Add Item"
+				onPress={() => {addItem()}}
+			/>
+			<Button
+				buttonStyle={styles.blueButtonSmall}
+				title="Upload Bill"
+				onPress={() => {setShowUploadBillModal(true)}}
+			/>
+		</View>
 	
-		<Button
-			buttonStyle={styles.greenButton}
-			title="Submit"
-			onPress={handleSubmit(handleAddTransactionGroup)}
+		
+		<View style={styles.viewRowCrowdy}>
+			<Button
+				buttonStyle={styles.greenButtonSmall}
+				title="Submit"
+				onPress={handleSubmit(handleAddTransactionGroup)}
+			/>
+			<Button
+				buttonStyle={styles.redButtonSmall}
+				title="Cancel"
+				onPress={() => { setShowAddTransactionGroup(false) }}
+			/>
+		</View>
+
+	{ showUploadBillModal ? (
+		<UploadBillModal 
+				setShowUploadBillModal={setShowUploadBillModal}
+				uploadPhoto={uploadPhoto}
 		/>
-		<Button
-			buttonStyle={styles.warnButton}
-			title="Cancel"
-			onPress={() => { setShowAddTransactionGroup(false) }}
-		/>
+            ) : null}
 	</ModalContent>
 	</Modal>
   );

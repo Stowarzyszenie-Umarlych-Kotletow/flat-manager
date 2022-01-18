@@ -20,7 +20,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
     return username ? username : "Name not found"
 	} 
 
-  const [showEditTransactionGroup, setShowEditTransactionGroup] = useState(false);
 
   return ( 
   <Modal
@@ -37,11 +36,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
       buttonStyle={styles.warnButton}
       title="Hide Details"
       onPress={() => { setShowTransactionDetailsModal(false) }}
-    />
-    <Button
-      buttonStyle={styles.blueButton}
-      title="Edit Transaction"
-      onPress={() => { setShowEditTransactionGroup(true) }}
     />
     <Text style={styles.smallTextStart}>
     { 
@@ -62,14 +56,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
       );
     })}
     </View>
-
-    { showEditTransactionGroup ? (
-        <EditTransactionGroup 
-          setShowAddTransactionGroup={setShowEditTransactionGroup} 
-          transactionGroup={transactionGroup}
-          isNewGroup={false}
-        />) 
-		: null }
     </ModalContent>
     </Modal>
   );
