@@ -73,7 +73,7 @@ export function LoggedNavigator({navigation}) {
         <LoggedStack.Screen name="ManageScreen" options={{
             title: 'Manage account'
         }}>
-            {props => <ManageScreen {...props}/>}
+            {props => <ManageScreenModal {...props}/>}
         </LoggedStack.Screen>
 
         <LoggedStack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{

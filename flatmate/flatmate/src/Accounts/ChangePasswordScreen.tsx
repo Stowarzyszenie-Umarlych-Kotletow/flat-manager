@@ -29,10 +29,8 @@ export function ChangePasswordScreen() {
     const dispatch = useAppDispatch();
 
     async function onChangePasswordPress(data) {
-        console.log("próba zmiany hasła");
 
         if (data.newPassword != data.newPasswordConfirm || !data.newPassword) {
-            console.log("niepoprawne hasła");
             setShowDifferentPasswordsWarning(true);
         } else {
             setShowDifferentPasswordsWarning(false);

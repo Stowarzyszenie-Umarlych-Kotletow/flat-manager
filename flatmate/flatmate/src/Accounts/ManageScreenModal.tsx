@@ -26,15 +26,12 @@ export function ManageScreenModal({ navigation }) {
     const [showIncorrectPasswordWarning, setShowIncorrectPasswordWarning] = useState(false);
 
     async function handleDelete(data) {
-        console.log("próba usunięcia");
         let password = data.password;
 
         try {
             await deleteAccount({ password }).unwrap();
-            console.log("próba usunięcia się powiodła");
             handleLogOut();
         } catch {
-            console.log("Niepoprawne hasło");
             setShowIncorrectPasswordWarning(true);
         }
     }

@@ -49,13 +49,13 @@ export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, ope
                 <img src={addTask} alt="open calendar" style={{width: '35px', height: '35px'}}/>
                 <Text> Calendar </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 onPress={() => {console.log("flat settings")}}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
                 <img src={gear} alt="open settings" style={{width: '35px', height: '35px'}}/>
                 <Text> Flat Settings</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             
         </footer>
