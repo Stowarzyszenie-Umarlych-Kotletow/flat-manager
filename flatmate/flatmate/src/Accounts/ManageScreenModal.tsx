@@ -11,7 +11,7 @@ import { useFlat } from "../features/hooks";
 import { useDeleteAccountMutation } from "../features/api/user-api";
 
 
-export function ManageScreen({ navigation }) {
+export function ManageScreenModal({ navigation }) {
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             password: '',

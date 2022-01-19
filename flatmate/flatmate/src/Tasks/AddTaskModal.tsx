@@ -10,6 +10,10 @@ import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlat } from "../features/hooks";
 import { useCreateFlatTaskMutation } from "../features/api/flat-api";
 
+export function validateForm(data) {
+    return true;
+}
+
 
 export function AddTaskModal({ setShowTaskCreationModal }) {
     // warnings
@@ -41,10 +45,6 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
             end: null
         }
     });
-
-    const validateForm = (data) => {
-        return true;
-    }
 
     const submitTask = async (data: any) => {
         if (!validateForm(data))

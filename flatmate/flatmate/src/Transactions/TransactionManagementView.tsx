@@ -4,7 +4,7 @@ import styles from "../static/styles";
 import {Text, View} from "react-native";
 import {Button} from "react-native-elements";
 import { TransactionCard } from "./TransactionCard"
-import { EditTransactionGroup } from "./EditTransactionGroup";
+import { CreateTransactionGroup } from "./CreateTransactionGroup";
 import { useAppSelector } from "../store";
 
 
@@ -117,14 +117,8 @@ export function TransactionManagementView() {
         />
 
 		{ showAddTransactionGroup ? (
-		<EditTransactionGroup 
+		<CreateTransactionGroup 
 			setShowAddTransactionGroup={setShowAddTransactionGroup} 
-			transactionGroup={{
-				name: "",
-				paid_by: userId,
-				transactions: [],
-			}}
-			isNewGroup={true}
 		/>) 
 		: null }
         {Object.values(getTransactionGroups()).map((transactionGroup) => {

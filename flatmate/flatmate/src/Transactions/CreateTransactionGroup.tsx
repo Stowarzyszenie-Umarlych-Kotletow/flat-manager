@@ -10,10 +10,10 @@ import { useFlat } from "../features/hooks";
 import { UploadBillModal } from './UploadBillPhoto'
 
 
-export function EditTransactionGroup({setShowAddTransactionGroup, transactionGroup, isNewGroup}) {
+export function CreateTransactionGroup({setShowAddTransactionGroup}) {
   const {control, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
-        name: transactionGroup["name"],
+        name: '',
     },
   });
 
@@ -75,7 +75,6 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 		onTouchOutside={() => { setShowAddTransactionGroup(false)}}
 	>
 	<ModalContent>
-		{isNewGroup ? (
 		<View>
 			<Text style={styles.tinyText}> Set Transaction Group Title </Text>
 			<Controller
@@ -95,8 +94,6 @@ export function EditTransactionGroup({setShowAddTransactionGroup, transactionGro
 				)}
 			/>
 		</View>
-		): <Text style={styles.bigText}> {transactionGroup.title} </Text>}
-
 		<Text style={styles.tinyText}> Items </Text>
 		{Object.keys(items).length === 0 ? (<Text> No Items Yet </Text>) : null } 
 

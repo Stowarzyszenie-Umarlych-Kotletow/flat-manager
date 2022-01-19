@@ -3,7 +3,7 @@ import {TouchableOpacity} from "react-native";
 import {Button} from "react-native-elements";
 import {createStackNavigator} from "@react-navigation/stack";
 import {ManageFlatsScreen} from './Flatmate/ManageFlatsScreen'
-import {ManageScreen} from "./Accounts/ManageScreen";
+import { ManageScreenModal } from "./Accounts/ManageScreenModal";
 import {DashboardScreen} from "./Flatmate/DashboardScreen";
 import {ViewCalendarScreen} from "./Tasks/ViewCalendarScreen";
 import {ChangePasswordScreen} from "./Accounts/ChangePasswordScreen";

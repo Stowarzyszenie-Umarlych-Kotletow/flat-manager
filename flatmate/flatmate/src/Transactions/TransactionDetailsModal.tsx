@@ -2,8 +2,6 @@ import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import * as React from "react";
 import styles from "../static/styles";
 import {Text, View} from "react-native";
-import { TransactionShare } from "./TransactionShare";
-import { EditTransactionGroup } from "./EditTransactionGroup";
 import {Button} from "react-native-elements";
 import {useState} from "react";
 

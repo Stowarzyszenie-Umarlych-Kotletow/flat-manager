@@ -12,14 +12,6 @@ import { useFlat } from "../features/hooks";
 import { userApi } from "../features/api/user-api";
 import { useAddUserToFlatMutation } from "../features/api/flat-api";
 
-
-function parseData(data) {
-    let parsedData = {
-        "username": data.username,
-    }
-    return parsedData;
-}
-
 export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 
     const [usernameWarning, setUsernameWarning] = useState(null);

@@ -7,7 +7,7 @@ import { useAppDispatch } from "../store";
 import { LoginRequest } from "../models/api/auth";
 import { useLoginMutation } from "../features/api/user-api";
 
-export function parseData(data) {
+export function parseLoginData(data) {
     const parsedData: LoginRequest = {
         "username": data.username,
         "password": data.password,
@@ -27,7 +27,7 @@ export function LoginScreen() {
 
 
     async function onLoginPress(data) {
-        let parsedData = parseData(data);
+        let parsedData = parseLoginData(data);
         login(parsedData);
     }
 

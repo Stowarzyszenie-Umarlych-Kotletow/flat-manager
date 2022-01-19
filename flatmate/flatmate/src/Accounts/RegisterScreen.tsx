@@ -9,7 +9,7 @@ import { useAppDispatch } from "../store";
 import { useRegisterMutation } from "../features/api/user-api";
 import { RegisterRequest } from "../models/api/auth";
 
-export function parseData(data): RegisterRequest {
+export function parseRegisterData(data): RegisterRequest {
     let parsedData = {
         "firstName": data.firstName,
         "lastName": data.lastName,
@@ -48,7 +48,7 @@ export function RegisterScreen() {
     const onSubmit = data => onRegisterPress(data)
 
     function onRegisterPress(data) {
-        let parsedData = parseData(data);
+        let parsedData = parseRegisterData(data);
         register(parsedData);
     }
 

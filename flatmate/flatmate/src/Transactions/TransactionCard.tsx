@@ -26,13 +26,13 @@ export function TransactionCard({transactionGroup}) {
       onPress={()=>{setShowTransactionDetails(true)}}
     >
       <View style={styles.viewRow}>
-        <Text style={styles.transactionCardTitle}>{transactionGroup.title}</Text>
-        <Text style={styles.transactionCardText}>{transactionGroup.date}</Text>
+        <Text style={styles.transactionCardTitle}>{transactionGroup["title"]}</Text>
+        <Text style={styles.transactionCardText}>{transactionGroup["date"]}</Text>
       </View>
 
       <View style={styles.viewRow}>
-        <Text style={styles.transactionCardText}>{getUsername(transactionGroup.paid_by)}</Text>
-        <Text style={styles.transactionCardText}>{transactionGroup.total}PLN</Text>
+        <Text style={styles.transactionCardText}>{getUsername(transactionGroup["paid_by"])}</Text>
+        <Text style={styles.transactionCardText}>{transactionGroup["total"]}PLN</Text>
       </View>
 
       {showTransactionDetails? (
