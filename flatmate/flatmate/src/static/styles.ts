@@ -158,7 +158,6 @@ export default StyleSheet.create({
     transactionItems: {
         borderLeftColor: '#000000',
         borderLeftWidth: 4,
-        paddingStart: 5,
     },
     viewRow: {
         display: 'flex',
@@ -197,6 +196,13 @@ export default StyleSheet.create({
         marginLeft: 25,
         marginRight: 25,
         width: 200
+    },
+    transactionCardText: {
+        fontSize: 20,
+        fontWeight: "500",
+        marginTop: 5,
+        marginBottom: 5,
+        textAlign: 'center',
     }
 });
 
