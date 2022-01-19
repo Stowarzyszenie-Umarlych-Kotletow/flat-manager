@@ -5,12 +5,13 @@ import lombok.NonNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -32,7 +33,13 @@ public class TransactionGroup implements Serializable {
     @NonNull
     private UUID flatId;
 
-    private Map<UUID, Transaction> transactions;
+    @NotNull
+    @NonNull
+    private List<Transaction> transactions;
+
+    @NotNull
+    @NonNull
+    private List<UUID> usersConnected;
 
     @CreatedDate
     private LocalDateTime dateCreated;
@@ -40,6 +47,7 @@ public class TransactionGroup implements Serializable {
     @LastModifiedDate
     private LocalDateTime lastModified;
 
-
+    @Version
+    private Long version;
 
 }

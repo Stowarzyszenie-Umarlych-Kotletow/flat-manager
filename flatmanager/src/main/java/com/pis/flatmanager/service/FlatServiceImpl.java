@@ -198,7 +198,7 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Boolean checkIfUserInFlat(UUID flatId, UUID userId) {
+    public boolean checkIfUserInFlat(UUID flatId, UUID userId) {
         var flat = flatRepository.findById(flatId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Flat %s does not exist", flatId)));
         return flat.getUsers().containsKey(userId);

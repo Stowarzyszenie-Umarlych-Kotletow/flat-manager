@@ -34,5 +34,5 @@ public interface FlatService {
 
     Map<UUID, FlatUser> getUsersFromFlat(UUID flatId);
 
-    Boolean checkIfUserInFlat(UUID flatId, UUID userId);
+    boolean checkIfUserInFlat(UUID flatId, UUID userId);
 }

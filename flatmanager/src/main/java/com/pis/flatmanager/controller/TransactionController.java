@@ -1,7 +1,6 @@
 package com.pis.flatmanager.controller;
 
 import com.pis.flatmanager.dto.external.OcrResponseProduct;
-import com.pis.flatmanager.dto.transactions.AddTransactionDto;
 import com.pis.flatmanager.dto.transactions.CreateTransactionGroupDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.model.TransactionGroup;
@@ -61,23 +60,7 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getTransactionGroupsByFlatId(user, flatId), HttpStatus.OK);
     }
 
-    @PutMapping("/{groupId}/transactions")
-    public ResponseEntity<TransactionGroup> addTransaction(@PathVariable UUID groupId, @Valid @RequestBody AddTransactionDto dto) throws AccessForbiddenException {
-        User user = userService.getCurrentUser();
-        return new ResponseEntity<>(
-                transactionService.addTransaction(user, groupId, dto),
-                HttpStatus.CREATED
-        );
-    }
-
-    @PostMapping("/{groupId}/transaction/{transactionId}")
-    public ResponseEntity<?> removeTransaction(@PathVariable UUID groupId, @PathVariable UUID transactionId) throws AccessForbiddenException {
-        User user = userService.getCurrentUser();
-        transactionService.removeTransaction(user, groupId, transactionId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping(path="/{groupId}/transactions/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path="/{groupId}/transactions/ocr", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<OcrResponseProduct>> uploadFile(@PathVariable UUID groupId, @RequestPart("file") MultipartFile file) throws AccessForbiddenException, IOException {
         return new ResponseEntity<>(
                 fileService.processReceipt(userService.getCurrentUser(), file),
