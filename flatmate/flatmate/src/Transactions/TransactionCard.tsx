@@ -2,7 +2,6 @@ import * as React from "react";
 import {useState} from "react";
 import styles from "../static/styles";
 import {Text, View, TouchableOpacity} from "react-native";
-import { TransactionShare } from "./TransactionShare";
 import { TransactionDetailsModal } from "./TransactionDetailsModal";
 
 
@@ -27,7 +26,7 @@ export function TransactionCard({transactionGroup}) {
       onPress={()=>{setShowTransactionDetails(true)}}
     >
       <View style={styles.viewRow}>
-        <Text style={styles.transactionCardText}>{transactionGroup.title}</Text>
+        <Text style={styles.transactionCardTitle}>{transactionGroup.title}</Text>
         <Text style={styles.transactionCardText}>{transactionGroup.date}</Text>
       </View>
 
