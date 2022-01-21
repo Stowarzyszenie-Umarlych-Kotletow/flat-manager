@@ -162,7 +162,8 @@ export default StyleSheet.create({
     viewRow: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        alignItems: 'center'
     },
     viewRowCrowdy: {
         display: 'flex',
@@ -210,6 +211,22 @@ export default StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         textAlign: 'center',
-    }
+    },
+    taskCard: {
+        borderColor: 'rgb(0, 102, 255)',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        marginStart: 20,
+        marginEnd: 20,
+    },
+    taskCardTitle: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginTop: 5,
+        marginBottom: 5,
+        textAlign: 'center',
+    },
 });
 

@@ -3,9 +3,7 @@ import { useState } from "react";
 import styles from "../static/styles";
 import { Text, View } from "react-native";
 import { Button } from "react-native-elements";
-import { AddTaskModal } from '../Tasks/AddTaskModal';
-import { AddUserToFlatModal } from './AddUserToFlatModal';
-import { BottomNavigationBar } from './BottomNavigationBar';
+import { BottomNavigationBar } from '../common/BottomNavigationBar';
 import { TaskDetailsModal } from "../Tasks/TaskDetailsModal";
 import { useFlat } from "../features/hooks";
 import { useGetFlatScheduleQuery } from "../features/api/flat-api";
@@ -18,8 +16,6 @@ export function DashboardScreen({ navigation }) {
     const query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
 
     // adding user
-    const [showAddUserToFlatModal, setShowAddUserToFlatModal] = useState(false);
-    const [showTaskCreationModal, setShowTaskCreationModal] = useState(false);
     const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);
     const [taskState, setTaskState] = useState<TaskEvent>(null);
 
@@ -62,12 +58,6 @@ export function DashboardScreen({ navigation }) {
                     />
                 );
             })}
-            {showTaskCreationModal ? (<AddTaskModal
-                setShowTaskCreationModal={setShowTaskCreationModal}
-            />): null}
-            {showAddUserToFlatModal ? (<AddUserToFlatModal
-                setShowAddUserToFlatModal={setShowAddUserToFlatModal}
-            />) : null}
             {showTaskDetailsModal ? (<TaskDetailsModal
                 setShow={setShowTaskDetailsModal}
                 taskId={taskState.taskId}
@@ -78,8 +68,8 @@ export function DashboardScreen({ navigation }) {
 
         </div>
         <BottomNavigationBar
-            openUserAdd={() => { setShowAddUserToFlatModal(true); }}
-            openTaskAdd={() => { setShowTaskCreationModal(true); }}
+            openUsers={() => { navigation.navigate('Users'); }}
+            openTasks={() => { navigation.navigate('Tasks'); }}
             openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
             openTransactionManager={() => {navigation.navigate('TransactionManagementView')}}
         />

@@ -8,7 +8,7 @@ const bill = require("../static/bill.svg") as string;
 const coins = require("../static/coins.svg") as string;
 
 
-export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, openTransactionManager}) {
+export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTransactionManager}) {
     return (
         <footer style={{
             backgroundColor: '#3333ff',
@@ -22,11 +22,11 @@ export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, ope
             minHeight: '75px',
         }}>
             <TouchableOpacity
-                onPress={() => openTaskAdd()}
+                onPress={() => openTasks()}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
                 <img src={addTask} alt="add task" style={{width: '35px', height: '35px'}}/>
-                <Text> Add task </Text>
+                <Text> Tasks </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {openTransactionManager()}}
@@ -36,11 +36,11 @@ export function BottomNavigationBar({openUserAdd, openTaskAdd, openCalendar, ope
                 <Text> Manage Transactions </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => openUserAdd()}
+                onPress={() => openUsers()}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
                 <img src={addUser} alt="add user" style={{width: '35px', height: '35px'}}/>
-                <Text> Add user </Text>
+                <Text> Users </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openCalendar()}

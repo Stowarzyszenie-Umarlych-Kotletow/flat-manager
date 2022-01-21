@@ -11,6 +11,8 @@ import { TransactionManagementView } from './Transactions/TransactionManagementV
 import {Text} from "react-native";
 import {useAppDispatch, useAppSelector} from "./store";
 import { useFlat } from "./features/hooks";
+import { ManageTasks } from "./Tasks/ManageTasks";
+import { ManageUsers } from "./Flatmate/ManageUsers";
 
 const userSettings = require("./static/userGear.svg") as string;
 
@@ -66,6 +68,16 @@ export function LoggedNavigator({navigation}) {
                 title: 'Transaction Management'
             }}>
                 {() => <TransactionManagementView />}
+            </LoggedStack.Screen>
+            <LoggedStack.Screen name="Tasks" options={{
+                title: 'Tasks'
+            }}>
+                {props => <ManageTasks {...props} />}
+            </LoggedStack.Screen>
+            <LoggedStack.Screen name="Users" options={{
+                title: 'Users'
+            }}>
+                {props => <ManageUsers {...props} />}
             </LoggedStack.Screen>
         </>)}
 
