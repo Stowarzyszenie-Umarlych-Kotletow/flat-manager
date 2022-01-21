@@ -1,14 +1,15 @@
 import * as React from "react";
 import {Text, TouchableOpacity} from "react-native";
 
-const addTask = require("../static/addTask.svg") as string;
-const addUser = require("../static/addUser.svg") as string;
+const calendar = require("../static/calendar.svg") as string;
+const users = require("../static/users.svg") as string;
 const gear = require("../static/gear.svg") as string;
-const bill = require("../static/bill.svg") as string;
 const coins = require("../static/coins.svg") as string;
+const dashboard = require("../static/dashboard.svg") as string;
+const tasks = require("../static/tasks.svg") as string;
 
 
-export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTransactionManager}) {
+export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTransactionManager, openDashboard}) {
     return (
         <footer style={{
             backgroundColor: '#3333ff',
@@ -25,30 +26,40 @@ export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTra
                 onPress={() => openTasks()}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
-                <img src={addTask} alt="add task" style={{width: '35px', height: '35px'}}/>
+                <img src={tasks} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Tasks </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {openTransactionManager()}}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
-                <img src={coins} alt="open settings" style={{width: '35px', height: '35px'}}/>
-                <Text> Manage Transactions </Text>
+                <img src={coins} alt=" " style={{width: '35px', height: '35px'}}/>
+                <Text> Transactions </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => openDashboard()}
+                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+            >
+                <img src={dashboard} alt=" " style={{width: '35px', height: '35px'}}/>
+                <Text> Dashboard </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openUsers()}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
-                <img src={addUser} alt="add user" style={{width: '35px', height: '35px'}}/>
+                <img src={users} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Users </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openCalendar()}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             >
-                <img src={addTask} alt="open calendar" style={{width: '35px', height: '35px'}}/>
+                <img src={calendar} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Calendar </Text>
             </TouchableOpacity>
+            
+
+
             {/* <TouchableOpacity
                 onPress={() => {console.log("flat settings")}}
                 style={{display: "flex", flexDirection: "column", alignItems: "center"}}

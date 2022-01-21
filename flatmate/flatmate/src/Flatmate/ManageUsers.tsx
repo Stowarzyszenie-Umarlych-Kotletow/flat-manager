@@ -54,6 +54,7 @@ export function ManageUsers({navigation}) {
         openTasks={() => { navigation.navigate('Tasks'); }}
         openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
         openTransactionManager={() => {navigation.navigate('TransactionManagementView')}}
+        openDashboard={()=>{navigation.navigate('DashboardScreen')}}
       />
     </View>
 
