@@ -28,7 +28,7 @@ pipeline {
 			steps {
 				updateGitlabCommitStatus name: 'build', state: 'pending'
 				dir('flatmanager') {
-					sh 'mvn compile'
+					sh 'mvn clean compile'
 				}
 			}
 			post {
