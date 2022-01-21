@@ -31,8 +31,7 @@ public class OcrGatewayImpl implements OcrGateway{
         this.rabbit.convertAndSend(routingKey, request);
         Map<String, List<OcrResponseProduct>> response;
         try {
-            response = this.rabbit.receiveAndConvert("manager_service", 30_000, new ParameterizedTypeReference<>() {
-            });
+            response = this.rabbit.receiveAndConvert("manager_service", 30_000, new ParameterizedTypeReference<>() {});
         } catch(Exception e) {
             throw new OcrException("OCR did not return the result");
         }

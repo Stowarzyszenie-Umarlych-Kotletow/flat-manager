@@ -2,10 +2,11 @@ package com.pis.flatmanager.controller;
 
 import com.pis.flatmanager.dto.users.CreateUserDto;
 import com.pis.flatmanager.dto.users.UserDto;
-import com.pis.flatmanager.service.JwtTokenManager;
+import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.model.jwt.JwtRequest;
 import com.pis.flatmanager.model.jwt.JwtResponse;
+import com.pis.flatmanager.service.JwtTokenManager;
 import com.pis.flatmanager.service.UserServiceImpl;
 import com.pis.flatmanager.service.interfaces.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
@@ -13,9 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,13 +59,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) throws AccessForbiddenException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+        } catch (AuthenticationException e) {
+            throw new AccessForbiddenException("INVALID_CREDENTIALS", e);
         }
     }
 }
