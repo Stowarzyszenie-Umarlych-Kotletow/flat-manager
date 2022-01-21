@@ -38,12 +38,12 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
     function sliceDate(time: string) {
         if (time == undefined) { return " "; }
         let timeStr = asDate(time).toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw' })
-        timeStr = timeStr.slice(0, -8);  // with hour - -3
+        timeStr = timeStr.slice(0, -10);  // with hour - -3
         return timeStr;
     }
 
     if (isLoading || !task) return null;
-    console.log(taskInstance);
+
     return (
         <Modal
             width={0.9}
@@ -55,8 +55,12 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
             onTouchOutside={() => { setShow(false); }}
         >
             <ModalContent>
-                <Text style={styles.tinyText}>User assigned to task at {sliceDate(taskInstance.date)} by {getUsername(taskInstance.userId)}</Text>
-                <Text style={styles.tinyText}>Task </Text>
+                <Text style={styles.bigText}>{task.name}</Text>
+                <Text style={styles.smallText}>{sliceDate(taskInstance.date)}</Text>
+                <Text style={styles.tinyText}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
+                {taskInstance.completedByUserId ? (
+                <Text style={styles.tinyText}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
+                ): null}
                 <Text style={styles.smallText}>Users in periodic task {task.name}:</Text>
                 <ul>
                     {Object.keys(task.userDoneCounter).map(userId => {

@@ -22,7 +22,7 @@ export function NotLoggedNavigator() {
 
             <NotLoggedStack.Screen name="RegisterScreen" options={{
                 title: 'Register'
-            }}>{() => <RegisterScreen />}
+            }}>{(props) => <RegisterScreen {...props} />}
             </NotLoggedStack.Screen>
 
             <NotLoggedStack.Screen name="LoginScreen" options={{

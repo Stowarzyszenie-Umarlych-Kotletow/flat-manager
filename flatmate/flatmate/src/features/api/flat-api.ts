@@ -55,8 +55,8 @@ export const flatApi = api.injectEndpoints({
         }),
         setFlatTaskCompleted: builder.mutation<void, { flatId: string, taskId: string, taskInstanceId: string }>({
             query: ({ flatId, taskId, taskInstanceId }) =>
-                ({ url: `/flats/${flatId}/${taskId}/instances/${taskInstanceId}/completed`, method: 'POST' }),
-            invalidatesTags: (res, _, {taskId}) => [{type: 'flatTask', id: taskId}]
+                ({ url: `/flats/${flatId}/tasks/${taskId}/instances/${taskInstanceId}/completed`, method: 'POST' }),
+            invalidatesTags: (res, _, {taskId}) => ['flatSchedule', {type: 'flatTask', id: taskId}]
         })
     })
 });
