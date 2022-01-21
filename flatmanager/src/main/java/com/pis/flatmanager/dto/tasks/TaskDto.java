@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class TaskDto implements Serializable {
 
     String description;
 
-    Map<UUID, Integer> userDoneCounter;
+    Map<UUID, Integer> userDoneCounter = new HashMap<>();
 
     @NotNull
     @NonNull
