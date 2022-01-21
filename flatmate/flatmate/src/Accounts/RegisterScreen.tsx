@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import * as React from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
-import { useAppDispatch } from "../store";
+import {useAppDispatch, useAppSelector} from "../store";
 import { useRegisterMutation } from "../features/api/user-api";
 import { RegisterRequest } from "../models/api/auth";
 
@@ -32,6 +32,8 @@ export function RegisterScreen() {
         }),
         email: Yup.string().required("Please enter your email").matches(/@/, "Incorrect email")
     }).required();
+
+    const toastMessage = useAppSelector((state) => state.toast.message?.toString());
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -163,6 +165,7 @@ export function RegisterScreen() {
             <Text> {errors.email?.message} </Text>
             <Text> {errors.password?.message} </Text>
             <Text> {errors.confirmPassword?.message} </Text>
+            <Text> {toastMessage} </Text>
         </View>
     );
 }

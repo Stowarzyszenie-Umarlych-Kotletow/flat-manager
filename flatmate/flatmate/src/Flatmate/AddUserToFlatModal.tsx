@@ -5,7 +5,6 @@ import { useState } from "react";
 import styles from "../static/styles";
 import { Text, TextInput } from "react-native";
 import { Button } from "react-native-elements";
-import userService from "../services/user.service";
 import { useAppDispatch, useAppSelector } from "../store";
 import axios, { AxiosError } from "axios";
 import { useFlat } from "../features/hooks";

@@ -18,6 +18,14 @@ export default StyleSheet.create({
     accScreenContainer: {
         flex: 1,
     },
+    errText:{
+        fontSize: 20,
+        fontWeight: "500",
+        marginTop: 30,
+        marginBottom: 15,
+        textAlign: 'center',
+        color: '#ff0000',
+    },
     smallText: {
         fontSize: 20,
         fontWeight: "500",

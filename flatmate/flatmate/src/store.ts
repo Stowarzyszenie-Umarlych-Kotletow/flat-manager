@@ -11,16 +11,19 @@ import {
 } from 'redux-persist'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import storage from '@react-native-async-storage/async-storage';
-import auth from "./features/auth"
+import auth from "./features/auth";
 import flat from './features/flat';
+import toast from './features/toast';
 import { api } from './features/api/api';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 const rootReducer = combineReducers({
   auth: auth.reducer,
   flat: flat.reducer,
+  toast: toast.reducer,
   [api.reducerPath]: api.reducer
 });
+
 const persistConfig = {
   key: 'root',
   storage
