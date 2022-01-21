@@ -7,9 +7,10 @@ import { useFlat } from "../features/hooks";
 import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../features/api/flat-api";
 import { asDate } from "../helpers/date-helper";
 import { TaskInstanceInfo, TaskState } from "../models/task.model";
+import {TaskFrontendState, taskInstanceToFrontendState} from "./helpers";
 
 export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }:
-    { setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean }) {
+                                     { setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean }) {
 
     const { flatId, flatUsers } = useFlat();
 
@@ -37,7 +38,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
     function sliceDate(time: string) {
         if (time == undefined) { return " "; }
         let timeStr = asDate(time).toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw' })
-        timeStr = timeStr.slice(0, -3);
+        timeStr = timeStr.slice(0, -8);  // with hour - -3
         return timeStr;
     }
 
@@ -68,8 +69,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
                             buttonStyle={styles.greenButton}
                             title="Set as Completed"
                             onPress={() => {
-                                completeTask();
-                                setShow(false);
+                                completeTask().then(() => setShow(false));
                             }}
                         /> : null
                 }

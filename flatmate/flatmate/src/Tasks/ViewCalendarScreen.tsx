@@ -7,19 +7,18 @@ import {useAppDispatch} from "../store";
 import {flatApi, useGetFlatScheduleQuery} from '../features/api/flat-api';
 import {useFlat} from '../features/hooks';
 import TaskEvent from './event.model';
-import {scheduleToEvents} from './helpers';
-import {TaskState} from '../models/task.model'
+import {scheduleToEvents, TaskFrontendState, taskInstanceToFrontendState} from './helpers';
 import styles from "../static/styles";
 
 
 export function ViewCalendarScreen() {
     //TODO: choose query range
     const query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
-    
+
     const { flatId, flatTasks } = useFlat();
     const dispatch = useAppDispatch();
     const { isLoading, currentData: taskSchedule} = useGetFlatScheduleQuery({ flatId, data: query }, {refetchOnMountOrArgChange: true});
-    
+
 
     useEffect(() => {
         dispatch(flatApi.util.invalidateTags([{type: 'flatTasks', id: flatId}]));
@@ -43,26 +42,24 @@ export function ViewCalendarScreen() {
         setShowTaskDetailsModal(true)
     }
 
+
     function doRenderEvent(event: TaskEvent, props) {
         let style = {}
-        if (event.isCompleted) {
-            if (event.instance.state == TaskState.PAST){
+        let taskFrontendState:TaskFrontendState = taskInstanceToFrontendState(event.instance)
+
+        switch(taskFrontendState){
+            case TaskFrontendState.COMPLETED:
                 style = styles.eventCompleted;
-            }
-            else {
+                break;
+            case TaskFrontendState.FAILED:
                 style = styles.eventFail;
-            }
-        }
-        else { // not completed
-            if(event.instance.state == TaskState.SCHEDULED) {
+                break;
+            case TaskFrontendState.FUTURE:
+                style = styles.eventFuture;
+                break;
+            case TaskFrontendState.PENDING:
                 style = styles.eventPending
-            }
-            else if (event.instance.state == TaskState.FUTURE) {
-                style = styles.eventFuture
-            }
-            else if (event.instance.state == TaskState.PAST) {
-                style = styles.eventCompleted
-            }
+                break;
         }
 
         return <Button
@@ -98,7 +95,7 @@ export function ViewCalendarScreen() {
                 taskId={activeTaskInstance.taskId}
                 taskInstance={activeTaskInstance.instance}
                 deletable={false}
-            
+
             />) : null}
         </View>
     );
