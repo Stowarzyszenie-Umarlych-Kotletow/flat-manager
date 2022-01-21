@@ -1,8 +1,8 @@
 package com.pis.flatmanager.service;
 
-import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.dto.UserDto;
-import com.pis.flatmanager.dto.VerifyUserDto;
+import com.pis.flatmanager.dto.users.CreateUserDto;
+import com.pis.flatmanager.dto.users.UserDto;
+import com.pis.flatmanager.dto.users.VerifyUserDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.exception.EntityNotFoundException;

@@ -1,6 +1,7 @@
 package com.pis.flatmanager.controller;
 
-import com.pis.flatmanager.dto.CreateUserDto;
+import com.pis.flatmanager.dto.users.CreateUserDto;
+import com.pis.flatmanager.dto.users.UserDto;
 import com.pis.flatmanager.service.JwtTokenManager;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.model.jwt.JwtRequest;
@@ -39,7 +40,7 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -53,7 +54,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDto dto) throws EntityDuplicateException {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserDto dto) throws EntityDuplicateException {
         var userDto = userService.userToDto(userService.createUser(dto));
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }

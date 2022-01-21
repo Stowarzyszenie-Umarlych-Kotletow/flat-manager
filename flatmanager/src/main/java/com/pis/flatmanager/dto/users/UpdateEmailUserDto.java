@@ -1,16 +1,12 @@
-package com.pis.flatmanager.dto;
+package com.pis.flatmanager.dto.users;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Value
 public class UpdateEmailUserDto implements Serializable {
 
     @NotBlank

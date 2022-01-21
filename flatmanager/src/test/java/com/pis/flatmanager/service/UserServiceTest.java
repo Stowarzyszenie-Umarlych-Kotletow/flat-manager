@@ -1,9 +1,9 @@
 package com.pis.flatmanager.service;
 
-import com.pis.flatmanager.dto.CreateUserDto;
-import com.pis.flatmanager.dto.UpdateEmailUserDto;
-import com.pis.flatmanager.dto.UpdatePasswordUserDto;
-import com.pis.flatmanager.dto.VerifyUserDto;
+import com.pis.flatmanager.dto.users.CreateUserDto;
+import com.pis.flatmanager.dto.users.UpdateEmailUserDto;
+import com.pis.flatmanager.dto.users.UpdatePasswordUserDto;
+import com.pis.flatmanager.dto.users.VerifyUserDto;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.User;
