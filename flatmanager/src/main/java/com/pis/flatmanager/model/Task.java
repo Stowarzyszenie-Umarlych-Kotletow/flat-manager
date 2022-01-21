@@ -57,7 +57,8 @@ public class Task implements Serializable {
     }
 
     public TaskDto asDto() {
-        return new TaskDto(getId(), getFlatId(), getName(), getOwnerId(), getDescription(), getUserDoneCounter(),
-                getStartDate(), getEndDate(), getTimeToComplete(), getRepeatAfter());
+        return TaskDto.builder().id(getId()).flatId(getFlatId()).name(getName()).ownerId(getOwnerId()).description(getDescription())
+                .userDoneCounter(getUserDoneCounter()).startDate(getStartDate()).endDate(getEndDate()).timeToComplete(getTimeToComplete())
+                .repeatAfter(getRepeatAfter()).build();
     }
 }

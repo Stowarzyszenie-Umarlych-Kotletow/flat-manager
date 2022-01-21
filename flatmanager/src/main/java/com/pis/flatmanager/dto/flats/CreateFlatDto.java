@@ -6,9 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 public class CreateFlatDto {
     @NotBlank
     @Size(min=2, max=32)

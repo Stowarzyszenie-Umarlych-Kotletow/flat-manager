@@ -1,6 +1,6 @@
 package com.pis.flatmanager.service;
 
-import com.pis.flatmanager.dto.VerifyUserDto;
+import com.pis.flatmanager.dto.users.VerifyUserDto;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

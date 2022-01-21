@@ -1,37 +1,33 @@
 package com.pis.flatmanager.dto.tasks;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Builder
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Value
 public class TaskDto implements Serializable {
-    private UUID id;
+    UUID id;
 
     @NotNull
-    @NonNull
-    private UUID flatId;
+    @NonNull UUID flatId;
 
     @NotNull
-    @NonNull
-    private String name;
+    @NonNull String name;
 
     @NotNull
-    @NonNull
-    private UUID ownerId;
+    @NonNull UUID ownerId;
 
-    private String description;
+    String description;
 
-    Map<UUID, Integer> userDoneCounter = new HashMap<>();
+    Map<UUID, Integer> userDoneCounter;
 
     @NotNull
     @NonNull
