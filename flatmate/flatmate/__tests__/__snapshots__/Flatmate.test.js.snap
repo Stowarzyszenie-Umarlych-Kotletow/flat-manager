@@ -483,39 +483,6 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
        Calendar 
     </Text>
   </View>
-  <View
-    accessible={true}
-    focusable={true}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "column",
-        "opacity": 1,
-      }
-    }
-  >
-    <img
-      alt="open settings"
-      src={Object {}}
-      style={
-        Object {
-          "height": "35px",
-          "width": "35px",
-        }
-      }
-    />
-    <Text>
-       Flat Settings
-    </Text>
-  </View>
 </footer>
 `;
 
@@ -1031,39 +998,6 @@ Array [
         />
         <Text>
            Calendar 
-        </Text>
-      </View>
-      <View
-        accessible={true}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "display": "flex",
-            "flexDirection": "column",
-            "opacity": 1,
-          }
-        }
-      >
-        <img
-          alt="open settings"
-          src={Object {}}
-          style={
-            Object {
-              "height": "35px",
-              "width": "35px",
-            }
-          }
-        />
-        <Text>
-           Flat Settings
         </Text>
       </View>
     </footer>
