@@ -10,8 +10,8 @@ import {
   REGISTER,
 } from 'redux-persist'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import auth from "./features/auth"
 import storage from '@react-native-async-storage/async-storage';
+import auth from "./features/auth"
 import flat from './features/flat';
 import { api } from './features/api/api';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';

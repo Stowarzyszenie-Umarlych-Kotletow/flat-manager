@@ -5,8 +5,11 @@
     };
 })(Date.prototype.toJSON);
 
-import { registerRootComponent } from 'expo';
+import store from './src/store';
+import { setStore } from './src/helpers/authorized-api-client';
+setStore(store);
 
+import { registerRootComponent } from 'expo';
 import App from './src/App';
 
 

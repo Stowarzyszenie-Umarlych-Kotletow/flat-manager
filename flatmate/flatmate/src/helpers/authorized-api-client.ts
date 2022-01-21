@@ -1,4 +1,3 @@
-import store from "../store";
 import auth from "../features/auth";
 import { getConfig } from "./api-client";
 import { handleDates } from "./date-helper";
@@ -6,9 +5,16 @@ import axios from "axios";
 
 const client = axios.create(getConfig());
 
+export const config = {
+    store: null
+};
+
+export function setStore(newStore) {
+    config.store = newStore;
+}
 
 client.interceptors.request.use(req => {
-    const authState = store.getState().auth;
+    const authState = config.store.getState().auth;
     if (authState.isLoggedIn) {
         req.headers["Authorization"] = `Bearer ${authState.token.value}`;
     }
@@ -19,15 +25,14 @@ client.interceptors.request.use(req => {
 });
 
 client.interceptors.response.use(res => {
-    const authState = store.getState().auth;
+    const authState = config.store.getState().auth;
     if (authState.isLoggedIn && res.status == 401) {
         console.log("Logout because of received 401");
-        store.dispatch(auth.actions.logout());
+        config.store.dispatch(auth.actions.logout());
     }
     return res;
 }, err => {
     return Promise.reject(err);
 });
-
 
 export default client;
