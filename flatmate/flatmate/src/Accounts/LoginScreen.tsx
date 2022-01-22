@@ -7,6 +7,7 @@ import {useAppDispatch, useAppSelector} from "../store";
 import {LoginRequest} from "../models/api/auth";
 import {useLoginMutation} from "../features/api/user-api";
 import toast from "../features/toast"
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 export function parseLoginData(data) {
@@ -26,19 +27,23 @@ export function LoginScreen() {
     });
 
     const [login, {isError, status}] = useLoginMutation();
-
-    const toastMessage = useAppSelector((state) => state.toast.message?.toString());
-
     const dispatch = useAppDispatch();
-
     function checkErrors(parsedData){
         let err = false;
         if (parsedData.username == ""){
-            dispatch(toast.actions.setMessage("Username cannot be empty"));
+            showMessage({
+                message: "Username cannot be empty",
+                type: "danger",
+            })
+            // dispatch(toast.actions.setMessage("Username cannot be empty"));
             err = true;
         }
         if (parsedData.password == ""){
-            dispatch(toast.actions.setMessage("Password cannot be empty"));
+            showMessage({
+                message: "Password cannot be empty",
+                type: "danger",
+            })
+            // dispatch(toast.actions.setMessage("Password cannot be empty"));
             err = true;
         }
         return err;
@@ -94,7 +99,6 @@ export function LoginScreen() {
                 title="Submit"
                 onPress={handleSubmit(onLoginPress)}
             />
-            <Text style={styles.errText}>{toastMessage}</Text>
         </View>
     );
 }

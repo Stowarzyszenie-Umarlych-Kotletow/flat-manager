@@ -29,6 +29,5 @@ export function NotLoggedNavigator() {
                 title: 'Login',
             }}>{() => <LoginScreen />}
             </NotLoggedStack.Screen>
-
         </NotLoggedStack.Navigator>)
 }

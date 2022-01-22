@@ -21,8 +21,6 @@ export default StyleSheet.create({
     errText:{
         fontSize: 20,
         fontWeight: "500",
-        marginTop: 30,
-        marginBottom: 15,
         textAlign: 'center',
         color: '#ff0000',
     },

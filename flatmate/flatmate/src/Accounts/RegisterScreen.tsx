@@ -8,6 +8,8 @@ import * as Yup from "yup";
 import {useAppDispatch, useAppSelector} from "../store";
 import { useRegisterMutation } from "../features/api/user-api";
 import { RegisterRequest } from "../models/api/auth";
+import FlashMessage, {showMessage} from "react-native-flash-message";
+import {useEffect} from "react";
 
 export function parseRegisterData(data): RegisterRequest {
     let parsedData = {
@@ -33,8 +35,6 @@ export function RegisterScreen({ navigation }) {
         email: Yup.string().required("Please enter your email").matches(/@/, "Incorrect email")
     }).required();
 
-    const toastMessage = useAppSelector((state) => state.toast.message?.toString());
-
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             firstName: '',
@@ -47,6 +47,16 @@ export function RegisterScreen({ navigation }) {
         resolver: yupResolver(schema)
     });
     const [register, { isSuccess }] = useRegisterMutation();
+    useEffect(()=>{
+        if (Object.keys(errors).length!=0){
+            showMessage(
+                {
+                    message: "Please re-check your form",
+                    type: "danger",
+                }
+            )
+        }
+    }, [errors])
     const onSubmit = data => onRegisterPress(data)
 
     function onRegisterPress(data) {
@@ -111,6 +121,8 @@ export function RegisterScreen({ navigation }) {
                 )}
                 name="email"
             />
+            {errors.email?(
+            <Text style={styles.errText}> {errors.email?.message} </Text>):null}
             <Controller
                 control={control}
                 rules={{
@@ -144,6 +156,8 @@ export function RegisterScreen({ navigation }) {
                 )}
                 name="password"
             />
+            {errors.password?(
+            <Text style={styles.errText}> {errors.password?.message} </Text>):null}
             <Controller
                 control={control}
                 rules={{
@@ -162,15 +176,13 @@ export function RegisterScreen({ navigation }) {
                 )}
                 name="confirmPassword"
             />
+            {errors.confirmPassword?(
+            <Text style={styles.errText}> {errors.confirmPassword?.message} </Text>):null}
             <Button
                 buttonStyle={styles.blueButton}
                 title="Submit"
                 onPress={handleSubmit(onSubmit)}
             />
-            <Text> {errors.email?.message} </Text>
-            <Text> {errors.password?.message} </Text>
-            <Text> {errors.confirmPassword?.message} </Text>
-            <Text> {toastMessage} </Text>
         </View>
     );
 }

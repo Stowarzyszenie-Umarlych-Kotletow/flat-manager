@@ -35,6 +35,7 @@
     "react-native-big-calendar": "^2.9.1",
     "react-native-elements": "^3.4.2",
     "react-native-events-calendar": "^1.0.8",
+    "react-native-flash-message": "^0.2.0",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-modals": "^0.22.3",
     "react-native-multiple-select": "^0.5.7",
