@@ -11,7 +11,7 @@ import { useFlat } from "../../features/hooks";
 import { useCreateFlatTaskMutation } from "../../features/api/flat-api";
 
 export function validateForm(data) {
-  return true;
+  return true; //TODO: validate
 }
 
 
@@ -48,7 +48,7 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 
   const submitTask = async (data: any) => {
     if (!validateForm(data))
-      return;
+      return; //TODO: do sth
     const request: CreateTaskRequest = {
       name: data.taskName,
       startDate: data.start,

@@ -82,9 +82,9 @@ export function ViewCalendarScreen() {
                 events={getCalendar()}
                 height={510}
                 mode={'month'}
-                showTime={true}
+                showTime={false}
                 swipeEnabled={true}
-                showAllDayEventCell={false}
+                showAllDayEventCell={true}
                 onPressEvent={
                     event => eventClicked(event)
                 }

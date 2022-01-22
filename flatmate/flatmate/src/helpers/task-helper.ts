@@ -1,6 +1,7 @@
 import {asDate} from "./date-helper";
 import TaskEvent from "../models/event.model";
 import {TaskState} from "../models/task.model";
+import { addDays, addHours } from "date-fns";
 
 export enum TaskFrontendState {
     COMPLETED = "Completed",
@@ -37,10 +38,9 @@ export function scheduleToEvents(schedule: TaskSchedule,
     const events = [];
 
     for (let [taskId, taskInstances] of Object.entries(schedule)) {
-        Object.values(taskInstances).map(instance => {
+        Object.values(taskInstances).forEach(instance => {
             const name = taskNameResolver(taskId);
             const frontendState = taskInstanceToFrontendState(instance);
-            console.log(instance);
             events.push({
                 title: name,
                 taskId: taskId,

@@ -19,8 +19,9 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
 
 
     function getUsername(userId: string): string {
-        for (let user of flatUsers) {
-            return user.username;
+        for (const user of flatUsers) {
+            if(userId == user.id) 
+                return user.username;
         }
         return "Unknown user";
     }
