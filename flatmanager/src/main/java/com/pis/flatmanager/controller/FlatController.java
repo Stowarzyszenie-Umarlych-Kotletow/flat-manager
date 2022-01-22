@@ -39,7 +39,7 @@ public class FlatController {
     }
 
     @DeleteMapping("/{flatId}")
-    public ResponseEntity<?> deleteFlatById(@PathVariable UUID flatId)
+    public ResponseEntity<Void> deleteFlatById(@PathVariable UUID flatId)
             throws AccessForbiddenException {
 
         User user = userService.getCurrentUser();
@@ -85,7 +85,7 @@ public class FlatController {
         return new ResponseEntity<>(updatedDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{flatId}/users/{userId}")
+    @PostMapping("/{flatId}/users/{userId}/remove")
     public ResponseEntity<FlatDto> removeFlatUser(@PathVariable UUID flatId, @PathVariable UUID userId)
             throws AccessForbiddenException {
 

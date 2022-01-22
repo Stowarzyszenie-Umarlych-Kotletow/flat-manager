@@ -34,7 +34,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{groupId}")
-    public ResponseEntity<?> deleteGroupById(@PathVariable UUID groupId) throws AccessForbiddenException {
+    public ResponseEntity<Void> deleteGroupById(@PathVariable UUID groupId) throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         transactionService.deleteTransactionGroup(user, groupId);
         return ResponseEntity.ok().build();

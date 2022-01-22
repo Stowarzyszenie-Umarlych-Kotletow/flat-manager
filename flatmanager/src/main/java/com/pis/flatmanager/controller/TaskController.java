@@ -72,14 +72,14 @@ public class TaskController {
     }
 
     @DeleteMapping("/{flatId}/tasks/{taskId}")
-    public ResponseEntity<?> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId)
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId)
             throws AccessForbiddenException {
         taskService.deleteTask(taskId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{flatId}/tasks/{taskId}/instances/{taskInstanceId}/completed")
-    public ResponseEntity<?> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId,
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID flatId, @PathVariable UUID taskId,
                                         @PathVariable UUID taskInstanceId) throws AccessForbiddenException {
         var user = userService.getCurrentUser();
         taskService.setCompletedBy(user, taskId, taskInstanceId);
