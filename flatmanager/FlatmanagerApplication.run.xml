@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="FlatmanagerApplication" type="Application" factoryName="Application" nameIsGenerated="true">
     <envs>
-      <env name="spring.profiles.active" value="dev,rabbit" />
+      <env name="spring.profiles.active" value="dev" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.pis.flatmanager.FlatmanagerApplication" />
     <module name="flatmanager" />

@@ -28,11 +28,19 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 
 
   function submitTransactionGroup(data) {
+		let slicedItems = [];
+		for (let key in items) {
+			slicedItems.push({
+				name: items[key].name, 
+				price: items[key].price
+			});
+		}
+
 		let transactionGroup = {
 			name: data.name,
 			participants: selectedUsers,
 			flatId: flatId,
-			transactions: items
+			transactions: slicedItems
 		}
 		handleAddTransactionGroup(transactionGroup);
 	}
@@ -51,18 +59,17 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 		return obj;
 	}
 
-
   function addItem() {
-		let new_items = items;
-		new_items[transactionsId] = {
+		let newItems = items;
+		newItems[transactionsId] = {
 			id: transactionsId,
 			name: "",
 			price: 0,
 		}
 		setTransactionsId(transactionsId + 1);
-		setItems(new_items);
+		setItems(newItems);
 		//backend connection
-		console.log(new_items);
+		console.log(newItems);
   }
 
 	function removeItem(id) {
