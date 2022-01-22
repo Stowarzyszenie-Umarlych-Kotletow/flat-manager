@@ -1,17 +1,15 @@
 package com.pis.flatmanager.model.jwt;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
+@AllArgsConstructor
 public class JwtResponse implements Serializable {
 
     private static final long serialVersionUID = -8091879091924046844L;
-    private final String jwttoken;
+    private final String token;
 
-    public JwtResponse(String jwttoken) {
-        this.jwttoken = jwttoken;
-    }
-
-    public String getToken() {
-        return this.jwttoken;
-    }
 }
