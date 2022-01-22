@@ -1,5 +1,5 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
-import {TextInput, Text, View} from "react-native";
+import {TextInput, Text, View, ScrollView} from "react-native";
 import {useState} from "react";
 import styles from "../static/styles";
 import {Button} from "react-native-elements";
@@ -67,16 +67,18 @@ export function CreateTransactionGroup({setShowAddTransactionGroup}) {
   return (
     <Modal
 		width={0.9}
+    height={0.95}
 		rounded
 		actionsBordered
-		style={{zIndex: 1000, paddingLeft: 10, paddingRight: 10}}
+		style={{zIndex: 1000}}
 		visible={true}
 		modalTitle={<ModalTitle title="Add Transaction Group"  align="left" />}
 		onTouchOutside={() => { setShowAddTransactionGroup(false)}}
 	>
+	<ScrollView>
 	<ModalContent>
 		<View>
-			<Text style={styles.tinyText}> Set Transaction Group Title </Text>
+			<Text style={styles.tinyTextCenter}> Set Transaction Group Title </Text>
 			<Controller
 				control={control}
 				name="name"
@@ -85,7 +87,7 @@ export function CreateTransactionGroup({setShowAddTransactionGroup}) {
 				}}
 				render={({ field: { onChange, onBlur, value } }) => (
 				<TextInput
-					style={styles.accFormTextInput}
+					style={styles.textInput}
 					onBlur={onBlur}
 					onChangeText={onChange}
 					value={value}
@@ -94,7 +96,7 @@ export function CreateTransactionGroup({setShowAddTransactionGroup}) {
 				)}
 			/>
 		</View>
-		<Text style={styles.tinyText}> Items </Text>
+		<Text style={styles.tinyTextCenter}> Items </Text>
 		{Object.keys(items).length === 0 ? (<Text> No Items Yet </Text>) : null } 
 
 		{Object.values(items).map((item) => {
@@ -114,27 +116,27 @@ export function CreateTransactionGroup({setShowAddTransactionGroup}) {
 				} 
 
 			return(
-			 	<View style={styles.viewRow} key={item["id"]}>
+				<View style={styles.viewRow} key={item["id"]}>
 					<TextInput
-            style={styles.accFormTextInput}
+						style={styles.textInput}
 						placeholder="Name"
 						onChangeText={changeItemsName}
 					/>
 					<TextInput				
-						style={styles.accFormTextInput}
+						style={styles.textInput}
 						placeholder="Price"
 						onChangeText={changeItemsPrice}
 					/> 
 					<Button
-						buttonStyle={styles.warnButton}
+						buttonStyle={styles.redButton}
 						title="X"
 						onPress={() => {removeItem(item["id"])}}
 					/>
-		 		</View>
-		 )})
+				</View>
+		)})
 		}
 
-		<Text style={styles.tinyText}> Assign Users to Transaction Group </Text>
+		<Text style={styles.tinyTextCenter}> Assign Users to Transaction Group </Text>
 		<CustomMultiPicker
 			options={getUserSelectList()}
 			search={true}
@@ -154,40 +156,41 @@ export function CreateTransactionGroup({setShowAddTransactionGroup}) {
 		/>
 
 
-		<View style={styles.viewRowCrowdy}>
+		<View style={styles.viewRowCenter}>
 			<Button
-				buttonStyle={styles.blueButtonSmall}
+				buttonStyle={styles.blueButtonNarrow}
 				title="Add Item"
 				onPress={() => {addItem()}}
 			/>
 			<Button
-				buttonStyle={styles.blueButtonSmall}
+				buttonStyle={styles.blueButtonNarrow}
 				title="Upload Bill"
 				onPress={() => {setShowUploadBillModal(true)}}
 			/>
 		</View>
 	
 		
-		<View style={styles.viewRowCrowdy}>
+		<View style={styles.viewRowCenter}>
 			<Button
-				buttonStyle={styles.greenButtonSmall}
+				buttonStyle={styles.greenButtonNarrow}
 				title="Submit"
 				onPress={handleSubmit(handleAddTransactionGroup)}
 			/>
 			<Button
-				buttonStyle={styles.redButtonSmall}
+				buttonStyle={styles.redButtonNarrow}
 				title="Cancel"
 				onPress={() => { setShowAddTransactionGroup(false) }}
 			/>
 		</View>
 
-	{ showUploadBillModal ? (
-		<UploadBillModal 
+		{ showUploadBillModal ? (
+			<UploadBillModal 
 				setShowUploadBillModal={setShowUploadBillModal}
 				uploadPhoto={uploadPhoto}
-		/>
-            ) : null}
+			/>
+		) : null}
 	</ModalContent>
+	</ScrollView>
 	</Modal>
   );
 }

@@ -4,7 +4,7 @@ import * as React from "react";
 import styles from "../static/styles";
 
 export function HomeScreen({navigation}) {
-    return (<View style={styles.accScreenContainer}>
+    return (<View>
         <Text style={styles.loginLogoText}>Flatmate</Text>
 
         <Button

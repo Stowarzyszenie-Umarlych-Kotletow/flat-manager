@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalTitle } from "react-native-modals";
-import { Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 import styles from "../static/styles";
 import { Button } from "react-native-elements";
 import * as React from "react";
@@ -47,6 +47,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
     return (
         <Modal
             width={0.9}
+            height={0.95}
             rounded
             actionsBordered
             style={{ zIndex: 1000 }}
@@ -54,12 +55,13 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
             modalTitle={<ModalTitle title={task?.name} align="left" />}
             onTouchOutside={() => { setShow(false); }}
         >
+            <ScrollView>
             <ModalContent>
-                <Text style={styles.bigText}>{task.name}</Text>
+                <Text style={styles.tinyTextCenter}>{task.name}</Text>
                 <Text style={styles.smallText}>{sliceDate(taskInstance.date)}</Text>
-                <Text style={styles.tinyText}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
+                <Text style={styles.tinyTextCenter}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
                 {taskInstance.completedByUserId ? (
-                <Text style={styles.tinyText}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
+                <Text style={styles.tinyTextCenter}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
                 ): null}
                 <Text style={styles.smallText}>Users in periodic task {task.name}:</Text>
                 <ul>
@@ -81,7 +83,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
                     deletable == true
                     &&
                     <Button
-                        buttonStyle={styles.warnButton}
+                        buttonStyle={styles.redButton}
                         title="Delete task"
                         onPress={() => {
                             deleteTask();
@@ -90,13 +92,14 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
                     />
                 }
 
-                <Button
-                    buttonStyle={styles.blueButton}
-                    title="Back"
-                    onPress={() => { setShow(false); }}
-                />
-            </ModalContent>
-        </Modal>
+			<Button
+				buttonStyle={styles.blueButton}
+				title="Back"
+				onPress={() => { setShow(false); }}
+			/>
+		</ModalContent>
+		</ScrollView>
+    </Modal>
 
     )
 }

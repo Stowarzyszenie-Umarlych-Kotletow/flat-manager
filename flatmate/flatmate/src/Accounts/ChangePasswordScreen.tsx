@@ -43,7 +43,7 @@ export function ChangePasswordScreen() {
     }
 
     return (
-        <View style={styles.accScreenContainer}>
+        <View>
             <Text style={styles.logoText}>Change password</Text>
 
             <Controller
@@ -53,7 +53,7 @@ export function ChangePasswordScreen() {
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -71,7 +71,7 @@ export function ChangePasswordScreen() {
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -89,7 +89,7 @@ export function ChangePasswordScreen() {
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}

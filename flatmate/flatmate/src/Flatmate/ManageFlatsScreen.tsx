@@ -39,7 +39,7 @@ export function ManageFlatsScreen({navigation}) {
         />
         {Object.values(flats).map((flat) => {
             return (<Button
-                    buttonStyle={styles.highButton}
+                    buttonStyle={styles.blueButtonTall}
                     title={flat.name}
                     key={flat.id}
                     onPress={() => handleClickOnFlat(flat.id)}

@@ -1,9 +1,8 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import * as React from "react";
 import styles from "../static/styles";
-import {Text, View} from "react-native";
+import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-elements";
-import {useState} from "react";
 
 
 export function TransactionDetailsModal({setShowTransactionDetailsModal, transactionGroup}) {
@@ -22,39 +21,41 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
   return ( 
   <Modal
     width={0.9}
+    height={0.95}
     rounded
     actionsBordered
     style={{zIndex: 1000}}
     visible={true}
     modalTitle={<ModalTitle title="Transaction Details"  align="left" />}
     onTouchOutside={() => { setShowTransactionDetailsModal(false)}}
->
-    <ModalContent>
+  >
+  <ScrollView>
+  <ModalContent>
     <Button
-      buttonStyle={styles.warnButton}
+      buttonStyle={styles.redButton}
       title="Hide Details"
       onPress={() => { setShowTransactionDetailsModal(false) }}
     />
-    <Text style={styles.smallTextStart}>
+    <Text style={styles.smallText}>
     { 
       transactionGroup.participants.map(participant => {
       return getUsername(participant)+ " ";
     })}
     </Text>
 
-    <View style={styles.transactionItems}>
+    <View style={styles.borderLeftBlack}>
     { 
       Object.values(transactionGroup.transactions).map((transaction) => {
       return (
-          <View style={styles.viewRow} key={transaction["id"]}>
-            <Text style={styles.tinyText}>{transaction["name"]}</Text>
-            <Text style={styles.tinyText}> {transaction["total"]}zł</Text> 
-          </View>
-          // { <TransactionShare transaction={transaction}/> }
+        <View style={styles.viewRow} key={transaction["id"]}>
+          <Text style={styles.tinyTextCenter}>{transaction["name"]}</Text>
+          <Text style={styles.tinyTextCenter}> {transaction["total"]}zł</Text> 
+        </View>
       );
     })}
     </View>
-    </ModalContent>
-    </Modal>
+  </ModalContent>
+  </ScrollView>
+  </Modal>
   );
 }

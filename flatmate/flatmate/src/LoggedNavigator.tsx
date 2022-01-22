@@ -11,6 +11,9 @@ import { TransactionManagementView } from './Transactions/TransactionManagementV
 import { Text } from "react-native";
 import { useAppDispatch, useAppSelector } from "./store";
 import { useFlat } from "./features/hooks";
+import { ManageTasks } from "./Tasks/ManageTasks";
+import { ManageUsers } from "./Flatmate/ManageUsers";
+import styles from "./static/styles";
 
 
 const userSettings = require("./static/userGear.svg") as string;
@@ -27,7 +30,7 @@ export function LoggedNavigator({ navigation }) {
             navigation.navigate("ManageFlatsScreen");
         }
     }, []);
-    
+
     return (<LoggedStack.Navigator
         screenOptions={{
             headerMode: 'screen',
@@ -36,7 +39,7 @@ export function LoggedNavigator({ navigation }) {
             headerRight: () => (
                 <TouchableOpacity
                     onPress={() => navigation.navigate('ManageScreen')}
-                    style={{ display: "flex", flexDirection: "column", alignItems: "center", }}
+                    style={styles.columnView}
                 >
                     <Text style={{ color: "white" }}> {username} </Text>
                     <img src={userSettings} alt="open settings" style={{ width: '35px', height: '35px' }} />
@@ -65,9 +68,18 @@ export function LoggedNavigator({ navigation }) {
         <LoggedStack.Screen name="TransactionManagementView" options={{
             title: 'Transaction Management'
         }}>
-            {() => <TransactionManagementView />}
+            {(props) => <TransactionManagementView {...props} />}
         </LoggedStack.Screen>
-
+        <LoggedStack.Screen name="Tasks" options={{
+            title: 'Tasks'
+        }}>
+            {props => <ManageTasks {...props} />}
+        </LoggedStack.Screen>
+        <LoggedStack.Screen name="Users" options={{
+            title: 'Users'
+        }}>
+            {props => <ManageUsers {...props} />}
+        </LoggedStack.Screen>
         <LoggedStack.Screen name="ManageScreen" options={{
             title: 'Manage account'
         }}>
