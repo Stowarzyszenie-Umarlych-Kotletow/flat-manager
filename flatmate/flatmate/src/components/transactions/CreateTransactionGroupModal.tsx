@@ -1,16 +1,16 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import {TextInput, Text, View, ScrollView} from "react-native";
 import {useState} from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
 import CustomMultiPicker from "react-native-multiple-select-list";
-import { useFlat } from "../features/hooks";
-import { UploadBillModal } from './UploadBillPhoto'
+import { useFlat } from "../../features/hooks";
+import { UploadBillModal } from './UploadBillPhotoModal'
 
 
-export function CreateTransactionGroup({setShowAddTransactionGroup}) {
+export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
   const {control, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
         name: '',

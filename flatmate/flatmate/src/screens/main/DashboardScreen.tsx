@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useState } from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Text, View, ScrollView } from "react-native";
 import { Button } from "react-native-elements";
-import { TaskDetailsModal } from "../Tasks/TaskDetailsModal";
-import { useFlat } from "../features/hooks";
-import { useGetFlatScheduleQuery } from "../features/api/flat-api";
-import { scheduleToEvents } from "../Tasks/helpers";
-import TaskEvent from "../Tasks/event.model";
-import { TaskState } from "../models/task.model";
-import { BottomNavigationBar } from "../common/BottomNavigationBar";
+import { TaskDetailsModal } from "../tasks/TaskDetailsModal";
+import { useFlat } from "../../features/hooks";
+import { useGetFlatScheduleQuery } from "../../features/api/flat-api";
+import { scheduleToEvents } from "../../helpers/task-helper";
+import TaskEvent from "../../models/event.model";
+import { TaskState } from "../../models/task.model";
+import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
 
 export function DashboardScreen({ navigation }) {
   //TODO: choose query range

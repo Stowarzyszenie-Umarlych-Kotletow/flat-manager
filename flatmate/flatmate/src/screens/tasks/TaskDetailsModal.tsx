@@ -1,13 +1,13 @@
 import { Modal, ModalContent, ModalTitle } from "react-native-modals";
 import { ScrollView, Text } from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Button } from "react-native-elements";
 import * as React from "react";
-import { useFlat } from "../features/hooks";
-import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../features/api/flat-api";
-import { asDate } from "../helpers/date-helper";
-import { TaskInstanceInfo, TaskState } from "../models/task.model";
-import {TaskFrontendState, taskInstanceToFrontendState} from "./helpers";
+import { useFlat } from "../../features/hooks";
+import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../../features/api/flat-api";
+import { asDate } from "../../helpers/date-helper";
+import { TaskInstanceInfo, TaskState } from "../../models/task.model";
+import {TaskFrontendState, taskInstanceToFrontendState} from "../../helpers/task-helper";
 
 export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }:
                                      { setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean }) {

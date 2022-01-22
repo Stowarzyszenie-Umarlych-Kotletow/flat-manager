@@ -1,4 +1,4 @@
-import { TaskInstanceInfo, TaskState } from "../models/task.model";
+import { TaskInstanceInfo, TaskState } from "./task.model";
 
 type TaskEvent = {
     title: string,

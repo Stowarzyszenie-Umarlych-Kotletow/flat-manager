@@ -1,21 +1,21 @@
 import * as React from "react";
 import { useState } from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { Button } from "react-native-elements";
-import { AddTaskModal } from './AddTaskModal';
-import { useGetFlatScheduleQuery } from "../features/api/flat-api";
-import { scheduleToEvents } from "./helpers";
-import { useFlat } from "../features/hooks";
-import { TaskState } from "../models/task.model";
-import { BottomNavigationBar } from "../common/BottomNavigationBar";
+import { AddTaskModal } from '../../components/tasks/AddTaskModal';
+import { useGetFlatScheduleQuery } from "../../features/api/flat-api";
+import { scheduleToEvents } from "../../helpers/task-helper";
+import { useFlat } from "../../features/hooks";
+import { TaskState } from "../../models/task.model";
+import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
 
 
 
-const taskDeleteIcon = require("../static/taskDelete.svg") as string;
-const stopIcon = require("../static/stop.svg") as string;
+const taskDeleteIcon = require("../../static/taskDelete.svg") as string;
+const stopIcon = require("../../static/stop.svg") as string;
 
-export function ManageTasks({navigation}) {
+export function ManageTasksScreen({navigation}) {
 
   const [showTaskCreationModal, setShowTaskCreationModal] = useState(false);
   const query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };

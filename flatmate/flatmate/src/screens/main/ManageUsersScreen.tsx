@@ -1,17 +1,17 @@
 import * as React from "react";
 import { useState } from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { Button } from "react-native-elements";
-import { AddUserToFlatModal } from './AddUserToFlatModal';
-import { useFlat } from "../features/hooks";
-import { useDeleteUserFromFlatMutation } from "../features/api/flat-api";
-import { useAppSelector } from "../store";
-import { BottomNavigationBar } from "../common/BottomNavigationBar";
+import { AddUserToFlatModal } from '../../components/main/AddUserToFlatModal';
+import { useFlat } from "../../features/hooks";
+import { useDeleteUserFromFlatMutation } from "../../features/api/flat-api";
+import { useAppSelector } from "../../store";
+import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
 
-const userDeleteIcon = require("../static/userDelete.svg") as string;
+const userDeleteIcon = require("../../static/userDelete.svg") as string;
 
-export function ManageUsers({navigation}) {
+export function ManageUsersScreen({navigation}) {
 
   const username = useAppSelector((state) => state.auth.user?.username);
   const [showAddUserToFlatModal, setShowAddUserToFlatModal] = useState(false);

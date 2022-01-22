@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CreateTransactionGroup Screen renders correctly 1`] = `
+exports[`CreateTransactionGroupModal Screen renders correctly 1`] = `
 <View
   pointerEvents="auto"
   style={

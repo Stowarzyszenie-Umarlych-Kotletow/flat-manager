@@ -4,10 +4,10 @@ import renderer from 'react-test-renderer';
 import { mockStore } from "./utils/test-utils";
 import store from "../src/store";
 import { ModalPortal } from 'react-native-modals';
-import { CreateTransactionGroup } from '../src/Transactions/CreateTransactionGroup';
-import { TransactionCard } from '../src/Transactions/TransactionCard';
-import { TransactionManagementView } from '../src/Transactions/TransactionManagementView';
-import { UploadBillModal } from '../src/Transactions/UploadBillPhoto';
+import { CreateTransactionGroupModal } from '../src/components/transactions/CreateTransactionGroupModal';
+import { TransactionCard } from '../src/components/transactions/TransactionCard';
+import { TransactionManagementScreen } from '../src/screens/transactions/TransactionManagementScreen';
+import { UploadBillModal } from '../src/components/transactions/UploadBillPhotoModal';
 
 
 let transactionGroup = { 
@@ -32,8 +32,8 @@ let transactionGroup = {
   ]
 };
 
-test('CreateTransactionGroup Screen renders correctly', () => {
-  const tree = renderer.create(<Provider store={mockStore()}><CreateTransactionGroup /><ModalPortal/></Provider>).toJSON();
+test('CreateTransactionGroupModal Screen renders correctly', () => {
+  const tree = renderer.create(<Provider store={mockStore()}><CreateTransactionGroupModal /><ModalPortal/></Provider>).toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -44,7 +44,7 @@ test('TransactionCard Screen renders correctly', () => {
 });
 
 test('TransactionManagementView Screen renders correctly', () => {
-  const tree = renderer.create(<Provider store={mockStore()}><TransactionManagementView /><ModalPortal/></Provider>).toJSON();
+  const tree = renderer.create(<Provider store={mockStore()}><TransactionManagementScreen /><ModalPortal/></Provider>).toJSON();
   expect(tree).toMatchSnapshot();
 });
 

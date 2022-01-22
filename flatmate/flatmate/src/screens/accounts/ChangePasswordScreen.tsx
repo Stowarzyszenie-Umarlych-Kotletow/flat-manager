@@ -1,11 +1,11 @@
 import {Text, TextInput, View} from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Button} from "react-native-elements";
 import {Controller, useForm} from "react-hook-form";
 import * as React from "react";
 import {useState} from "react";
-import {useAppDispatch} from "../store";
-import {ChangePasswordRequest} from "../models/api/account";
+import {useAppDispatch} from "../../store";
+import {ChangePasswordRequest} from "../../models/api/account";
 
 
 export function parseData(data) {

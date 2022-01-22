@@ -1,7 +1,7 @@
 import {Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import * as React from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 
 export function HomeScreen({navigation}) {
     return (<View>

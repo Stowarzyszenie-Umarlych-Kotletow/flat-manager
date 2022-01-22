@@ -1,13 +1,13 @@
 import { Text, TextInput, View } from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Button } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
 import * as React from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
-import {useAppDispatch, useAppSelector} from "../store";
-import { useRegisterMutation } from "../features/api/user-api";
-import { RegisterRequest } from "../models/api/auth";
+import {useAppDispatch, useAppSelector} from "../../store";
+import { useRegisterMutation } from "../../features/api/user-api";
+import { RegisterRequest } from "../../models/api/auth";
 import FlashMessage, {showMessage} from "react-native-flash-message";
 import {useEffect} from "react";
 

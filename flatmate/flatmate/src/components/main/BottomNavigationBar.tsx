@@ -1,20 +1,20 @@
 import * as React from "react";
 import {Text, TouchableOpacity} from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 
-const calendarIcon = require("../static/calendar.svg") as string;
-const usersIcon = require("../static/users.svg") as string;
-const gearIcon = require("../static/gear.svg") as string;
-const billIcon = require("../static/bill.svg") as string;
-const dashboardIcon = require("../static/dashboard.svg") as string;
-const tasksIcon = require("../static/tasks.svg") as string;
+const calendarIcon = require("../../static/calendar.svg") as string;
+const usersIcon = require("../../static/users.svg") as string;
+const gearIcon = require("../../static/gear.svg") as string;
+const billIcon = require("../../static/bill.svg") as string;
+const dashboardIcon = require("../../static/dashboard.svg") as string;
+const tasksIcon = require("../../static/tasks.svg") as string;
 
 
 export function BottomNavigationBar({navigation}) {
     return (
         <footer style={{
             position: "fixed",
-            backgroundColor: '#3333ff',
+            backgroundColor: '#ffa31a',
             display: "flex",
             bottom: '0',
             left: '0',
@@ -25,35 +25,35 @@ export function BottomNavigationBar({navigation}) {
             zIndex: 100
         }}>
             <TouchableOpacity
-                onPress={() => { navigation.navigate('Tasks'); }}
+                onPress={() => { navigation.popToTop(); navigation.navigate('ManageTasksScreen'); }}
                 style={styles.columnView}
             >
                 <img src={tasksIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Tasks </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => { navigation.navigate('TransactionManagementView'); }}
+                onPress={() => { navigation.popToTop(); navigation.navigate('TransactionManagementScreen'); }}
                 style={styles.columnView}
             >
                 <img src={billIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Transactions </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => { navigation.navigate('DashboardScreen'); }}
+                onPress={() => { navigation.popToTop();}}
                 style={styles.columnView}
             >
                 <img src={dashboardIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Home </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => { navigation.navigate('Users'); }}
+                onPress={() => { navigation.popToTop(); navigation.navigate('ManageUsersScreen'); }}
                 style={styles.columnView}
             >
                 <img src={usersIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Flatmates </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => { navigation.navigate('ViewCalendarScreen'); }}
+                onPress={() => { navigation.popToTop(); navigation.navigate('ViewCalendarScreen'); }}
                 style={styles.columnView}
             >
                 <img src={calendarIcon} alt=" " style={{width: '35px', height: '35px'}}/>

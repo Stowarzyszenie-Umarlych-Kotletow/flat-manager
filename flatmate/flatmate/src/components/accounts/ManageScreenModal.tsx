@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useState } from "react";
 import { Text, TextInput, View, ScrollView } from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Button } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../store";
-import auth from "../features/auth";
+import { useAppDispatch, useAppSelector } from "../../store";
+import auth from "../../features/auth";
 import { Modal, ModalContent, ModalTitle } from "react-native-modals"
-import { useFlat } from "../features/hooks";
-import { useDeleteAccountMutation } from "../features/api/user-api";
+import { useFlat } from "../../features/hooks";
+import { useDeleteAccountMutation } from "../../features/api/user-api";
 
 
 export function ManageScreenModal({ navigation }) {

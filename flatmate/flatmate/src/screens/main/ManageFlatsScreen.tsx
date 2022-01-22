@@ -1,12 +1,12 @@
 import * as React from "react";
 import {useState} from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Text, View} from "react-native";
 import {Button} from "react-native-elements";
-import {CreateFlatModal} from "./CreateFlatModal";
-import { useAppDispatch, useAppSelector } from "../store";
-import { useGetFlatsQuery } from "../features/api/flat-api";
-import flatSlice from "../features/flat";
+import {CreateFlatModal} from "../../components/main/CreateFlatModal";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { useGetFlatsQuery } from "../../features/api/flat-api";
+import flatSlice from "../../features/flat";
 
 
 export function ManageFlatsScreen({navigation}) {

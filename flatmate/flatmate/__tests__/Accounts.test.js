@@ -4,11 +4,11 @@ import renderer from 'react-test-renderer';
 import { mockStore } from "./utils/test-utils";
 import store from "../src/store";
 import { ModalPortal } from 'react-native-modals';
-import { parseRegisterData, RegisterScreen } from '../src/Accounts/RegisterScreen'
-import { LoginScreen, parseLoginData } from '../src/Accounts/LoginScreen';
-import { HomeScreen } from "../src/Accounts/HomeScreen";
-import { ChangePasswordScreen } from "../src/Accounts/ChangePasswordScreen";
-import { ManageScreenModal } from "../src/Accounts/ManageScreenModal"
+import { parseRegisterData, RegisterScreen } from '../src/screens/accounts/RegisterScreen'
+import { LoginScreen, parseLoginData } from '../src/screens/accounts/LoginScreen';
+import { HomeScreen } from "../src/screens/accounts/HomeScreen";
+import { ChangePasswordScreen } from "../src/screens/accounts/ChangePasswordScreen";
+import { ManageScreenModal } from "../src/components/accounts/ManageScreenModal"
 
 test('Parse register data', () => {
     let data = parseRegisterData({

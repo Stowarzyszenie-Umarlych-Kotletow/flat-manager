@@ -3,11 +3,11 @@ import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
 import { mockStore } from "./utils/test-utils";
 import { ModalPortal } from 'react-native-modals';
-import { AddUserToFlatModal } from '../src/Flatmate/AddUserToFlatModal';
-import { BottomNavigationBar } from '../src/common/BottomNavigationBar';
-import { CreateFlatModal } from '../src/Flatmate/CreateFlatModal';
-import { DashboardScreen } from '../src/Flatmate/DashboardScreen';
-import { ManageFlatsScreen } from '../src/Flatmate/ManageFlatsScreen';
+import { AddUserToFlatModal } from '../src/components/main/AddUserToFlatModal';
+import { BottomNavigationBar } from '../src/components/main/BottomNavigationBar';
+import { CreateFlatModal } from '../src/components/main/CreateFlatModal';
+import { DashboardScreen } from '../src/screens/main/DashboardScreen';
+import { ManageFlatsScreen } from '../src/screens/main/ManageFlatsScreen';
 
 
 

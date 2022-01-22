@@ -1,12 +1,12 @@
 import {Text, TextInput, View} from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Button} from "react-native-elements";
 import {Controller, useForm} from "react-hook-form";
 import * as React from "react";
-import {useAppDispatch, useAppSelector} from "../store";
-import {LoginRequest} from "../models/api/auth";
-import {useLoginMutation} from "../features/api/user-api";
-import toast from "../features/toast"
+import {useAppDispatch, useAppSelector} from "../../store";
+import {LoginRequest} from "../../models/api/auth";
+import {useLoginMutation} from "../../features/api/user-api";
+import toast from "../../features/toast"
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 

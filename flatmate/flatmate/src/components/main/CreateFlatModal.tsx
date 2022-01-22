@@ -1,12 +1,12 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import {ScrollView, TextInput} from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 import {Controller, useForm} from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../store";
-import flatSlice from "../features/flat";
-import { useCreateFlatMutation } from "../features/api/flat-api";
+import { useAppDispatch, useAppSelector } from "../../store";
+import flatSlice from "../../features/flat";
+import { useCreateFlatMutation } from "../../features/api/flat-api";
 
 export function CreateFlatModal({ setShowCreateFlatModal}) {
 

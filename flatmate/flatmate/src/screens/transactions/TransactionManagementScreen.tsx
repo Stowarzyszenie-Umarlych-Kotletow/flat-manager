@@ -1,15 +1,15 @@
 import * as React from "react";
 import {useState} from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { Text, View, ScrollView } from "react-native";
 import { Button } from "react-native-elements";
-import { TransactionCard } from "./TransactionCard"
-import { CreateTransactionGroup } from "./CreateTransactionGroup";
-import { useAppSelector } from "../store";
-import { BottomNavigationBar } from "../common/BottomNavigationBar";
+import { TransactionCard } from "../../components/transactions/TransactionCard"
+import { CreateTransactionGroupModal } from "../../components/transactions/CreateTransactionGroupModal";
+import { useAppSelector } from "../../store";
+import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
 
 
-export function TransactionManagementView({navigation}) {
+export function TransactionManagementScreen({navigation}) {
 	function getTransactionGroups() {
 		return [
 			{ 
@@ -198,7 +198,7 @@ export function TransactionManagementView({navigation}) {
 				);})}        
 			</ScrollView>
 			{ showAddTransactionGroup ? (
-			<CreateTransactionGroup 
+			<CreateTransactionGroupModal
 				setShowAddTransactionGroup={setShowAddTransactionGroup} 
 			/>) 
 			: null }

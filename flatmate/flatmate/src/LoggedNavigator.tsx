@@ -2,17 +2,17 @@ import * as React from "react";
 import { TouchableOpacity } from "react-native";
 import { Button } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ManageFlatsScreen } from './Flatmate/ManageFlatsScreen'
-import { ManageScreenModal } from "./Accounts/ManageScreenModal";
-import { DashboardScreen } from "./Flatmate/DashboardScreen";
-import { ViewCalendarScreen } from "./Tasks/ViewCalendarScreen";
-import { ChangePasswordScreen } from "./Accounts/ChangePasswordScreen";
-import { TransactionManagementView } from './Transactions/TransactionManagementView';
+import { ManageFlatsScreen } from './screens/main/ManageFlatsScreen'
+import { ManageScreenModal } from "./components/accounts/ManageScreenModal";
+import { DashboardScreen } from "./screens/main/DashboardScreen";
+import { ViewCalendarScreen } from "./screens/tasks/ViewCalendarScreen";
+import { ChangePasswordScreen } from "./screens/accounts/ChangePasswordScreen";
+import { TransactionManagementScreen } from './screens/transactions/TransactionManagementScreen';
 import { Text } from "react-native";
 import { useAppDispatch, useAppSelector } from "./store";
 import { useFlat } from "./features/hooks";
-import { ManageTasks } from "./Tasks/ManageTasks";
-import { ManageUsers } from "./Flatmate/ManageUsers";
+import { ManageTasksScreen } from "./screens/tasks/ManageTasksScreen";
+import { ManageUsersScreen } from "./screens/main/ManageUsersScreen";
 import styles from "./static/styles";
 
 
@@ -65,20 +65,20 @@ export function LoggedNavigator({ navigation }) {
         }}>
             {() => <ViewCalendarScreen />}
         </LoggedStack.Screen>
-        <LoggedStack.Screen name="TransactionManagementView" options={{
+        <LoggedStack.Screen name="TransactionManagementScreen" options={{
             title: 'Transaction Management'
         }}>
-            {(props) => <TransactionManagementView {...props} />}
+            {(props) => <TransactionManagementScreen {...props} />}
         </LoggedStack.Screen>
-        <LoggedStack.Screen name="Tasks" options={{
+        <LoggedStack.Screen name="ManageTasksScreen" options={{
             title: 'Tasks'
         }}>
-            {props => <ManageTasks {...props} />}
+            {props => <ManageTasksScreen {...props} />}
         </LoggedStack.Screen>
-        <LoggedStack.Screen name="Users" options={{
+        <LoggedStack.Screen name="ManageUsersScreen" options={{
             title: 'Users'
         }}>
-            {props => <ManageUsers {...props} />}
+            {props => <ManageUsersScreen {...props} />}
         </LoggedStack.Screen>
         <LoggedStack.Screen name="ManageScreen" options={{
             title: 'Manage account'

@@ -1,6 +1,6 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import * as React from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-elements";
 

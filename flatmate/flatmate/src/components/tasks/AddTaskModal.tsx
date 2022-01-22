@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useState } from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import { ScrollView, Text, TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
 import { Modal, ModalContent, ModalTitle } from "react-native-modals";
 import DatePicker from 'react-native-neat-date-picker';
 import CustomMultiPicker from "react-native-multiple-select-list";
-import { useFlat } from "../features/hooks";
-import { useCreateFlatTaskMutation } from "../features/api/flat-api";
+import { useFlat } from "../../features/hooks";
+import { useCreateFlatTaskMutation } from "../../features/api/flat-api";
 
 export function validateForm(data) {
   return true;

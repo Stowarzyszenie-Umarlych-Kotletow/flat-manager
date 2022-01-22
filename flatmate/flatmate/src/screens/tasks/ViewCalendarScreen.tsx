@@ -3,12 +3,12 @@ import {View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Calendar} from 'react-native-big-calendar';
 import {TaskDetailsModal} from "./TaskDetailsModal";
-import {useAppDispatch} from "../store";
-import {flatApi, useGetFlatScheduleQuery} from '../features/api/flat-api';
-import {useFlat} from '../features/hooks';
-import TaskEvent from './event.model';
-import {scheduleToEvents, TaskFrontendState, taskInstanceToFrontendState} from './helpers';
-import styles from "../static/styles";
+import {useAppDispatch} from "../../store";
+import {flatApi, useGetFlatScheduleQuery} from '../../features/api/flat-api';
+import {useFlat} from '../../features/hooks';
+import TaskEvent from '../../models/event.model';
+import {scheduleToEvents, TaskFrontendState, taskInstanceToFrontendState} from '../../helpers/task-helper';
+import styles from "../../static/styles";
 
 
 export function ViewCalendarScreen() {

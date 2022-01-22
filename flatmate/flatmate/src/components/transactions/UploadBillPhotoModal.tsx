@@ -1,6 +1,6 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import {Image, ScrollView, View} from "react-native";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Button} from "react-native-elements";
 import * as React from "react";
 import { useState, useEffect } from "react";
@@ -17,7 +17,7 @@ export function UploadBillModal ({ setShowUploadBillModal, uploadPhoto}) {
     if (!image_data["cancelled"]) {
       setImageUri(image_data["uri"])
     }
-  };
+  }
 
   const  checkForCameraRollPermission=async()=>{
     const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();

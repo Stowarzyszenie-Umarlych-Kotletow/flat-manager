@@ -4,9 +4,9 @@ import renderer from 'react-test-renderer';
 import { mockStore } from "./utils/test-utils";
 import store from "../src/store";
 import { ModalPortal } from 'react-native-modals';
-import { validateForm, AddTaskModal } from '../src/Tasks/AddTaskModal';
-import { TaskDetailsModal } from '../src/Tasks/TaskDetailsModal';
-import { ViewCalendarScreen } from '../src/Tasks/ViewCalendarScreen';
+import { validateForm, AddTaskModal } from '../src/components/tasks/AddTaskModal';
+import { TaskDetailsModal } from '../src/screens/tasks/TaskDetailsModal';
+import { ViewCalendarScreen } from '../src/screens/tasks/ViewCalendarScreen';
 
 import App from '../src/App'
 

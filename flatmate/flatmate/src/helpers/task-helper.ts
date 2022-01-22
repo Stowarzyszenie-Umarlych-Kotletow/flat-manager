@@ -1,5 +1,5 @@
-import {asDate} from "../helpers/date-helper";
-import TaskEvent from "./event.model";
+import {asDate} from "./date-helper";
+import TaskEvent from "../models/event.model";
 import {TaskState} from "../models/task.model";
 
 export enum TaskFrontendState {

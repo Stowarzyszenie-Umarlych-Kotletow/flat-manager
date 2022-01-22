@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useState} from "react";
-import styles from "../static/styles";
+import styles from "../../static/styles";
 import {Text, View, TouchableOpacity} from "react-native";
 import { TransactionDetailsModal } from "./TransactionDetailsModal";
 
