@@ -90,7 +90,7 @@ Array [
             Object {
               "backgroundColor": "#ffffff",
               "borderRadius": 8,
-              "height": null,
+              "height": 1267.3,
               "opacity": 0,
               "overflow": "hidden",
               "width": 675,
@@ -451,7 +451,7 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       }
     />
     <Text>
-       Dashboard 
+       Home 
     </Text>
   </View>
   <View
@@ -484,7 +484,7 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       }
     />
     <Text>
-       Users 
+       Flatmates 
     </Text>
   </View>
   <View
@@ -613,7 +613,7 @@ Array [
             Object {
               "backgroundColor": "#ffffff",
               "borderRadius": 8,
-              "height": null,
+              "height": 1267.3,
               "opacity": 0,
               "overflow": "hidden",
               "width": 675,
@@ -1005,7 +1005,7 @@ Array [
           }
         />
         <Text>
-           Dashboard 
+           Home 
         </Text>
       </View>
       <View
@@ -1038,7 +1038,7 @@ Array [
           }
         />
         <Text>
-           Users 
+           Flatmates 
         </Text>
       </View>
       <View
