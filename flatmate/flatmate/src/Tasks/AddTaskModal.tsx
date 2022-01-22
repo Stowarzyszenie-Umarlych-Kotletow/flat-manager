@@ -173,7 +173,8 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
                     iconSize={30}
                     selectedIconName={"ios-checkmark-circle-outline"}
                     unselectedIconName={"ios-radio-button-off-outline"}
-                    scrollViewHeight={130}
+
+                    //scrollViewHeight={130}
                 />
                 <Button
                     buttonStyle={styles.blueButton}

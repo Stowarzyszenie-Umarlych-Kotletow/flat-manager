@@ -20,7 +20,7 @@ export function parseRegisterData(data): RegisterRequest {
     return parsedData
 }
 
-export function RegisterScreen() {
+export function RegisterScreen({ navigation }) {
     const schema = Yup.object({
         password: Yup.string().required("Please enter your password")
             .matches(
@@ -51,7 +51,12 @@ export function RegisterScreen() {
 
     function onRegisterPress(data) {
         let parsedData = parseRegisterData(data);
-        register(parsedData);
+        register(parsedData).unwrap().then(
+            () => {
+                // TODO: add success toast
+                navigation.goBack();
+            }
+        );
     }
 
 

@@ -13,14 +13,13 @@ export function ManageFlatsScreen({navigation}) {
     const [showCreateFlatModal, setShowCreateFlatModal] = useState(false);
 
     const dispatch =  useAppDispatch();
-    const {currentData: flats = []} = useGetFlatsQuery();
+    const {currentData: flats = []} = useGetFlatsQuery(null, {refetchOnMountOrArgChange: true});
 
 
     function handleClickOnFlat(flatId) {
         dispatch(flatSlice.actions.setCurrentFlat(flatId));
-        if (flatId !== null)
+        if (flatId)
             navigation.navigate('DashboardScreen');
-        console.log(flatId);
     }
 
     return (

@@ -21,7 +21,7 @@ export function ViewCalendarScreen() {
 
 
     useEffect(() => {
-        dispatch(flatApi.util.invalidateTags([{type: 'flatTasks', id: flatId}]));
+        dispatch(flatApi.util.invalidateTags(['flatTasks']));
     }, []);
 
     const getTaskName = (taskId: string) => {
