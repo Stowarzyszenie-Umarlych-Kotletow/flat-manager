@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import java.util.List;
 
 @Configuration
-@Profile("{!test}")
+@Profile("rabbit")
 @EnableAutoConfiguration(exclude = {RabbitAutoConfiguration.class})
 @EnableRabbit
 public class AMQPConfiguration {

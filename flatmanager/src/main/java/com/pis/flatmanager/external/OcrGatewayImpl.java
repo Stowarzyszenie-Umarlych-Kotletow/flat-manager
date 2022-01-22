@@ -5,6 +5,7 @@ import com.pis.flatmanager.dto.external.OcrRequest;
 import com.pis.flatmanager.dto.external.OcrResponseProduct;
 import com.pis.flatmanager.exception.OcrException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Profile("rabbit")
 @Component
 public class OcrGatewayImpl implements OcrGateway{
 
@@ -33,7 +35,7 @@ public class OcrGatewayImpl implements OcrGateway{
         try {
             response = this.rabbit.receiveAndConvert("manager_service", 30_000, new ParameterizedTypeReference<>() {});
         } catch(Exception e) {
-            throw new OcrException("OCR did not return the result");
+            throw new OcrException("OCR service did not return any results");
         }
         if(Objects.nonNull(response)){
             return response.get("message");
