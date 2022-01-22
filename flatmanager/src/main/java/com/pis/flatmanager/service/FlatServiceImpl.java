@@ -98,9 +98,9 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Flat getFlatAsUser(User user, UUID id)
+    public Flat getFlatAsUser(User user, UUID flatId)
             throws EntityNotFoundException, AccessForbiddenException {
-        var flat = getFlat(id);
+        var flat = getFlat(flatId);
 
         if(!flat.getUsers().containsKey(user.getId())) {
             throw new AccessForbiddenException("This user does not have access to view this flat");
@@ -195,13 +195,6 @@ public class FlatServiceImpl implements FlatService {
             throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
         }
         return flat.get().getUsers();
-    }
-
-    @Override
-    public boolean checkIfUserInFlat(UUID flatId, UUID userId) {
-        var flat = flatRepository.findById(flatId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Flat %s does not exist", flatId)));
-        return flat.getUsers().containsKey(userId);
     }
 
 }

@@ -33,9 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionGroup createTransactionGroup(User user, CreateTransactionGroupDto dto) throws AccessForbiddenException {
-        if(!flatService.checkIfUserInFlat(dto.getFlatId(), user.getId())) {
-            throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), dto.getFlatId()));
-        }
+        flatService.getFlatAsUser(user, dto.getFlatId());
         var transactions = dto.getTransactions().stream().map(transaction -> new Transaction(transaction.getName(), transaction.getPrice())).collect(Collectors.toList());
         var transactionGroup = new TransactionGroup(dto.getName(), user.getId(), dto.getFlatId(), transactions, dto.getUsersConnected());
         return transactionRepository.save(transactionGroup);
@@ -43,11 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void deleteTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException {
-        var transactionGroup = transactionRepository.findById(transactionGroupId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("TransactionGroup %s does not exist", transactionGroupId)));
-        if(!flatService.checkIfUserInFlat(transactionGroup.getFlatId(), user.getId())) {
-            throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), transactionGroup.getFlatId()));
-        }
+        getTransactionGroup(user, transactionGroupId);
         transactionRepository.deleteById(transactionGroupId);
     }
 
@@ -55,21 +49,18 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionGroup getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException {
         var transactionGroup = transactionRepository.findById(transactionGroupId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("TransactionGroup %s does not exist", transactionGroupId)));
-        if(!flatService.checkIfUserInFlat(transactionGroup.getFlatId(), user.getId())) {
-            throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), transactionGroup.getFlatId()));
-        }
+        flatService.getFlatAsUser(user, transactionGroup.getFlatId());
         return transactionGroup;
     }
 
     @Override
     public List<TransactionGroup> getTransactionGroupsByFlatId(User user, UUID flatId) throws AccessForbiddenException {
-        if(!flatService.checkIfUserInFlat(flatId, user.getId())) {
-            throw new AccessForbiddenException(String.format("User %s does not have access to flat %s", user.getId(), flatId));
-        }
+        flatService.getFlatAsUser(user, flatId);
         var transactionGroups = transactionRepository.findTransactionGroupsByFlatId(flatId);
         if(transactionGroups.isEmpty()) {
             throw new EntityNotFoundException(String.format("TransactionGroup with flatId %s does not exist", flatId));
         }
         return transactionGroups;
     }
+
 }

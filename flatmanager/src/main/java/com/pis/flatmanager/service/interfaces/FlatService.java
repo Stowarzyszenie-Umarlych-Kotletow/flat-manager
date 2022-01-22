@@ -33,6 +33,4 @@ public interface FlatService {
     FlatDto flatToDto(Flat flat);
 
     Map<UUID, FlatUser> getUsersFromFlat(UUID flatId);
-
-    boolean checkIfUserInFlat(UUID flatId, UUID userId);
 }

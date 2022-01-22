@@ -16,15 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.util.List;
-
 @Configuration
 @Profile("rabbit")
 @EnableAutoConfiguration(exclude = {RabbitAutoConfiguration.class})
 @EnableRabbit
 public class AMQPConfiguration {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AMQPConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(AMQPConfiguration.class);
 
     private static final String OCR_CONNECTION_ID = "ocr";
     private static final String MANAGER_CONNECTION_ID = "service";
@@ -67,11 +65,11 @@ public class AMQPConfiguration {
     private ConnectionFactory buildConnectionFactory(AMQPProperties.AMQPConfiguration configuration) {
 
         final CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses(configurationAddressesToString(List.of(configuration.getAddress())));
+        connectionFactory.setAddresses(configuration.getAddress());
         connectionFactory.setUsername(configuration.getUsername());
         connectionFactory.setPassword(configuration.getPassword());
 
-        LOGGER.info("Configured RabbitMQ: [queue:{}] to {}", configuration.getQueueName(), configuration.getAddress());
+        logger.info("Configured RabbitMQ: [queue:{}] to {}", configuration.getQueueName(), configuration.getAddress());
 
         return connectionFactory;
     }
@@ -82,9 +80,4 @@ public class AMQPConfiguration {
         rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
         return rabbitTemplate;
     }
-
-    private String configurationAddressesToString(List<String> list) {
-        return list.toString().substring(1, list.toString().length() - 1);
-    }
-
 }
