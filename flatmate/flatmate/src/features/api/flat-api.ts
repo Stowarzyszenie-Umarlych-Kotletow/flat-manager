@@ -33,6 +33,10 @@ export const flatApi = api.injectEndpoints({
             query: ({ flatId, userId }) => ({ url: `/flats/${flatId}/users`, method: 'PUT', data: { userId } }),
             invalidatesTags: (res, _, { flatId }) => [{ type: 'flatUsers', id: flatId }]
         }),
+        deleteUserFromFlat: builder.mutation<void, { flatId: string, userId: string }>({
+            query: ({ flatId, userId }) => ({ url: `/flats/${flatId}/users/${userId}/remove`, method: 'POST' }),
+            invalidatesTags: (res, _, { flatId }) => [{ type: 'flatUsers', id: flatId }]
+        }),
         getFlatTasks: builder.query<Task[], FlatQuery>({
             query: ({ flatId }) => ({ url: `/flats/${flatId}/tasks`, method: 'GET' }),
             providesTags: (res, _, { flatId }) => [{ type: 'flatTasks', id: flatId }]
@@ -64,4 +68,4 @@ export const flatApi = api.injectEndpoints({
 export const {
     useGetFlatQuery, useGetFlatsQuery, useAddUserToFlatMutation, useCreateFlatMutation, useGetFlatUsersQuery,
     useCreateFlatTaskMutation, useGetFlatScheduleQuery, useGetFlatTasksQuery, useGetFlatTaskQuery,
-    useSetFlatTaskCompletedMutation } = flatApi;
+    useSetFlatTaskCompletedMutation, useDeleteUserFromFlatMutation } = flatApi;

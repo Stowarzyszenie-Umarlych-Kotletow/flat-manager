@@ -1,6 +1,5 @@
 import * as React from "react";
 import {TouchableOpacity} from "react-native";
-import {Button} from "react-native-elements";
 import {createStackNavigator} from "@react-navigation/stack";
 import {ManageFlatsScreen} from './Flatmate/ManageFlatsScreen'
 import { ManageScreenModal } from "./Accounts/ManageScreenModal";

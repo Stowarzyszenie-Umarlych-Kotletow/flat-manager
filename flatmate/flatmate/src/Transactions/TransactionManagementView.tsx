@@ -16,7 +16,7 @@ export function TransactionManagementView({navigation}) {
 				id: 1,
 				paid_by: 123,
 				total: 45,
-				date: '21-01-2022',
+				date: '21/01/2022',
 				title: 'Zakupy Carefour',
 				transactions: [
 					{
@@ -55,7 +55,7 @@ export function TransactionManagementView({navigation}) {
 				id: 2,
 				paid_by: 124,
 				total: 427,
-				date: '20-01-2022',
+				date: '20/01/2022',
 				title: 'Wyjście do restauracji',
 				transactions: [
 					{
@@ -103,14 +103,13 @@ export function TransactionManagementView({navigation}) {
 
     return (
 		<View style={{ maxHeight: 'calc(100vh - 75px)' }}>
-			<View style={{
-				overflow: "scroll", 
+			<View style={{ 
 				height: 'calc(100vh - 150px)', 
 				display: "flex", 
 				flexDirection: "column"
 				}}
 			>
-					<Text style={styles.logoText}>Manage transactions</Text>
+					<Text style={styles.logoText}>Transactions</Text>
 			<Button
 				buttonStyle={styles.greenButton}
 				title="Create Transaction Group"

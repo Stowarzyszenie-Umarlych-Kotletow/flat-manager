@@ -3,7 +3,6 @@ import * as React from "react";
 import styles from "../static/styles";
 import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-elements";
-import {useState} from "react";
 
 
 export function TransactionDetailsModal({setShowTransactionDetailsModal, transactionGroup}) {
@@ -52,7 +51,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
           <Text style={styles.tinyTextCenter}>{transaction["name"]}</Text>
           <Text style={styles.tinyTextCenter}> {transaction["total"]}zł</Text> 
         </View>
-        // { <TransactionShare transaction={transaction}/> }
       );
     })}
     </View>

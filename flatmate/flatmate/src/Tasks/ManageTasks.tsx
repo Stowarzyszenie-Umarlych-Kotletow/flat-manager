@@ -11,6 +11,10 @@ import { useFlat } from "../features/hooks";
 import { TaskState } from "../models/task.model";
 
 
+
+const taskDeleteIcon = require("../static/taskDelete.svg") as string;
+const stopIcon = require("../static/stop.svg") as string;
+
 export function ManageTasks({navigation}) {
 
   const [showTaskCreationModal, setShowTaskCreationModal] = useState(false);
@@ -22,24 +26,13 @@ export function ManageTasks({navigation}) {
     return "Unknown task";
   }
 
-  // TODO: backend get tasks, currently getting task instances
-  const events = scheduleToEvents(taskSchedule?.taskInstances, getTaskName).filter(
-    event => event.state == TaskState.SCHEDULED
-  );
-
-  function deleteTask(id) {
+  function deleteTask(taskId) {
     // TODO: backend connection delete Task
   }
 
-  function toggleTask(id) {
+  function toggleTask(taskId) {
     // TODO: backend connection toggle task state
-    setR(!r)
-
   }
-
-  // TODO: remove this switch mock 1
-  const [r, setR] = useState(false);
-
 
   return(
     <View style={{ maxHeight: 'calc(100vh - 75px)' }}>
@@ -50,32 +43,30 @@ export function ManageTasks({navigation}) {
             title="Create task"
             onPress={() => setShowTaskCreationModal(true)}
         />
-        {events.map((dailyTask) => {
-          return (
-            <View
-              style={styles.card}
-              key={dailyTask.instance.id}
-            >
+        {flatTasks.map((task) => {
+        return (
+          <View
+            style={styles.card}
+            key={task.id}
+          >
+            <View style={styles.viewRow}>
+              <Text style={styles.cardTitle}>{task.name}</Text>
               <View style={styles.viewRow}>
-                <Text style={styles.cardTitle}>{dailyTask.title}</Text>
-                <View style={styles.viewRow}>
-                  <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={r ? "#f5dd4b" : "#f4f3f4"} // TODO: remove this switch mock 2
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={() => {toggleTask(dailyTask.instance.id)}}
-                    value={r} // TODO: remove this switch mock 3
-                  />
-                  <TouchableOpacity 
-                    onPress={() => {deleteTask(dailyTask.instance.id);}}
-                  >
-                    <Text style={styles.cardTitle}>❌</Text> 
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity 
+                  onPress={() => {toggleTask(task.id);}}
+                >
+                  <img src={stopIcon} alt="taskDeleteIcon" style={{width: '20px', height: '20px'}}/> 
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  onPress={() => {deleteTask(task.id);}}
+                  style={{marginStart: 10}}
+                >
+                  <img src={taskDeleteIcon} alt="taskDeleteIcon" style={{width: '20px', height: '20px'}}/> 
+                </TouchableOpacity>
               </View>
             </View>
-          );
-        })}
+          </View>
+        );})}
       </div>
 
       {showTaskCreationModal ? (<AddTaskModal

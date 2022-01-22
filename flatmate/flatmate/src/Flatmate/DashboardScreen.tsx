@@ -46,6 +46,7 @@ export function DashboardScreen({ navigation }) {
             <Text style={styles.smallTextCenter}>Your tasks for today:</Text>
 
             {events.map((dailyTask) => {
+                console.log(dailyTask)
                 return (
                     <Button
                         buttonStyle={styles.blueButton}

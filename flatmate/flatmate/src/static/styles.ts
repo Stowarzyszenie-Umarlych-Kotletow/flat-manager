@@ -55,7 +55,7 @@ export default StyleSheet.create({
         fontSize: 40,
         fontWeight: "800",
         marginTop: 30,
-        marginBottom: 30,
+        marginBottom: 15,
         textAlign: 'center',
     },
     textInput: {
@@ -110,7 +110,7 @@ export default StyleSheet.create({
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,
-        width: 200 
+        width: window.window.outerWidth * 0.35
     },
     blueButtonNarrow: {
         backgroundColor: '#3897f1',
@@ -119,7 +119,7 @@ export default StyleSheet.create({
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,
-        width: 200
+        width: window.window.outerWidth * 0.35
     },
     redButtonNarrow: {
         backgroundColor: '#e74040',
@@ -128,7 +128,7 @@ export default StyleSheet.create({
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,
-        width: 200
+        width: window.window.outerWidth * 0.35
     },
     imageUploadContainer: {
         padding:50,
@@ -139,6 +139,7 @@ export default StyleSheet.create({
     borderLeftBlack: {
         borderLeftColor: '#000000',
         borderLeftWidth: 4,
+        paddingLeft: 5
     },
     columnView: {
         display: "flex",
@@ -170,14 +171,12 @@ export default StyleSheet.create({
         fontWeight: "bold",
         marginTop: 5,
         marginBottom: 5,
-        textAlign: 'center',
     },
     cardText: {
         fontSize: 20,
         fontWeight: "500",
         marginTop: 5,
         marginBottom: 5,
-        textAlign: 'center',
     }
 });
 
