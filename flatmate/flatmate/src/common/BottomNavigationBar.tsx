@@ -10,49 +10,50 @@ const dashboardIcon = require("../static/dashboard.svg") as string;
 const tasksIcon = require("../static/tasks.svg") as string;
 
 
-export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTransactionManager, openDashboard}) {
+export function BottomNavigationBar({navigation}) {
     return (
         <footer style={{
+            position: "fixed",
             backgroundColor: '#3333ff',
             display: "flex",
-            paddingBlock: '5px',
             bottom: '0',
             left: '0',
             width: '100%',
             justifyContent: "space-around",
             alignItems: "center",
-            minHeight: '75px',
+            height: '75px',
+            zIndex: 100
         }}>
             <TouchableOpacity
-                onPress={() => openTasks()}
+                onPress={() => { navigation.navigate('Tasks'); }}
                 style={styles.columnView}
             >
                 <img src={tasksIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Tasks </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {openTransactionManager()}}
+                onPress={() => { navigation.navigate('TransactionManagementView'); }}
                 style={styles.columnView}
             >
                 <img src={billIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Transactions </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => openDashboard()}
+                onPress={() => { navigation.navigate('DashboardScreen'); }}
                 style={styles.columnView}
             >
                 <img src={dashboardIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Home </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => openUsers()}
+                onPress={() => { navigation.navigate('Users'); }}
                 style={styles.columnView}
             >
                 <img src={usersIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Flatmates </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => openCalendar()}
+                onPress={() => { navigation.navigate('ViewCalendarScreen'); }}
                 style={styles.columnView}
             >
                 <img src={calendarIcon} alt=" " style={{width: '35px', height: '35px'}}/>

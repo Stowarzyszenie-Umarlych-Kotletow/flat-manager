@@ -1,6 +1,9 @@
 import { Background } from "@react-navigation/elements";
-import {StyleSheet} from "react-native";
+import { StyleSheet , Dimensions} from "react-native";
 import { withTheme } from "react-native-elements";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     eventFail: {
@@ -110,7 +113,7 @@ export default StyleSheet.create({
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,
-        width: window.window.outerWidth * 0.35
+        width: windowWidth * 0.35
     },
     blueButtonNarrow: {
         backgroundColor: '#3897f1',
@@ -119,7 +122,7 @@ export default StyleSheet.create({
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,
-        width: window.window.outerWidth * 0.35
+        width: windowWidth * 0.35
     },
     redButtonNarrow: {
         backgroundColor: '#e74040',
@@ -128,7 +131,7 @@ export default StyleSheet.create({
         marginTop: 10,
         marginLeft: 25,
         marginRight: 25,
-        width: window.window.outerWidth * 0.35
+        width: windowWidth * 0.35
     },
     imageUploadContainer: {
         padding:50,
@@ -177,6 +180,15 @@ export default StyleSheet.create({
         fontWeight: "500",
         marginTop: 5,
         marginBottom: 5,
+    },
+    container1Navbar: {
+        height: windowHeight - 75,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+    },
+    container2Navbars: {
+        paddingBottom: 95
     }
 });
 

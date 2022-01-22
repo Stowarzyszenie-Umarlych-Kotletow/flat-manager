@@ -1,8 +1,8 @@
 import * as React from "react";
 import {useState} from "react";
 import styles from "../static/styles";
-import {Text, View} from "react-native";
-import {Button} from "react-native-elements";
+import { Text, View, ScrollView } from "react-native";
+import { Button } from "react-native-elements";
 import { TransactionCard } from "./TransactionCard"
 import { CreateTransactionGroup } from "./CreateTransactionGroup";
 import { useAppSelector } from "../store";
@@ -92,6 +92,88 @@ export function TransactionManagementView({navigation}) {
 					123, 124, 121, 122
 				]
 			},
+			{ 
+				id: 3,
+				paid_by: 124,
+				total: 427,
+				date: '20/01/2022',
+				title: 'Wyjście do restauracji',
+				transactions: [
+					{
+						id: 4,
+						name: "mleko czekoladowe",
+						total: 12,
+						shares: [
+							{id: 122, percentage : 50, resolved: false},
+							{id: 124, percentage : 50, resolved: false},
+						],
+					},
+					{
+						id: 5,
+						name: "fajerwerki",
+						total: 15,
+						shares: [
+							{id: 121, percentage : 25, resolved: false},
+							{id: 124, percentage : 75, resolved: false},
+						],
+					},
+					{
+						id: 6,
+						name: "ekspres do kawy",
+						total: 400,
+						shares: [
+							{id: 121, percentage : 25, resolved: false},
+							{id: 122, percentage : 25, resolved: false},
+							{id: 123, percentage : 25, resolved: false},
+							{id: 124, percentage : 25, resolved: false},
+						],
+					}
+				],
+				participants: [
+					123, 124, 121, 122
+				]
+			},
+			{ 
+				id: 4,
+				paid_by: 124,
+				total: 427,
+				date: '20/01/2022',
+				title: 'Wyjście do restauracji',
+				transactions: [
+					{
+						id: 4,
+						name: "mleko czekoladowe",
+						total: 12,
+						shares: [
+							{id: 122, percentage : 50, resolved: false},
+							{id: 124, percentage : 50, resolved: false},
+						],
+					},
+					{
+						id: 5,
+						name: "fajerwerki",
+						total: 15,
+						shares: [
+							{id: 121, percentage : 25, resolved: false},
+							{id: 124, percentage : 75, resolved: false},
+						],
+					},
+					{
+						id: 6,
+						name: "ekspres do kawy",
+						total: 400,
+						shares: [
+							{id: 121, percentage : 25, resolved: false},
+							{id: 122, percentage : 25, resolved: false},
+							{id: 123, percentage : 25, resolved: false},
+							{id: 124, percentage : 25, resolved: false},
+						],
+					}
+				],
+				participants: [
+					123, 124, 121, 122
+				]
+			},
 
 		]
 	}
@@ -102,36 +184,25 @@ export function TransactionManagementView({navigation}) {
     // const {currentData: transactionGroups = []} = getTransactionGroups();
 
     return (
-		<View style={{ maxHeight: 'calc(100vh - 75px)' }}>
-			<View style={{ 
-				height: 'calc(100vh - 150px)', 
-				display: "flex", 
-				flexDirection: "column"
-				}}
-			>
-					<Text style={styles.logoText}>Transactions</Text>
+		<View style={styles.container1Navbar}>
+			<Text style={styles.logoText}>Transactions</Text>
 			<Button
 				buttonStyle={styles.greenButton}
 				title="Create Transaction Group"
 				onPress={() => setShowAddTransactionGroup(true)}
 			/>
-			{Object.values(getTransactionGroups()).map((transactionGroup) => {
-				return (
-					<TransactionCard transactionGroup={transactionGroup} key={transactionGroup.id}/>
-			);})}        
-			</View>
+			<ScrollView style={styles.container2Navbars} >
+				{Object.values(getTransactionGroups()).map((transactionGroup) => {
+					return (
+						<TransactionCard transactionGroup={transactionGroup} key={transactionGroup.id}/>
+				);})}        
+			</ScrollView>
 			{ showAddTransactionGroup ? (
 			<CreateTransactionGroup 
 				setShowAddTransactionGroup={setShowAddTransactionGroup} 
 			/>) 
 			: null }
-			<BottomNavigationBar
-				openUsers={() => { navigation.navigate('Users'); }}
-				openTasks={() => { navigation.navigate('Tasks'); }}
-				openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
-				openTransactionManager={() => {navigation.navigate('TransactionManagementView')}}
-				openDashboard={()=>{navigation.navigate('DashboardScreen')}}
-			/>
+		  <BottomNavigationBar navigation={navigation} />
 		</View>
 		)
 }

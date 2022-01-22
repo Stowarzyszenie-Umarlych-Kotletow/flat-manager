@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useState } from "react";
 import styles from "../static/styles";
-import { Text, View, Switch, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { Button } from "react-native-elements";
 import { AddTaskModal } from './AddTaskModal';
-import { BottomNavigationBar } from '../common/BottomNavigationBar';
 import { useGetFlatScheduleQuery } from "../features/api/flat-api";
 import { scheduleToEvents } from "./helpers";
 import { useFlat } from "../features/hooks";
 import { TaskState } from "../models/task.model";
+import { BottomNavigationBar } from "../common/BottomNavigationBar";
 
 
 
@@ -35,14 +35,14 @@ export function ManageTasks({navigation}) {
   }
 
   return(
-    <View style={{ maxHeight: 'calc(100vh - 75px)' }}>
-      <div style={{ overflowY: "scroll", height: 'calc(100vh - 150px)', display: "flex", flexDirection: "column" }}>
-        <Text style={styles.logoText}> Tasks </Text>
-        <Button
-            buttonStyle={styles.greenButton}
-            title="Create task"
-            onPress={() => setShowTaskCreationModal(true)}
-        />
+    <View style={styles.container1Navbar}>
+      <Text style={styles.logoText}> Tasks </Text>
+      <Button
+          buttonStyle={styles.greenButton}
+          title="Create task"
+          onPress={() => setShowTaskCreationModal(true)}
+      />
+      <ScrollView style={styles.container2Navbars} >  
         {flatTasks.map((task) => {
         return (
           <View
@@ -67,19 +67,11 @@ export function ManageTasks({navigation}) {
             </View>
           </View>
         );})}
-      </div>
-
+      </ScrollView>
       {showTaskCreationModal ? (<AddTaskModal
         setShowTaskCreationModal={setShowTaskCreationModal}
       />): null}
-
-      <BottomNavigationBar
-        openUsers={() => { navigation.navigate('Users'); }}
-        openTasks={() => { navigation.navigate('Tasks'); }}
-        openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
-        openTransactionManager={() => {navigation.navigate('TransactionManagementView')}}
-        openDashboard={()=>{navigation.navigate('DashboardScreen')}}
-      />
+		  <BottomNavigationBar navigation={navigation} />
     </View>
   );
 }

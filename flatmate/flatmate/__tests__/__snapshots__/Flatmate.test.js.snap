@@ -347,11 +347,12 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       "backgroundColor": "#3333ff",
       "bottom": "0",
       "display": "flex",
+      "height": "75px",
       "justifyContent": "space-around",
       "left": "0",
-      "minHeight": "75px",
-      "paddingBlock": "5px",
+      "position": "fixed",
       "width": "100%",
+      "zIndex": 100,
     }
   }
 >
@@ -855,45 +856,46 @@ Array [
   <View
     style={
       Object {
-        "maxHeight": "calc(100vh - 75px)",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": 1259,
+        "justifyContent": "center",
       }
     }
   >
-    <div
+    <Text
       style={
         Object {
-          "display": "flex",
-          "flexDirection": "column",
-          "height": "calc(100vh - 150px)",
-          "overflowY": "scroll",
+          "fontSize": 40,
+          "fontWeight": "800",
+          "marginBottom": 15,
+          "marginTop": 30,
+          "textAlign": "center",
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "fontSize": 20,
+          "fontWeight": "500",
+          "marginBottom": 15,
+          "marginTop": 30,
+          "textAlign": "center",
         }
       }
     >
-      <Text
-        style={
-          Object {
-            "fontSize": 40,
-            "fontWeight": "800",
-            "marginBottom": 30,
-            "marginTop": 30,
-            "textAlign": "center",
-          }
+      Your tasks for today:
+    </Text>
+    <RCTScrollView
+      style={
+        Object {
+          "paddingBottom": 95,
         }
-      />
-      <Text
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "500",
-            "marginBottom": 15,
-            "marginTop": 30,
-            "textAlign": "center",
-          }
-        }
-      >
-        Your tasks for today:
-      </Text>
-    </div>
+      }
+    >
+      <View />
+    </RCTScrollView>
     <footer
       style={
         Object {
@@ -901,11 +903,12 @@ Array [
           "backgroundColor": "#3333ff",
           "bottom": "0",
           "display": "flex",
+          "height": "75px",
           "justifyContent": "space-around",
           "left": "0",
-          "minHeight": "75px",
-          "paddingBlock": "5px",
+          "position": "fixed",
           "width": "100%",
+          "zIndex": 100,
         }
       }
     >
@@ -1099,7 +1102,7 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 30,
+          "marginBottom": 15,
           "marginTop": 30,
           "textAlign": "center",
         }

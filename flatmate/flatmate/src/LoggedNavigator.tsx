@@ -1,14 +1,14 @@
 import * as React from "react";
-import {TouchableOpacity} from "react-native";
-import {createStackNavigator} from "@react-navigation/stack";
-import {ManageFlatsScreen} from './Flatmate/ManageFlatsScreen'
+import { TouchableOpacity } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { ManageFlatsScreen } from './Flatmate/ManageFlatsScreen'
 import { ManageScreenModal } from "./Accounts/ManageScreenModal";
-import {DashboardScreen} from "./Flatmate/DashboardScreen";
-import {ViewCalendarScreen} from "./Tasks/ViewCalendarScreen";
-import {ChangePasswordScreen} from "./Accounts/ChangePasswordScreen";
+import { DashboardScreen } from "./Flatmate/DashboardScreen";
+import { ViewCalendarScreen } from "./Tasks/ViewCalendarScreen";
+import { ChangePasswordScreen } from "./Accounts/ChangePasswordScreen";
 import { TransactionManagementView } from './Transactions/TransactionManagementView';
 import {Text} from "react-native";
-import {useAppDispatch, useAppSelector} from "./store";
+import {  useAppSelector } from "./store";
 import { useFlat } from "./features/hooks";
 import { ManageTasks } from "./Tasks/ManageTasks";
 import { ManageUsers } from "./Flatmate/ManageUsers";
@@ -21,8 +21,7 @@ const LoggedStack = createStackNavigator();
 export function LoggedNavigator({navigation}) {
   const username = useAppSelector((state) => state.auth.user?.username);
   
-  const {flatId, flat} = useFlat();
-  const dispatch = useAppDispatch();
+  const { flat} = useFlat();
 
 
   return (
@@ -83,7 +82,6 @@ export function LoggedNavigator({navigation}) {
       </LoggedStack.Screen>
     </>)}
 
-
     <LoggedStack.Screen name="ManageScreen" options={{
       title: 'Manage account'
     }}>
@@ -93,5 +91,6 @@ export function LoggedNavigator({navigation}) {
     <LoggedStack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{
       title: 'Change Password'
     }}/>
+
   </LoggedStack.Navigator>)
 }
