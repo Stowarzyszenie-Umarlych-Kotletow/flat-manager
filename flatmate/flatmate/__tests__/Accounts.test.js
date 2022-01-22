@@ -8,7 +8,7 @@ import { parseRegisterData, RegisterScreen } from '../src/screens/accounts/Regis
 import { LoginScreen, parseLoginData } from '../src/screens/accounts/LoginScreen';
 import { HomeScreen } from "../src/screens/accounts/HomeScreen";
 import { ChangePasswordScreen } from "../src/screens/accounts/ChangePasswordScreen";
-import { ManageScreenModal } from "../src/components/accounts/ManageScreenModal"
+import { ManageAccountScreen } from "../src/screens/accounts/ManageAccountScreen"
 
 test('Parse register data', () => {
     let data = parseRegisterData({
@@ -52,8 +52,8 @@ test('ChangePassword Screen renders correctly', () => {
     expect(tree).toMatchSnapshot();
 });
 
-test('ManageScreenModal Screen renders correctly', () => {
-    const tree = renderer.create(<Provider store={mockStore()}><ManageScreenModal /> <ModalPortal/> </Provider>).toJSON();
+test('ManageAccountScreen Screen renders correctly', () => {
+    const tree = renderer.create(<Provider store={mockStore()}><ManageAccountScreen /> <ModalPortal/> </Provider>).toJSON();
     expect(tree).toMatchSnapshot();
 });
 

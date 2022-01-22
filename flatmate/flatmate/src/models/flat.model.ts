@@ -6,3 +6,9 @@ interface FlatInfo {
 interface Flat extends FlatInfo {
     users: UserInfo[];
 }
+
+enum UserRole {
+    ADMIN="ADMIN",
+    OWNER="OWNER",
+    USER="USER"
+}

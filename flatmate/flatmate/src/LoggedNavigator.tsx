@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native";
 import { Button } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ManageFlatsScreen } from './screens/main/ManageFlatsScreen'
-import { ManageScreenModal } from "./components/accounts/ManageScreenModal";
+import { ManageAccountScreen } from "./screens/accounts/ManageAccountScreen";
 import { DashboardScreen } from "./screens/main/DashboardScreen";
 import { ViewCalendarScreen } from "./screens/tasks/ViewCalendarScreen";
 import { ChangePasswordScreen } from "./screens/accounts/ChangePasswordScreen";
@@ -38,7 +38,7 @@ export function LoggedNavigator({ navigation }) {
             headerStyle: { backgroundColor: 'black', height: 75 },
             headerRight: () => (
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('ManageScreen')}
+                    onPress={() => navigation.navigate('ManageAccountScreen')}
                     style={styles.columnView}
                 >
                     <Text style={{ color: "white" }}> {username} </Text>
@@ -80,10 +80,10 @@ export function LoggedNavigator({ navigation }) {
         }}>
             {props => <ManageUsersScreen {...props} />}
         </LoggedStack.Screen>
-        <LoggedStack.Screen name="ManageScreen" options={{
+        <LoggedStack.Screen name="ManageAccountScreen" options={{
             title: 'Manage account'
         }}>
-            {props => <ManageScreenModal {...props} />}
+            {props => <ManageAccountScreen {...props} />}
         </LoggedStack.Screen>
 
         <LoggedStack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{
