@@ -8,22 +8,41 @@ import {Controller, useForm} from "react-hook-form";
 import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlat } from "../../features/hooks";
 import { UploadBillModal } from './UploadBillPhotoModal'
+import { useAddTransactionGroupMutation } from '../../features/api/transaction-api'
+import { CreateTransactionGroupRequest } from "../../models/api/transaction";
 
 
 export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
+	const { flatId, flat, flatUsers } = useFlat();
+	const [selectedUsers, setSelectedUsers] = useState([]);
+	const [addTransactionGroup] = useAddTransactionGroupMutation();
+  const [items, setItems] = useState({});
+  const [transactionsId, setTransactionsId] = useState(0);
+	const [showUploadBillModal, setShowUploadBillModal] = useState(false);
+
   const {control, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
         name: '',
     },
   });
 
-  function handleAddTransactionGroup(data) {
-		setShowAddTransactionGroup(false)
-		// backend connection
+
+  function submitTransactionGroup(data) {
+		let transactionGroup = {
+			name: data.name,
+			participants: selectedUsers,
+			flatId: flatId,
+			transactions: items
+		}
+		handleAddTransactionGroup(transactionGroup);
+	}
+
+	function handleAddTransactionGroup(data) {
+		addTransactionGroup({data}).unwrap().then((success) => {
+			setShowAddTransactionGroup(false);
+		});
   }
 	
-	const { flatId, flat, flatUsers } = useFlat();
-	const [selectedUsers, setSelectedUsers] = useState([]);
 	const getUserSelectList = () => {
 		let obj = {};
 		flatUsers.forEach(u => {
@@ -57,13 +76,6 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 		console.log(uri);
 		//backend connection
 	}
-
-
-
-  const [items, setItems] = useState({});
-  const [transactionsId, setTransactionsId] = useState(0);
-	const [showUploadBillModal, setShowUploadBillModal] = useState(false);
-
   return (
     <Modal
 		width={0.9}
@@ -174,7 +186,7 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 			<Button
 				buttonStyle={styles.greenButtonNarrow}
 				title="Submit"
-				onPress={handleSubmit(handleAddTransactionGroup)}
+				onPress={handleSubmit(submitTransactionGroup)}
 			/>
 			<Button
 				buttonStyle={styles.redButtonNarrow}
