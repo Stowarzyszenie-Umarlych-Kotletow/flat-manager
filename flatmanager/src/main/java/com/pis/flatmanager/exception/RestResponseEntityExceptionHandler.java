@@ -60,4 +60,9 @@ public class RestResponseEntityExceptionHandler
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
+    @ExceptionHandler(OcrException.class)
+    public ResponseEntity<Object> handlerErrorInOcr(OcrException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
 }

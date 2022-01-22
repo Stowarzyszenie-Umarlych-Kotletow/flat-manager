@@ -98,9 +98,9 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Flat getFlatAsUser(User user, UUID id)
+    public Flat getFlatAsUser(User user, UUID flatId)
             throws EntityNotFoundException, AccessForbiddenException {
-        var flat = getFlat(id);
+        var flat = getFlat(flatId);
 
         if(!flat.getUsers().containsKey(user.getId())) {
             throw new AccessForbiddenException("This user does not have access to view this flat");

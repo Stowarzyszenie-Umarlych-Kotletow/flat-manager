@@ -13,7 +13,6 @@ export function setStore(newStore) {
     config.store = newStore;
 }
 
-
 client.interceptors.request.use(req => {
     const authState = config.store.getState().auth;
     if (authState.isLoggedIn) {
@@ -35,6 +34,5 @@ client.interceptors.response.use(res => {
 }, err => {
     return Promise.reject(err);
 });
-
 
 export default client;
