@@ -5,7 +5,7 @@ import styles from "../static/styles";
 const calendar = require("../static/calendar.svg") as string;
 const users = require("../static/users.svg") as string;
 const gear = require("../static/gear.svg") as string;
-const coins = require("../static/coins.svg") as string;
+const bill = require("../static/bill.svg") as string;
 const dashboard = require("../static/dashboard.svg") as string;
 const tasks = require("../static/tasks.svg") as string;
 
@@ -34,7 +34,7 @@ export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTra
                 onPress={() => {openTransactionManager()}}
                 style={styles.columnView}
             >
-                <img src={coins} alt=" " style={{width: '35px', height: '35px'}}/>
+                <img src={bill} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Transactions </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -42,14 +42,14 @@ export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTra
                 style={styles.columnView}
             >
                 <img src={dashboard} alt=" " style={{width: '35px', height: '35px'}}/>
-                <Text> Dashboard </Text>
+                <Text> Home </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openUsers()}
                 style={styles.columnView}
             >
                 <img src={users} alt=" " style={{width: '35px', height: '35px'}}/>
-                <Text> Users </Text>
+                <Text> Flatmates </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openCalendar()}
