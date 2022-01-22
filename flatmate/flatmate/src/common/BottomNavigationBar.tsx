@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Text, TouchableOpacity} from "react-native";
+import styles from "../static/styles";
 
 const calendar = require("../static/calendar.svg") as string;
 const users = require("../static/users.svg") as string;
@@ -24,35 +25,35 @@ export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTra
         }}>
             <TouchableOpacity
                 onPress={() => openTasks()}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+                style={styles.columnView}
             >
                 <img src={tasks} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Tasks </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {openTransactionManager()}}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+                style={styles.columnView}
             >
                 <img src={coins} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Transactions </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openDashboard()}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+                style={styles.columnView}
             >
                 <img src={dashboard} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Dashboard </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openUsers()}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+                style={styles.columnView}
             >
                 <img src={users} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Users </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => openCalendar()}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+                style={styles.columnView}
             >
                 <img src={calendar} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Calendar </Text>
@@ -62,7 +63,7 @@ export function BottomNavigationBar({openUsers, openTasks, openCalendar, openTra
 
             {/* <TouchableOpacity
                 onPress={() => {console.log("flat settings")}}
-                style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+                style={styles.columnView}
             >
                 <img src={gear} alt="open settings" style={{width: '35px', height: '35px'}}/>
                 <Text> Flat Settings</Text>

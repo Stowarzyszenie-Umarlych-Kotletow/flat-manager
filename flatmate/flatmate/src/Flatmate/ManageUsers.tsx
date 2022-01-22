@@ -29,15 +29,15 @@ export function ManageUsers({navigation}) {
         {flatUsers.map((user) => {
           return (
             <View
-              style={styles.taskCard}
+              style={styles.card}
               key={user.id}
             >
               <View style={styles.viewRow}>
-                <Text style={styles.taskCardTitle}>{user.username}</Text>
+                <Text style={styles.cardTitle}>{user.username}</Text>
                 <TouchableOpacity 
                   onPress={() => {deleteUser(user.id);}}
                 >
-                  <Text style={styles.taskCardTitle}>❌</Text> 
+                  <Text style={styles.cardTitle}>❌</Text> 
                 </TouchableOpacity>
               </View>
             </View>

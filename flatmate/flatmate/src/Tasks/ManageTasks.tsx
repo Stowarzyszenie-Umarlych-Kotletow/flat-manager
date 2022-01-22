@@ -53,11 +53,11 @@ export function ManageTasks({navigation}) {
         {events.map((dailyTask) => {
           return (
             <View
-              style={styles.taskCard}
+              style={styles.card}
               key={dailyTask.instance.id}
             >
               <View style={styles.viewRow}>
-                <Text style={styles.taskCardTitle}>{dailyTask.title}</Text>
+                <Text style={styles.cardTitle}>{dailyTask.title}</Text>
                 <View style={styles.viewRow}>
                   <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -69,7 +69,7 @@ export function ManageTasks({navigation}) {
                   <TouchableOpacity 
                     onPress={() => {deleteTask(dailyTask.instance.id);}}
                   >
-                    <Text style={styles.taskCardTitle}>❌</Text> 
+                    <Text style={styles.cardTitle}>❌</Text> 
                   </TouchableOpacity>
                 </View>
               </View>

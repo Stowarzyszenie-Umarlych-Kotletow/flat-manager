@@ -1,13 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChangePassword Screen renders correctly 1`] = `
-<View
-  style={
-    Object {
-      "flex": 1,
-    }
-  }
->
+<View>
   <Text
     style={
       Object {
@@ -171,13 +165,7 @@ exports[`ChangePassword Screen renders correctly 1`] = `
 `;
 
 exports[`HomeScreen renders correctly 1`] = `
-<View
-  style={
-    Object {
-      "flex": 1,
-    }
-  }
->
+<View>
   <Text
     style={
       Object {
@@ -337,13 +325,7 @@ exports[`HomeScreen renders correctly 1`] = `
 `;
 
 exports[`LoginScreen renders correctly 1`] = `
-<View
-  style={
-    Object {
-      "flex": 1,
-    }
-  }
->
+<View>
   <Text
     style={
       Object {
@@ -482,13 +464,7 @@ exports[`LoginScreen renders correctly 1`] = `
 
 exports[`ManageScreenModal Screen renders correctly 1`] = `
 Array [
-  <View
-    style={
-      Object {
-        "flex": 1,
-      }
-    }
-  >
+  <View>
     <Text
       style={
         Object {
@@ -652,13 +628,7 @@ Array [
 
 exports[`RegisterScreen renders correctly 1`] = `
 Array [
-  <View
-    style={
-      Object {
-        "flex": 1,
-      }
-    }
-  >
+  <View>
     <Text
       style={
         Object {

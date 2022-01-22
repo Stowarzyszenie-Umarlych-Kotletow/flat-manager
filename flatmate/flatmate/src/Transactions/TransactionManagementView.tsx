@@ -6,9 +6,10 @@ import {Button} from "react-native-elements";
 import { TransactionCard } from "./TransactionCard"
 import { CreateTransactionGroup } from "./CreateTransactionGroup";
 import { useAppSelector } from "../store";
+import { BottomNavigationBar } from "../common/BottomNavigationBar";
 
 
-export function TransactionManagementView() {
+export function TransactionManagementView({navigation}) {
 	function getTransactionGroups() {
 		return [
 			{ 
@@ -101,30 +102,37 @@ export function TransactionManagementView() {
     // const {currentData: transactionGroups = []} = getTransactionGroups();
 
     return (
-    <View style={{
-        overflow: "scroll", 
-        height: 'calc(100vh - 75px)', 
-        display: "flex", 
-        flexDirection: "column", 
-        paddingBottom: "20px"
-        }}
-    >
-        <Text style={styles.logoText}>Manage transactions</Text>
-		<Button
-            buttonStyle={styles.greenButton}
-            title="Create Transaction Group"
-            onPress={() => setShowAddTransactionGroup(true)}
-        />
-
-		{ showAddTransactionGroup ? (
-		<CreateTransactionGroup 
-			setShowAddTransactionGroup={setShowAddTransactionGroup} 
-		/>) 
-		: null }
-        {Object.values(getTransactionGroups()).map((transactionGroup) => {
-            return (
-				<TransactionCard transactionGroup={transactionGroup} key={transactionGroup.id}/>
-			);
-        })}        
-    </View>)
+		<View style={{ maxHeight: 'calc(100vh - 75px)' }}>
+			<View style={{
+				overflow: "scroll", 
+				height: 'calc(100vh - 150px)', 
+				display: "flex", 
+				flexDirection: "column"
+				}}
+			>
+					<Text style={styles.logoText}>Manage transactions</Text>
+			<Button
+				buttonStyle={styles.greenButton}
+				title="Create Transaction Group"
+				onPress={() => setShowAddTransactionGroup(true)}
+			/>
+			{Object.values(getTransactionGroups()).map((transactionGroup) => {
+				return (
+					<TransactionCard transactionGroup={transactionGroup} key={transactionGroup.id}/>
+			);})}        
+			</View>
+			{ showAddTransactionGroup ? (
+			<CreateTransactionGroup 
+				setShowAddTransactionGroup={setShowAddTransactionGroup} 
+			/>) 
+			: null }
+			<BottomNavigationBar
+				openUsers={() => { navigation.navigate('Users'); }}
+				openTasks={() => { navigation.navigate('Tasks'); }}
+				openCalendar={() => { navigation.navigate('ViewCalendarScreen'); }}
+				openTransactionManager={() => {navigation.navigate('TransactionManagementView')}}
+				openDashboard={()=>{navigation.navigate('DashboardScreen')}}
+			/>
+		</View>
+		)
 }

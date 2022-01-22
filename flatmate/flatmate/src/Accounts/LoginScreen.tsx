@@ -32,7 +32,7 @@ export function LoginScreen() {
     }
 
     return (
-        <View style={styles.accScreenContainer}>
+        <View>
             <Text style={styles.loginLogoText}>Flatmate</Text>
             <Controller
                 control={control}
@@ -41,7 +41,7 @@ export function LoginScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -57,7 +57,7 @@ export function LoginScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}

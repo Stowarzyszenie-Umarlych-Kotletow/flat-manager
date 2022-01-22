@@ -43,7 +43,7 @@ export function DashboardScreen({ navigation }) {
     return (<View style={{ maxHeight: 'calc(100vh - 75px)' }}>
         <div style={{ overflowY: "scroll", height: 'calc(100vh - 150px)', display: "flex", flexDirection: "column" }}>
             <Text style={styles.logoText}>{flat?.name}</Text>
-            <Text style={styles.smallText}>Your tasks for today:</Text>
+            <Text style={styles.smallTextCenter}>Your tasks for today:</Text>
 
             {events.map((dailyTask) => {
                 return (

@@ -13,6 +13,7 @@ import {useAppDispatch, useAppSelector} from "./store";
 import { useFlat } from "./features/hooks";
 import { ManageTasks } from "./Tasks/ManageTasks";
 import { ManageUsers } from "./Flatmate/ManageUsers";
+import styles from "./static/styles";
 
 const userSettings = require("./static/userGear.svg") as string;
 
@@ -33,7 +34,7 @@ export function LoggedNavigator({navigation}) {
             headerRight: () => (
                 <TouchableOpacity
                     onPress={() => navigation.navigate('ManageScreen')}
-                    style={{display: "flex", flexDirection: "column", alignItems: "center", }}
+                    style={styles.columnView}
                 >
                 <Text style={{color: "white"}}> {username} </Text>
                 <img src={userSettings} alt="open settings" style={{width: '35px', height: '35px'}}/>

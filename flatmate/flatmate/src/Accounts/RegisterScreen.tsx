@@ -54,7 +54,7 @@ export function RegisterScreen() {
 
 
     return (
-        <View style={styles.accScreenContainer}>
+        <View>
             <Text style={styles.logoText}>Flatmate</Text>
             <Controller
                 control={control}
@@ -63,7 +63,7 @@ export function RegisterScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -79,7 +79,7 @@ export function RegisterScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -95,7 +95,7 @@ export function RegisterScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -111,7 +111,7 @@ export function RegisterScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -127,7 +127,7 @@ export function RegisterScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -144,7 +144,7 @@ export function RegisterScreen() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.accFormTextInput}
+                        style={styles.textInput}
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
