@@ -1,11 +1,18 @@
 package com.pis.flatmanager.service.interfaces;
 
-import com.pis.flatmanager.model.Transaction;
+import com.pis.flatmanager.dto.transactions.CreateTransactionGroupDto;
+import com.pis.flatmanager.exception.AccessForbiddenException;
+import com.pis.flatmanager.model.TransactionGroup;
+import com.pis.flatmanager.model.User;
+
+import java.util.List;
+import java.util.UUID;
 
 public interface TransactionService {
 
-    Transaction createTransaction();
-    void deleteTransaction();
-    Transaction getTransaction();
-    Transaction updateTransaction();
+    TransactionGroup createTransactionGroup(User user, CreateTransactionGroupDto dto) throws AccessForbiddenException;
+    void deleteTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException;
+    TransactionGroup getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException;
+    List<TransactionGroup> getTransactionGroupsByFlatId(User user, UUID flatId) throws AccessForbiddenException;
+
 }

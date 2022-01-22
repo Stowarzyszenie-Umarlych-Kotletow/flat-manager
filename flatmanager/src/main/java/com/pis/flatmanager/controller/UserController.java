@@ -23,7 +23,7 @@ public class UserController  {
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
         return new ResponseEntity<>(
-                userService.getUsers().stream().map(user -> userService.userToDto(user)).collect(Collectors.toList()),
+                userService.getUsers().stream().map(userService::userToDto).collect(Collectors.toList()),
                 HttpStatus.OK);
     }
 
