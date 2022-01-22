@@ -344,7 +344,7 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
   style={
     Object {
       "alignItems": "center",
-      "backgroundColor": "#3333ff",
+      "backgroundColor": "#ffa31a",
       "bottom": "0",
       "display": "flex",
       "height": "75px",
@@ -900,7 +900,7 @@ Array [
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#3333ff",
+          "backgroundColor": "#ffa31a",
           "bottom": "0",
           "display": "flex",
           "height": "75px",
