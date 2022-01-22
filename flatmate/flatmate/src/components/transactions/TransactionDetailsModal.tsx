@@ -3,19 +3,19 @@ import * as React from "react";
 import styles from "../../static/styles";
 import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-elements";
+import { Transaction } from "../../models/transaction.model";
+import { useFlat } from "../../features/hooks";
 
 
 export function TransactionDetailsModal({setShowTransactionDetailsModal, transactionGroup}) {
-  function getUsername(userid) {
-		let names = {
-			121 : "Romuald",
-			122 : "Krzyś",
-			123 : "Adam",
-			124 : "Edward"
-		}
-    let username = names[userid];
-    return username ? username : "Name not found"
-	} 
+  const { flat, flatId, flatTasks, flatUsers } = useFlat();
+
+  function getUsername(userId: string): string {
+    for (let user of flatUsers) {
+        return user.username;
+    }
+    return "Unknown user";
+  } 
 
 
   return ( 
@@ -38,18 +38,18 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
     />
     <Text style={styles.smallText}>
     { 
-      transactionGroup.participants.map(participant => {
+      transactionGroup.usersConnected.map(participant => {
       return getUsername(participant)+ " ";
     })}
     </Text>
 
     <View style={styles.borderLeftBlack}>
     { 
-      Object.values(transactionGroup.transactions).map((transaction) => {
+      Object.values(transactionGroup.transactions).map((transaction: Transaction) => {
       return (
         <View style={styles.viewRow} key={transaction["id"]}>
-          <Text style={styles.tinyTextCenter}>{transaction["name"]}</Text>
-          <Text style={styles.tinyTextCenter}> {transaction["total"]}zł</Text> 
+          <Text style={styles.tinyTextCenter}>{transaction.name}</Text>
+          <Text style={styles.tinyTextCenter}> {transaction.price}zł</Text> 
         </View>
       );
     })}

@@ -9,7 +9,6 @@ import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlat } from "../../features/hooks";
 import { UploadBillModal } from './UploadBillPhotoModal'
 import { useAddTransactionGroupMutation } from '../../features/api/transaction-api'
-import { CreateTransactionGroupRequest } from "../../models/api/transaction";
 
 
 export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
@@ -38,7 +37,7 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 
 		let transactionGroup = {
 			name: data.name,
-			participants: selectedUsers,
+			usersConnected: selectedUsers,
 			flatId: flatId,
 			transactions: slicedItems
 		}
@@ -46,7 +45,7 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 	}
 
 	function handleAddTransactionGroup(data) {
-		addTransactionGroup({data}).unwrap().then((success) => {
+		addTransactionGroup(data).unwrap().then((success) => {
 			setShowAddTransactionGroup(false);
 		});
   }
@@ -175,7 +174,7 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 		/>
 
 
-		<View style={styles.viewRowCenter}>
+		<View style={styles.viewColumnCenter}>
 			<Button
 				buttonStyle={styles.blueButtonNarrow}
 				title="Add Item"
@@ -186,11 +185,7 @@ export function CreateTransactionGroupModal({setShowAddTransactionGroup}) {
 				title="Upload Bill"
 				onPress={() => {setShowUploadBillModal(true)}}
 			/>
-		</View>
-	
-		
-		<View style={styles.viewRowCenter}>
-			<Button
+      <Button
 				buttonStyle={styles.greenButtonNarrow}
 				title="Submit"
 				onPress={handleSubmit(submitTransactionGroup)}
