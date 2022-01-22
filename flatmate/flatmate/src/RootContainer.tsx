@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from './store';
 import auth from "./features/auth";
 import { useAuth } from './features/hooks';
 import React from 'react';
+import FlashMessage from "react-native-flash-message";
 
 export default function RootContainer() {
     const Stack = createStackNavigator();
@@ -33,5 +34,8 @@ export default function RootContainer() {
                 {props => <LoggedNavigator {...props} />}
             </Stack.Screen>)}
         </Stack.Navigator>
+        {
+            <FlashMessage position="bottom"/>
+        }
     </NavigationContainer>);
 }

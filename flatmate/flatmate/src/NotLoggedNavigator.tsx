@@ -1,8 +1,8 @@
 import * as React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
-import {HomeScreen} from "./Accounts/HomeScreen";
-import {RegisterScreen} from "./Accounts/RegisterScreen";
-import {LoginScreen} from "./Accounts/LoginScreen";
+import {HomeScreen} from "./screens/accounts/HomeScreen";
+import {RegisterScreen} from "./screens/accounts/RegisterScreen";
+import {LoginScreen} from "./screens/accounts/LoginScreen";
 
 const NotLoggedStack = createStackNavigator();
 
@@ -17,18 +17,17 @@ export function NotLoggedNavigator() {
 
             }}>
             <NotLoggedStack.Screen name="HomeScreen" component={HomeScreen} options={{
-                title: 'Flatmate'
+                title: 'main'
             }}/>
 
             <NotLoggedStack.Screen name="RegisterScreen" options={{
                 title: 'Register'
-            }}>{() => <RegisterScreen />}
+            }}>{(props) => <RegisterScreen {...props} />}
             </NotLoggedStack.Screen>
 
             <NotLoggedStack.Screen name="LoginScreen" options={{
                 title: 'Login',
             }}>{() => <LoginScreen />}
             </NotLoggedStack.Screen>
-
         </NotLoggedStack.Navigator>)
 }
