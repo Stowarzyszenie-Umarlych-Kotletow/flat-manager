@@ -164,10 +164,11 @@ export default StyleSheet.create({
         justifyContent: "space-between",
         alignItems: 'center'
     },
-    viewRowCenter: {
+    viewColumnCenter: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: "space-around"
+        
     },
     card: {
         borderColor: 'rgb(0, 102, 255)',

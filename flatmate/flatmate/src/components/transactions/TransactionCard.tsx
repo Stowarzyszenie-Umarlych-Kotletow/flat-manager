@@ -3,22 +3,20 @@ import {useState} from "react";
 import styles from "../../static/styles";
 import {Text, View, TouchableOpacity} from "react-native";
 import { TransactionDetailsModal } from "./TransactionDetailsModal";
-
+import { useFlat } from "../../features/hooks";
+import { formatDate } from "../../helpers/date-helper";
 
 export function TransactionCard({transactionGroup}) {
-  function getUsername(userid) {
-		let names = {
-			121 : "Romuald",
-			122 : "Krzyś",
-			123 : "Adam",
-			124 : "Edward"
-		}
-    let username = names[userid];
-    return username ? username : "Name not found"
-	} 
+  const { flat, flatId, flatTasks, flatUsers } = useFlat();
+
+  function getUsername(userId: string): string {
+    for (let user of flatUsers) {
+        return user.username;
+    }
+    return "Unknown user";
+  }
 
 	const [showTransactionDetails, setShowTransactionDetails] = useState(false);
-
 
   return (
     <TouchableOpacity 
@@ -26,12 +24,12 @@ export function TransactionCard({transactionGroup}) {
       onPress={()=>{setShowTransactionDetails(true)}}
     >
       <View style={styles.viewRow}>
-        <Text style={styles.cardTitle}>{transactionGroup["title"]}</Text>
-        <Text style={styles.cardText}>{transactionGroup["date"]}</Text>
+        <Text style={styles.cardTitle}>{transactionGroup.name}</Text>
+        <Text style={styles.cardText}>{formatDate(transactionGroup.dateCreated)}</Text>
       </View>
 
       <View style={styles.viewRow}>
-        <Text style={styles.cardText}>{getUsername(transactionGroup["paid_by"])}</Text>
+        <Text style={styles.cardText}>{getUsername(transactionGroup["createdBy"])}</Text>
         <Text style={styles.cardText}>{transactionGroup["total"]}PLN</Text>
       </View>
 

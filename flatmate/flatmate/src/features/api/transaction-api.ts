@@ -22,18 +22,18 @@ type TransactionGroupQueryData<T> = {
 export const flatApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getTransactionGroupsByFlatId: builder.query<TransactionGroupInfo[], FlatQuery> ({
-          query: (flatId) => ({url: `/transaction-groups/by-flat-id/${flatId}`, method: 'GET'})
+          query: ({flatId}) => ({url: `/transaction-groups/by-flat-id/${flatId}`, method: 'GET'})
         }),
         getTransactionGroup: builder.query<TransactionGroupInfo, TransactionGroupQuery> ({
-          query: (transactionGroupId) => ({url: `/transaction-groups/${transactionGroupId}`, method: 'GET'})
+          query: ({transactionGroupId}) => ({url: `/transaction-groups/${transactionGroupId}`, method: 'GET'})
         }),
-        addTransactionGroup: builder.mutation<void, TransactionGroupQueryData<CreateTransactionGroupRequest>> ({
+        addTransactionGroup: builder.mutation<void, CreateTransactionGroupRequest> ({
           query: (data) => ({url: `/transaction-groups`, method: 'POST', data}),
         }),
         deleteTransactionGroup: builder.mutation<void, TransactionGroupQuery> ({
-          query: (transactionGroupId) => ({url: `/transaction-groups/${transactionGroupId}`, method: 'DELETE'})
+          query: ({transactionGroupId}) => ({url: `/transaction-groups/${transactionGroupId}`, method: 'DELETE'})
         }),
     })
 });
 
-export const { useAddTransactionGroupMutation } = flatApi;
+export const { useAddTransactionGroupMutation, useGetTransactionGroupsByFlatIdQuery } = flatApi;
