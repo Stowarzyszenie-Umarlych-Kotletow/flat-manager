@@ -135,8 +135,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     blueButtonNarrow: {
@@ -144,8 +144,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     redButtonNarrow: {
@@ -153,8 +153,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     imageUploadContainer: {

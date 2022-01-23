@@ -2778,10 +2778,13 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                 </View>
                 <RCTScrollView
                   style={
-                    Object {
-                      "height": 130,
-                      "padding": 5,
-                    }
+                    Array [
+                      Object {
+                        "height": 130,
+                        "padding": 5,
+                      },
+                      undefined,
+                    ]
                   }
                 >
                   <View />
