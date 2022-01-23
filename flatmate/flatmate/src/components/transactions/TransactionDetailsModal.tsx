@@ -11,11 +11,12 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
   const { flat, flatId, flatTasks, flatUsers } = useFlat();
 
   function getUsername(userId: string): string {
-    for (let user of flatUsers) {
-        return user.username;
+    for (const user of flatUsers) {
+        if(userId == user.id) 
+            return user.username;
     }
     return "Unknown user";
-  } 
+} 
 
 
   return ( 
@@ -49,7 +50,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
       return (
         <View style={styles.viewRow} key={transaction["id"]}>
           <Text style={styles.tinyTextCenter}>{transaction.name}</Text>
-          <Text style={styles.tinyTextCenter}> {transaction.price}zł</Text> 
+          <Text style={styles.tinyTextCenter}> {(+transaction.price).toFixed(2)}zł</Text> 
         </View>
       );
     })}

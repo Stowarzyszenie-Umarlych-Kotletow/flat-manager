@@ -1,5 +1,6 @@
 package com.pis.flatmanager.model;
 
+import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -53,5 +55,13 @@ public class TransactionGroup implements Serializable {
 
     @Version
     private Long version;
+
+    public TransactionGroupDto asDto() {
+        var sum = BigDecimal.valueOf(0);
+        for(var t: transactions) {
+            sum = sum.add(t.getPrice());
+        }
+        return new TransactionGroupDto(id, name, createdBy, flatId, transactions, usersConnected, dateCreated, sum.toString());
+    }
 
 }
