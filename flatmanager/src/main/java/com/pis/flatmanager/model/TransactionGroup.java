@@ -39,6 +39,10 @@ public class TransactionGroup implements Serializable {
 
     @NotNull
     @NonNull
+    private List<TransactionUserDebt> userDebts;
+
+    @NotNull
+    @NonNull
     private List<UUID> usersConnected;
 
     @CreatedDate

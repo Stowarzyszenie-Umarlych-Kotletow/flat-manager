@@ -3,12 +3,14 @@ package com.pis.flatmanager.model;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,8 +32,13 @@ public class Flat implements Serializable {
 
     private LocalDateTime dateCreated = LocalDateTime.now();
 
-    // list of maps with keys {id, role, username} and maybe others
+    // flat users by their user ids
     private Map<UUID, FlatUser> users = new HashMap<>();
-
+    // flat tasks by their task ids
     private Map<UUID, FlatTask> tasks = new HashMap<>();
+    // user credits by their user ids
+    private Map<UUID, List<TransactionUserDebt>> optimizedTransfers = new HashMap<>();
+
+    @Version
+    private Long version;
 }
