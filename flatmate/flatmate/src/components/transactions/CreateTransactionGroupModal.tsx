@@ -139,17 +139,17 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 						}
 
 						return (
-							<View style={styles.viewRow} key={item.name}>
+							<View style={styles.viewRow} key={item.id}>
 								<TextInput
 									style={styles.textInput}
 									placeholder="Name"
-									value={item.name}
+									defaultValue={item.name}
 									onChangeText={changeItemsName}
 								/>
 								<TextInput
 									style={styles.textInput}
 									placeholder="Price"
-									value={item.price}
+									defaultValue={item.price}
 									onChangeText={changeItemsPrice}
 								/>
 								<Button
