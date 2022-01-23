@@ -1,6 +1,7 @@
 package com.pis.flatmanager.service;
 
 import com.pis.flatmanager.dto.transactions.CreateTransactionGroupDto;
+import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.*;
@@ -11,7 +12,7 @@ import com.pis.flatmanager.service.interfaces.UserService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;

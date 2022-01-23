@@ -119,12 +119,11 @@ public class FlatServiceImpl implements FlatService {
     @Override
     public Flat addUserToFlat(User user, UUID flatId, AddUserFlatDto dto) throws EntityNotFoundException, AccessForbiddenException {
 
-        Optional<Flat> flat = flatRepository.findById(flatId);
-        if (flat.isEmpty()) throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
+        var flat = getFlatAsUser(user, flatId);
 
         User addUser = userService.getUser(dto.getUserId());
 
-        if(!flat.get().getOwner().getId().equals(user.getId()) || !dto.getRole().equals(FlatRole.USER)) {
+        if(!flat.getOwner().getId().equals(user.getId()) || !dto.getRole().equals(FlatRole.USER)) {
             throw new AccessForbiddenException("This user cannot be the owner");
         }
 
@@ -140,13 +139,13 @@ public class FlatServiceImpl implements FlatService {
                 dto.getRole()
         );
 
-        flat.get().getUsers().put(addUser.getId(), flatUser);
+        flat.getUsers().put(addUser.getId(), flatUser);
 
         userService.addUserFlat(addUser, new UserFlat(
-                flatId, flat.get().getName()
+                flatId, flat.getName()
         ));
-        flatRepository.save(flat.get());
-        return flat.get();
+        flatRepository.save(flat);
+        return flat;
     }
 
     @Override

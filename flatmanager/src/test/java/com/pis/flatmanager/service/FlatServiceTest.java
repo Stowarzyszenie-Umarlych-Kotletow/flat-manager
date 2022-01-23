@@ -244,6 +244,8 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
+        flat.getUsers().put(user.getId(), new FlatUser(user.getId(), user.getUsername(), FlatRole.OWNER));
+
         var dto = AddUserFlatDto.builder().userId(
                 user2.getId()).role(FlatRole.USER).build();
 
@@ -281,12 +283,12 @@ public class FlatServiceTest {
         var flat = new Flat("testFlat", new FlatUser(
                 user2.getId(), user2.getUsername(), FlatRole.OWNER
         ));
+        flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.OWNER));
 
         var dto = AddUserFlatDto.builder().userId(
                 user.getId()).role(FlatRole.USER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        when(userService.getUser(any())).thenReturn(user2);
 
         assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user, flat.getId(), dto));
 
@@ -299,6 +301,7 @@ public class FlatServiceTest {
         var flat = new Flat("testFlat", new FlatUser(
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
+        flat.getUsers().put(user.getId(), new FlatUser(user.getId(), user.getUsername(), FlatRole.OWNER));
 
         var dto = AddUserFlatDto.builder().userId(
                 user2.getId()).role(FlatRole.OWNER).build();
@@ -317,12 +320,12 @@ public class FlatServiceTest {
         var flat = new Flat("testFlat", new FlatUser(
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
+        flat.getUsers().put(user.getId(), new FlatUser(user.getId(), user.getUsername(), FlatRole.OWNER));
 
         var dto = AddUserFlatDto.builder().userId(
                 user2.getId()).role(FlatRole.OWNER).build();
 
         when(flatRepository.findById(any())).thenReturn(Optional.of(flat));
-        when(userService.getUser(any())).thenReturn(user2);
 
         assertThrows(AccessForbiddenException.class, () -> flatService.addUserToFlat(user2, flat.getId(), dto));
 
@@ -336,6 +339,7 @@ public class FlatServiceTest {
                 user.getId(), user.getUsername(), FlatRole.OWNER
         ));
 
+        flat.getUsers().put(user.getId(), new FlatUser(user.getId(), user.getUsername(), FlatRole.OWNER));
         flat.getUsers().put(user2.getId(), new FlatUser(user2.getId(), user2.getUsername(), FlatRole.USER));
 
 
