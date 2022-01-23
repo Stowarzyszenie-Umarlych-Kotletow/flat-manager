@@ -28,3 +28,10 @@ export interface Task {
 export interface UserDoneCounter {
     [userId: string]: number;
 }
+
+export enum TaskFrontendState {
+    COMPLETED = "Completed",
+    FAILED = "Failed",
+    FUTURE = "Future",
+    PENDING = "Pending",
+}

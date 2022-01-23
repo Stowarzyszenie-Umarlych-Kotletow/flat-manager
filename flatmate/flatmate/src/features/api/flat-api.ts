@@ -1,5 +1,6 @@
 import {Task} from "../../models/task.model";
 import {api} from "./api"
+import {FlatInfo, UserRole} from "../../models/flat.model";
 
 type FlatQuery = {
     flatId: string;
@@ -29,11 +30,11 @@ export const flatApi = api.injectEndpoints({
             query: ({flatId}) => ({url: `/flats/${flatId}/users`, method: 'GET'}),
             providesTags: (res, _, {flatId}) => [{type: 'flatUsers', id: flatId}]
         }),
-        addUserToFlat: builder.mutation<void, { flatId: string, userId: string, userRole: UserRole }>({
-            query: ({flatId, userId, userRole}) => ({
+        addUserToFlat: builder.mutation<void, { flatId: string, userId: string, role: UserRole }>({
+            query: ({flatId, userId, role}) => ({
                 url: `/flats/${flatId}/users`,
                 method: 'PUT',
-                data: {userId, userRole}
+                data: {userId, role}
             }),
             invalidatesTags: (res, _, {flatId}) => [{type: 'flatUsers', id: flatId}]
         }),

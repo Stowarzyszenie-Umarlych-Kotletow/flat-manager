@@ -9,9 +9,19 @@ import DatePicker from 'react-native-neat-date-picker';
 import CustomMultiPicker from "react-native-multiple-select-list";
 import { useFlat } from "../../features/hooks";
 import { useCreateFlatTaskMutation } from "../../features/api/flat-api";
+import {showMessage} from "react-native-flash-message";
 
 export function validateForm(data) {
-  return true; //TODO: validate
+	if (data.taskName=="") {
+		showMessage({
+			message: "Task name must not be empty",
+			type: "danger"
+		})
+		return false;
+	}
+
+
+	return true;
 }
 
 
@@ -47,8 +57,17 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
   });
 
   const submitTask = async (data: any) => {
-    if (!validateForm(data))
-      return; //TODO: do sth
+    if (!validateForm(data)){
+
+			return;
+		}
+		if (selectedUsers.length == 0) {
+			showMessage({
+				message: "No users were assigned to the task",
+				type: "danger"
+			})
+			return;
+		}
     const request: CreateTaskRequest = {
       name: data.taskName,
       startDate: data.start,
@@ -60,6 +79,11 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 
     await createTask({ flatId, data: request }).unwrap();
     hideTaskCreationModal();
+		showMessage({
+			message: "Successfully created task",
+			type: "success",
+			position: "top"
+		})
   }
 
   const hideTaskCreationModal = () => {

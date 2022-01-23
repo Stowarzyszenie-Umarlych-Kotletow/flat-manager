@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from "../../store";
 import {LoginRequest} from "../../models/api/auth";
 import {useLoginMutation} from "../../features/api/user-api";
 import toast from "../../features/toast"
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 
 export function parseLoginData(data) {
