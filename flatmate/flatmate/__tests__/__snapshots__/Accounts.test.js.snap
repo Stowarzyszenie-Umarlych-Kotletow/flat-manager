@@ -7,8 +7,8 @@ exports[`ChangePassword Screen renders correctly 1`] = `
       Object {
         "fontSize": 40,
         "fontWeight": "800",
-        "marginBottom": 15,
-        "marginTop": 30,
+        "marginBottom": 1,
+        "marginTop": 20,
         "textAlign": "center",
       }
     }
@@ -470,8 +470,8 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 15,
-          "marginTop": 30,
+          "marginBottom": 1,
+          "marginTop": 20,
           "textAlign": "center",
         }
       }
@@ -634,8 +634,8 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 15,
-          "marginTop": 30,
+          "marginBottom": 1,
+          "marginTop": 20,
           "textAlign": "center",
         }
       }

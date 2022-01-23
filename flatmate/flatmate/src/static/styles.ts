@@ -48,6 +48,13 @@ export default StyleSheet.create({
         marginBottom: 5,
         textAlign: 'auto',
     },
+    bigText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 5,
+        textAlign: 'auto',
+    },
     warningText: {
         fontSize: 13,
         fontWeight: 'bold',
@@ -66,8 +73,8 @@ export default StyleSheet.create({
     logoText: {
         fontSize: 40,
         fontWeight: "800",
-        marginTop: 30,
-        marginBottom: 15,
+        marginTop: 20,
+        marginBottom: 1,
         textAlign: 'center',
     },
     textInput: {
@@ -153,6 +160,16 @@ export default StyleSheet.create({
         borderLeftWidth: 4,
         paddingLeft: 5
     },
+    borderLeftRed: {
+        borderLeftColor: '#ff0000',
+        borderLeftWidth: 4,
+        paddingLeft: 5
+    },
+    borderLeftGreen: {
+        borderLeftColor: '#00ff00',
+        borderLeftWidth: 4,
+        paddingLeft: 5
+    },
     columnView: {
         display: "flex",
         flexDirection: "column",
@@ -198,7 +215,8 @@ export default StyleSheet.create({
         justifyContent: "center"
     },
     container2Navbars: {
-        paddingBottom: 95
+        paddingBottom: 95,
+        paddingHorizontal: 10,
     }
 });
 

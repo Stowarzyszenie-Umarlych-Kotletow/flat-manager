@@ -228,7 +228,7 @@ Array [
                       style={
                         Object {
                           "alignItems": "center",
-                          "backgroundColor": "#3897f1",
+                          "backgroundColor": "#5cd07f",
                           "borderColor": "#2089dc",
                           "borderRadius": 5,
                           "borderWidth": 0,
@@ -299,7 +299,7 @@ Array [
                       style={
                         Object {
                           "alignItems": "center",
-                          "backgroundColor": "#3897f1",
+                          "backgroundColor": "#e74040",
                           "borderColor": "#2089dc",
                           "borderRadius": 5,
                           "borderWidth": 0,
@@ -348,8 +348,9 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       "bottom": "0",
       "display": "flex",
       "height": "75px",
-      "justifyContent": "space-around",
+      "justifyContent": "space-evenly",
       "left": "0",
+      "paddingInline": "5px",
       "position": "fixed",
       "width": "100%",
       "zIndex": 100,
@@ -386,7 +387,7 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       }
     />
     <Text>
-       Tasks 
+       Calendar 
     </Text>
   </View>
   <View
@@ -419,7 +420,7 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       }
     />
     <Text>
-       Transactions 
+       Tasks 
     </Text>
   </View>
   <View
@@ -485,7 +486,7 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       }
     />
     <Text>
-       Flatmates 
+       Mates 
     </Text>
   </View>
   <View
@@ -518,7 +519,40 @@ exports[`BottomNavigationBar Screen renders correctly 1`] = `
       }
     />
     <Text>
-       Calendar 
+       Bills 
+    </Text>
+  </View>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "opacity": 1,
+      }
+    }
+  >
+    <img
+      alt=" "
+      src={Object {}}
+      style={
+        Object {
+          "height": "35px",
+          "width": "35px",
+        }
+      }
+    />
+    <Text>
+       Debts 
     </Text>
   </View>
 </footer>
@@ -868,8 +902,8 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 15,
-          "marginTop": 30,
+          "marginBottom": 1,
+          "marginTop": 20,
           "textAlign": "center",
         }
       }
@@ -891,6 +925,7 @@ Array [
       style={
         Object {
           "paddingBottom": 95,
+          "paddingHorizontal": 10,
         }
       }
     >
@@ -904,8 +939,9 @@ Array [
           "bottom": "0",
           "display": "flex",
           "height": "75px",
-          "justifyContent": "space-around",
+          "justifyContent": "space-evenly",
           "left": "0",
+          "paddingInline": "5px",
           "position": "fixed",
           "width": "100%",
           "zIndex": 100,
@@ -942,7 +978,7 @@ Array [
           }
         />
         <Text>
-           Tasks 
+           Calendar 
         </Text>
       </View>
       <View
@@ -975,7 +1011,7 @@ Array [
           }
         />
         <Text>
-           Transactions 
+           Tasks 
         </Text>
       </View>
       <View
@@ -1041,7 +1077,7 @@ Array [
           }
         />
         <Text>
-           Flatmates 
+           Mates 
         </Text>
       </View>
       <View
@@ -1074,7 +1110,40 @@ Array [
           }
         />
         <Text>
-           Calendar 
+           Bills 
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "column",
+            "opacity": 1,
+          }
+        }
+      >
+        <img
+          alt=" "
+          src={Object {}}
+          style={
+            Object {
+              "height": "35px",
+              "width": "35px",
+            }
+          }
+        />
+        <Text>
+           Debts 
         </Text>
       </View>
     </footer>
@@ -1102,8 +1171,8 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 15,
-          "marginTop": 30,
+          "marginBottom": 1,
+          "marginTop": 20,
           "textAlign": "center",
         }
       }

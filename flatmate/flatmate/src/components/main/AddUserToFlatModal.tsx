@@ -83,12 +83,12 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 		/>
 		{!usernameWarning == null ? null : <Text style={styles.warningText}>{usernameWarning}</Text>}
 		<Button
-			buttonStyle={styles.blueButton}
+			buttonStyle={styles.greenButton}
 			title="Add User"
 			onPress={handleSubmit(completeAddUser)}
 		/>
 		<Button
-			buttonStyle={styles.blueButton}
+			buttonStyle={styles.redButton}
 			title="Close"
 			onPress={() => {
 				setShowAddUserToFlatModal(false);
