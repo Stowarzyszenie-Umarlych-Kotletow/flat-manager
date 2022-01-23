@@ -1,13 +1,13 @@
-interface FlatInfo {
+export interface FlatInfo {
     id: string;
     name: string;
 }
 
-interface Flat extends FlatInfo {
+export interface Flat extends FlatInfo {
     users: UserInfo[];
 }
 
-enum UserRole {
+export enum UserRole {
     ADMIN="ADMIN",
     OWNER="OWNER",
     USER="USER"

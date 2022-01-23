@@ -7,15 +7,16 @@ import { Text, TextInput, ScrollView } from "react-native";
 import { Button } from "react-native-elements";
 import { useAppDispatch} from "../../store";
 import { useFlat } from "../../features/hooks";
-import { userApi } from "../../features/api/user-api";
+import {useGetUserByUsernameQuery, userApi} from "../../features/api/user-api";
 import { useAddUserToFlatMutation } from "../../features/api/flat-api";
+import { UserRole } from "../../models/flat.model"
 
 export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 
   const [usernameWarning, setUsernameWarning] = useState(null);
   const dispatch = useAppDispatch();
   const { flatId } = useFlat();
-  const [addUser] = useAddUserToFlatMutation();
+  const [addUser, {status}] = useAddUserToFlatMutation();
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -30,8 +31,8 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
       try {
         const action = userApi.endpoints.getUserByUsername.initiate({username});
         const userId = (await dispatch(action).unwrap()).id;
-        
-        await addUser({ flatId, userId }).unwrap();
+        const role = UserRole.USER;
+        await addUser({ flatId, userId, role}).unwrap();
 
         setShowAddUserToFlatModal(false);
       } catch (err) {
