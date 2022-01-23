@@ -19,6 +19,8 @@ export function validateForm(data) {
 		})
 		return false;
 	}
+	console.log(data.startDate)
+	console.log(data.endDate)
 
 
 	return true;
@@ -26,9 +28,6 @@ export function validateForm(data) {
 
 
 export function AddTaskModal({ setShowTaskCreationModal }) {
-  // warnings
-  const [showTaskNameWarning, setTaskNameWarning] = useState(false);
-  const [showTaskDateWarning, setTaskDateWarning] = useState(false);
   // datepicker for task starting and ending day
   const [showTaskDatePicker, setShowTaskDatePicker] = useState(false);
 
@@ -133,7 +132,6 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				)}
 				name="taskName"
 			/>
-			{!showTaskNameWarning ? null : <Text style={styles.warningText}> Task Name cannot be empty </Text>}
 
 			<Button
 				buttonStyle={styles.blueButton}
@@ -146,7 +144,6 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				onCancel={onTaskDatePickerCancel}
 				onConfirm={onTaskDatePickerConfirm}
 			/>
-			{!showTaskDateWarning ? null : <Text style={styles.warningText}> Task Date cannot be empty </Text>}
 
 			<Text style={styles.tinyTextCenter}>Task Period (in Days) </Text>
 			<Controller
