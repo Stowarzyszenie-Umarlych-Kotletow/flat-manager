@@ -3,12 +3,12 @@ import { useState } from "react";
 import styles from "../../static/styles";
 import { Text, View, ScrollView } from "react-native";
 import { Button } from "react-native-elements";
-import { TaskDetailsModal } from "../tasks/TaskDetailsModal";
+import { TaskDetailsModal } from "../../components/tasks/TaskDetailsModal";
 import { useFlat } from "../../features/hooks";
 import { useGetFlatScheduleQuery } from "../../features/api/flat-api";
-import { scheduleToEvents } from "../../helpers/task-helper";
+import {scheduleToEvents} from "../../helpers/task-helper";
 import TaskEvent from "../../models/event.model";
-import { TaskState } from "../../models/task.model";
+import {TaskFrontendState, TaskState} from "../../models/task.model";
 import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
 
 export function DashboardScreen({ navigation }) {
@@ -37,7 +37,7 @@ export function DashboardScreen({ navigation }) {
   // (failed means nobody marked them as completed before the deadline)
 
   const events = scheduleToEvents(taskSchedule?.taskInstances, getTaskName).filter(
-    event => event.state == TaskState.SCHEDULED  );
+    event => event.frontendState == TaskFrontendState.PENDING  );
 
   return (
   <View style={styles.container1Navbar} >

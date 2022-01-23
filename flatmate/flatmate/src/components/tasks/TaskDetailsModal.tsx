@@ -6,8 +6,8 @@ import * as React from "react";
 import { useFlat } from "../../features/hooks";
 import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../../features/api/flat-api";
 import { asDate } from "../../helpers/date-helper";
-import { TaskInstanceInfo, TaskState } from "../../models/task.model";
-import {TaskFrontendState, taskInstanceToFrontendState} from "../../helpers/task-helper";
+import {TaskFrontendState, TaskInstanceInfo, TaskState} from "../../models/task.model";
+import {taskInstanceToFrontendState} from "../../helpers/task-helper";
 
 export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }:
                                      { setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean }) {
@@ -20,7 +20,8 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
 
     function getUsername(userId: string): string {
         for (let user of flatUsers) {
-            return user.username;
+            if (userId == user.id)
+                return user.username;
         }
         return "Unknown user";
     }
@@ -59,7 +60,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
             <ModalContent>
                 <Text style={styles.tinyTextCenter}>{task.name}</Text>
                 <Text style={styles.smallText}>{sliceDate(taskInstance.date)}</Text>
-                <Text style={styles.tinyTextCenter}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
+                <Text style={styles.tinyTextCenter}>Scheduled to: {taskInstance.userId} </Text>
                 {taskInstance.completedByUserId ? (
                 <Text style={styles.tinyTextCenter}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
                 ): null}

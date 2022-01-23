@@ -10,6 +10,7 @@ import { useFlat } from "../../features/hooks";
 import {useGetUserByUsernameQuery, userApi} from "../../features/api/user-api";
 import { useAddUserToFlatMutation } from "../../features/api/flat-api";
 import { UserRole } from "../../models/flat.model"
+import { showMessage } from "react-native-flash-message";
 
 export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 
@@ -36,10 +37,16 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 
         setShowAddUserToFlatModal(false);
       } catch (err) {
-        warning = `Cannot add user (error ${err.status})`;
+        showMessage({
+          message: `Cannot add user (error ${err.status})`,
+          type: "danger"
+        })
       }
     } else {
-      warning = "The username must not be empty";
+      showMessage({
+        message: "Username cannot be empty",
+        type: "danger"
+      })
     }
     setUsernameWarning(warning);
   }

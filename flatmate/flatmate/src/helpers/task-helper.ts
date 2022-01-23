@@ -1,13 +1,6 @@
 import {asDate} from "./date-helper";
 import TaskEvent from "../models/event.model";
-import {TaskState} from "../models/task.model";
-
-export enum TaskFrontendState {
-    COMPLETED = "Completed",
-    FAILED = "Failed",
-    FUTURE = "Future",
-    PENDING = "Pending",
-}
+import {TaskFrontendState, TaskState} from "../models/task.model";
 
 export function taskInstanceToFrontendState(taskInstance) {
     if (taskInstance.state == TaskState.PAST) { //PAST
