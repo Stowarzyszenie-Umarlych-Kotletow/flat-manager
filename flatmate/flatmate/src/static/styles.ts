@@ -210,6 +210,16 @@ export default StyleSheet.create({
         marginStart: 20,
         marginEnd: 20,
     },
+    cardDisabled: {
+        opacity: 0.6,
+        borderColor: 'rgb(255, 0, 0)',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        marginStart: 20,
+        marginEnd: 20,
+    },
     cardTitle: {
         fontSize: 22,
         fontWeight: "bold",

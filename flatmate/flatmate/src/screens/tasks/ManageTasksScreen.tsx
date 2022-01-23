@@ -25,11 +25,7 @@ export function ManageTasksScreen({navigation}) {
   const { isLoading, currentData: taskSchedule} = useGetFlatScheduleQuery({ flatId, data: query }, {refetchOnMountOrArgChange: true});
 
   const [deleteTask, {isError, status}] = useDeleteFlatTaskMutation();
-
-  const getTaskName = (taskId: string) => {
-    for (let task of flatTasks) { if (taskId === task.id) { return task.name; } }
-    return "Unknown task";
-  }
+  const currentDate = new Date(Date.now());
 
   function handleDeleteTask(taskId:string) {
     deleteTask({flatId, taskId}).unwrap()
@@ -50,9 +46,12 @@ export function ManageTasksScreen({navigation}) {
       />
       <ScrollView style={styles.container2Navbars} >  
         {flatTasks.map((task) => {
+          console.log(task.name)
+          console.log(currentDate);
+          console.log(task.endDate)
         return (
           <View
-            style={styles.card}
+            style={ task.endDate > currentDate ? styles.card : styles.cardDisabled}
             key={task.id}
           >
             <View style={styles.viewRow}>
