@@ -19,7 +19,7 @@ export function ManageUsersScreen({navigation}) {
   const {flatId, flatUsers} = useFlat();
   const [deleteUserFromFlat] = useDeleteUserFromFlatMutation();
 
-  async function deleteUser(userId: string) {
+  async function handleDeleteUser(userId: string) {
     // TODO: backend connection delete User test
     let warning: string = null;
     try {
@@ -50,7 +50,7 @@ export function ManageUsersScreen({navigation}) {
                 <Text style={styles.cardTitle}>{user.username}</Text>
                 <TouchableOpacity
                   onPress={() => {
-                    deleteUser(user.id);
+                    handleDeleteUser(user.id);
                   }}
                 >
                   <img src={userDeleteIcon} alt=" " style={{width: '20px', height: '20px'}}/>
