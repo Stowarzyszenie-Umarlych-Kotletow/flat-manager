@@ -5,9 +5,9 @@ import { Button } from "react-native-elements";
 import * as React from "react";
 import { useFlat } from "../../features/hooks";
 import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../../features/api/flat-api";
-import { asDate } from "../../helpers/date-helper";
-import {TaskFrontendState, TaskInstanceInfo, TaskState} from "../../models/task.model";
-import {taskInstanceToFrontendState} from "../../helpers/task-helper";
+import { formatDate } from "../../helpers/date-helper";
+import { TaskInstanceInfo, TaskState} from "../../models/task.model";
+
 
 export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = false }:
                                      { setShow: any, taskInstance: TaskInstanceInfo, taskId: string, deletable: boolean }) {
@@ -36,13 +36,6 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
         // TODO
     }
 
-    function sliceDate(time: string) {
-        if (time == undefined) { return " "; }
-        let timeStr = asDate(time).toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw' })
-        timeStr = timeStr.slice(0, -10);  // with hour - -3
-        return timeStr;
-    }
-
     if (isLoading || !task) return null;
 
     return (
@@ -58,8 +51,8 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
             <ScrollView>
             <ModalContent>
                 <Text style={styles.bigTextCenter}>{task.name}</Text>
-                <Text style={styles.smallTextCenter}>{sliceDate(taskInstance.date)}</Text>
-                <Text style={styles.tinyTextCenter}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
+                <Text style={styles.smallTextCenter}>{formatDate(taskInstance.date)}</Text>
+                <Text style={styles.tinyTextCenter}>Scheduled by: {getUsername(taskInstance.userId)} </Text>
                 {taskInstance.completedByUserId ? (
                 <Text style={styles.tinyTextCenter}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
                 ): null}
