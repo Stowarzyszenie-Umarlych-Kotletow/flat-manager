@@ -17,7 +17,7 @@ export function NotLoggedNavigator() {
 
             }}>
             <NotLoggedStack.Screen name="HomeScreen" component={HomeScreen} options={{
-                title: 'main'
+                title: 'Flatmate'
             }}/>
 
             <NotLoggedStack.Screen name="RegisterScreen" options={{

@@ -29,6 +29,7 @@ export function TransactionManagementScreen({navigation}) {
 				{groups.map((transactionGroup) => {
 					return (
 						<TransactionCard transactionGroup={transactionGroup} key={transactionGroup.id}/>
+
 				);})}        
 			</ScrollView>
 			{ showAddTransactionGroup ? (

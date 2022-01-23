@@ -1,22 +1,22 @@
-import { TransactionGroupInfo } from "../../models/transaction.model";
-import { CreateTransactionGroupRequest } from '../../models/api/transaction'
-import { api } from "./api";
+import {TransactionGroupInfo} from "../../models/transaction.model";
+import {CreateTransactionGroupRequest} from '../../models/api/transaction'
+import {api} from "./api";
 
 type FlatQuery = {
-    flatId: string;
+  flatId: string;
 }
 
 type FlatQueryData<T> = {
-    flatId: string;
-    data: T;
+  flatId: string;
+  data: T;
 }
 
 type TransactionGroupQuery = {
-    transactionGroupId: string;
+  transactionGroupId: string;
 }
 
 type TransactionGroupQueryData<T> = {
-    data: T;
+  data: T;
 }
 
 export const flatApi = api.injectEndpoints({
@@ -39,4 +39,8 @@ export const flatApi = api.injectEndpoints({
     })
 });
 
-export const { useAddTransactionGroupMutation, useGetTransactionGroupsByFlatIdQuery } = flatApi;
+export const {
+  useAddTransactionGroupMutation,
+  useGetTransactionGroupsByFlatIdQuery,
+  useDeleteTransactionGroupMutation
+} = flatApi;

@@ -462,7 +462,7 @@ exports[`LoginScreen renders correctly 1`] = `
 </View>
 `;
 
-exports[`ManageScreenModal Screen renders correctly 1`] = `
+exports[`ManageAccountScreen Screen renders correctly 1`] = `
 Array [
   <View>
     <Text

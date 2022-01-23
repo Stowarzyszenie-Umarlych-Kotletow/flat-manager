@@ -8,10 +8,11 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import auth from "../../features/auth";
 import { Modal, ModalContent, ModalTitle } from "react-native-modals"
 import { useFlat } from "../../features/hooks";
-import { useDeleteAccountMutation } from "../../features/api/user-api";
+import { useDeleteAccountMutation, useLogoutMutation } from "../../features/api/user-api";
+import {api} from "../../features/api/api";
 
 
-export function ManageScreenModal({ navigation }) {
+export function ManageAccountScreen({ navigation }) {
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       password: '',
@@ -21,6 +22,7 @@ export function ManageScreenModal({ navigation }) {
   const dispatch = useAppDispatch();
   const { flatId } = useFlat();
   const [deleteAccount] = useDeleteAccountMutation();
+    const [logout] = useLogoutMutation();
 
   const [showAccountDeletionBox, setShowAccountDeletionBox] = useState(false);
   const [showIncorrectPasswordWarning, setShowIncorrectPasswordWarning] = useState(false);
@@ -37,7 +39,7 @@ export function ManageScreenModal({ navigation }) {
   }
 
   function handleLogOut() {
-    dispatch(auth.actions.logout());
+    logout().unwrap();
   }
 
   const username = useAppSelector((state) => state.auth.user?.username);

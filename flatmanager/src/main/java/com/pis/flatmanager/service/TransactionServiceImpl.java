@@ -56,11 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionGroup> getTransactionGroupsByFlatId(User user, UUID flatId) throws AccessForbiddenException {
         flatService.getFlatAsUser(user, flatId);
-        var transactionGroups = transactionRepository.findTransactionGroupsByFlatId(flatId);
-        if(transactionGroups.isEmpty()) {
-            throw new EntityNotFoundException(String.format("TransactionGroup with flatId %s does not exist", flatId));
-        }
-        return transactionGroups;
+        return transactionRepository.findTransactionGroupsByFlatId(flatId);
     }
 
 }

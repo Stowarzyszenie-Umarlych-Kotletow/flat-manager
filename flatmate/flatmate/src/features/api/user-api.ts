@@ -3,6 +3,7 @@ import { api } from "./api";
 import auth from "../auth";
 import { DeleteAccountRequest } from "../../models/api/account";
 import authSlice from "../auth";
+import flatSlice from "../flat";
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -36,8 +37,16 @@ export const userApi = api.injectEndpoints({
                 dispatch(api.util.resetApiState());
                 dispatch(authSlice.actions.logout());
             }
-        })
+        }),
+        logout: builder.mutation<null, void>({
+            query: () => ({}),
+            async onQueryStarted(_, { dispatch }) {
+                dispatch(auth.actions.logout());
+                dispatch(flatSlice.actions.setCurrentFlat(null));
+            }
+        }),
     }),
+
 });
 
-export const { useLoginMutation, useGetSelfQuery, useGetUserByUsernameQuery, useRegisterMutation, useDeleteAccountMutation } = userApi;
+export const { useLoginMutation, useGetSelfQuery, useGetUserByUsernameQuery, useRegisterMutation, useDeleteAccountMutation, useLogoutMutation } = userApi;
