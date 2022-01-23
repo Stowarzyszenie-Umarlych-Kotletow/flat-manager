@@ -5,7 +5,7 @@ import styles from "../../static/styles";
 import { Button } from "react-native-elements";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
-import CustomMultiPicker from "react-native-multiple-select-list";
+import CustomMultiPicker from "../../../lib/multiple-select";
 import { useFlat } from "../../features/hooks";
 import { UploadBillModal } from './UploadBillPhotoModal'
 import { useAddTransactionGroupMutation } from '../../features/api/transaction-api'
@@ -175,6 +175,7 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 						rowBackgroundColor={"#eee"}
 						rowHeight={40}
 						rowRadius={5}
+						searchIconColor={"transparent"}
 						iconColor={"#00a2dd"}
 						iconSize={30}
 						selectedIconName={"ios-checkmark-circle-outline"}

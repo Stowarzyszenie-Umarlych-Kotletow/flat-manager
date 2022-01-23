@@ -6,38 +6,40 @@ import styles from "../../static/styles";
 import { Text, TextInput, ScrollView } from "react-native";
 import { Button } from "react-native-elements";
 import { useFlat } from "../../features/hooks";
+import { useAppSelector } from "../../store";
 import { showMessage } from "react-native-flash-message";
-import CustomMultiPicker from "react-native-multiple-select-list";
+import CustomMultiPicker from "../../../lib/multiple-select";
 
 
 
 export function DebtModal({setShowDebt}) {
 	const [selectedUser, setSelectedUser] = useState([]);
   const [userWarning, setUserWarning] = useState(null);
-  const [ammountWarning, setAmmountWarning] = useState(null);
+  const [amountWarning, setamountWarning] = useState(null);
   const { flatUsers } = useFlat();
-
+  const username = useAppSelector((state) => state.auth.user?.username);
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      ammount: '',
+      amount: '',
     },
   });
 
   function pay(data){
     let formOk = true;
+    let warningMsg = '';
     setUserWarning(null);
-    setAmmountWarning(null);
-    if (data.ammount == '') {
-      setAmmountWarning('Make sure not to leave ammount empty');
+    setamountWarning(null);
+    if (data.amount == '') {
+      warningMsg += "Make sure not to leave amount empty\n";
       formOk = false;
     }
-    if (isNaN(+data.ammount)) {
-      setAmmountWarning('Input a number');
+    if (isNaN(+data.amount)) {
+      warningMsg += "Input a number\n";
       formOk = false;
     }
     if (selectedUser[0] == null) {
-      setUserWarning('Make sure to choose a payment maker');
+      warningMsg += "Make sure to choose a payment maker\n";
       formOk = false;
     }
 
@@ -46,14 +48,27 @@ export function DebtModal({setShowDebt}) {
       console.log(data);
       console.log(selectedUser);
       setShowDebt(false);
+      showMessage({
+        message: "Payment is ok",
+        type: "success"
+      })
+    }
+    else {
+      showMessage({
+        message: warningMsg,
+        type: "danger"
+      })
     }
   }
 
   const getUserSelectList = () => {
 		let obj = {};
 		flatUsers.forEach(u => {
-			obj[u.id] = u.username;
-		})
+      if (u.username != username)
+      {
+			  obj[u.id] = u.username;
+      }
+    })
 		return obj;
 	}
 
@@ -75,14 +90,15 @@ export function DebtModal({setShowDebt}) {
       <CustomMultiPicker
         options={getUserSelectList()}
         search={true}
-        multiple={false} //
+        multiple={false}
         placeholder={"Search"}
         placeholderTextColor={'#757575'}
         returnValue={"value"}
         callback={(res: any[]) => { setSelectedUser(res.filter(val => !!val)); }}
-        rowBackgroundColor={"#eee"}
+        rowBackgroundColor={"#eeeeee"}
         rowHeight={40}
         rowRadius={5}
+        searchIconColor={"transparent"}
         iconColor={"#00a2dd"}
         iconSize={30}
         selectedIconName={"ios-checkmark-circle-outline"}
@@ -91,7 +107,7 @@ export function DebtModal({setShowDebt}) {
       />
       {!userWarning == null ? null : <Text style={styles.warningText}>{userWarning}</Text>}
 
-      <Text style={styles.smallText}> Input the ammount recieved </Text> 
+      <Text style={styles.smallText}> Input the amount recieved </Text> 
       <Controller
         control={control}
         rules={{
@@ -102,11 +118,11 @@ export function DebtModal({setShowDebt}) {
           onBlur={onBlur}
           onChangeText={onChange}
           value={value}
-          placeholder="Ammount"
+          placeholder="amount"
         />)}
-        name="ammount"
+        name="amount"
       />
-      {!ammountWarning == null ? null : <Text style={styles.warningText}>{ammountWarning}</Text>}
+      {!amountWarning == null ? null : <Text style={styles.warningText}>{amountWarning}</Text>}
       <Button
         buttonStyle={styles.greenButton}
         title="Confirm receiving payment"

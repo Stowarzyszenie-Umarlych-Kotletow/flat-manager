@@ -6,7 +6,7 @@ import { Button } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
 import { Modal, ModalContent, ModalTitle } from "react-native-modals";
 import DatePicker from 'react-native-neat-date-picker';
-import CustomMultiPicker from "react-native-multiple-select-list";
+import CustomMultiPicker from "../../../lib/multiple-select";
 import { useFlat } from "../../features/hooks";
 import { useCreateFlatTaskMutation } from "../../features/api/flat-api";
 import {showMessage} from "react-native-flash-message";
@@ -196,6 +196,7 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				rowBackgroundColor={"#eee"}
 				rowHeight={40}
 				rowRadius={5}
+        searchIconColor={"transparent"}
 				iconColor={"#00a2dd"}
 				iconSize={30}
 				selectedIconName={"ios-checkmark-circle-outline"}
