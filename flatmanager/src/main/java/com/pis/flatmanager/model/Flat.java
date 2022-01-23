@@ -1,5 +1,6 @@
 package com.pis.flatmanager.model;
 
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
@@ -36,7 +37,7 @@ public class Flat implements Serializable {
     private Map<UUID, FlatUser> users = new HashMap<>();
     // flat tasks by their task ids
     private Map<UUID, FlatTask> tasks = new HashMap<>();
-    // user credits by their user ids
+    // list of debts by their user ids
     private Map<UUID, List<TransactionUserDebt>> optimizedTransfers = new HashMap<>();
 
     @Version

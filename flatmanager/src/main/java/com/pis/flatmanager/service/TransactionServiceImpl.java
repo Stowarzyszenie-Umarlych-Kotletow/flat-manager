@@ -1,9 +1,14 @@
 package com.pis.flatmanager.service;
 
 import com.pis.flatmanager.dto.transactions.CreateTransactionGroupDto;
+import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
-import com.pis.flatmanager.model.*;
+import com.pis.flatmanager.model.Transaction;
+import com.pis.flatmanager.model.TransactionGroup;
+import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.model.transactions.MinMaxValue;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import com.pis.flatmanager.repository.TransactionRepository;
 import com.pis.flatmanager.service.interfaces.FlatService;
 import com.pis.flatmanager.service.interfaces.TransactionService;
@@ -11,11 +16,12 @@ import com.pis.flatmanager.service.interfaces.UserService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @NoArgsConstructor
@@ -35,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
         var max = BigDecimal.ZERO;
         T minObj = null;
         T maxObj = null;
-        for(var kv : decimals) {
+        for (var kv : decimals) {
             var key = kv.getKey();
             var value = kv.getValue();
             if (value.compareTo(max) > 0) {
@@ -65,7 +71,7 @@ public class TransactionServiceImpl implements TransactionService {
         var previousSum = BigDecimal.ZERO;
         while (true) {
             var sum = debtMap.values().stream().map(BigDecimal::abs).reduce(BigDecimal.ZERO, BigDecimal::add);
-            if (sum.equals(previousSum) || sum.equals(BigDecimal.ZERO)) {
+            if (sum.equals(previousSum) || sum.intValue() == 0) {
                 break;
             }
             previousSum = sum;
@@ -84,14 +90,14 @@ public class TransactionServiceImpl implements TransactionService {
         return resultMap;
     }
 
-    public List<TransactionUserDebt> splitTransaction(List<UUID> users, List<Transaction> transactions) {
+    public Stream<TransactionUserDebt> splitTransaction(List<UUID> users, List<Transaction> transactions) {
         var total = transactions.stream().map(Transaction::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
         var perUser = total.divide(BigDecimal.valueOf(users.size())).setScale(2, RoundingMode.FLOOR);
-        return users.stream().map(u -> new TransactionUserDebt(u, perUser)).collect(Collectors.toList());
+        return users.stream().map(u -> new TransactionUserDebt(u, perUser));
     }
 
     public void updateTransfersInFlat(UUID flatId) throws AccessForbiddenException {
-        var flat =  flatService.getFlat(flatId);
+        var flat = flatService.getFlat(flatId);
         var transactions = transactionRepository.findTransactionGroupsByFlatId(flatId);
         flat.setOptimizedTransfers(optimizeTransfers(transactions));
         flatService.updateFlat(flat);
@@ -101,8 +107,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionGroupDto createTransactionGroup(User user, CreateTransactionGroupDto dto) throws AccessForbiddenException {
         flatService.getFlatAsUser(user, dto.getFlatId());
-        var transactions = dto.getTransactions().stream().map(transaction -> new Transaction(transaction.getName(), transaction.getPrice())).collect(Collectors.toList());
-        var debts = splitTransaction(dto.getUsersConnected(), transactions);
+        var transactions = dto.getTransactions().stream()
+                .map(transaction -> new Transaction(transaction.getName(), transaction.getPrice())).collect(Collectors.toList());
+        var debts = splitTransaction(dto.getUsersConnected(), transactions)
+                .filter(t -> !t.getUserId().equals(user.getId())).collect(Collectors.toList()); // don't include the owner
         var transactionGroup = new TransactionGroup(dto.getName(), user.getId(), dto.getFlatId(), transactions, debts, dto.getUsersConnected());
         var obj = transactionRepository.save(transactionGroup);
         updateTransfersInFlat(dto.getFlatId());
@@ -128,6 +136,16 @@ public class TransactionServiceImpl implements TransactionService {
         flatService.getFlatAsUser(user, flatId);
         var transactionGroups = transactionRepository.findTransactionGroupsByFlatId(flatId);
         return transactionGroups.stream().map(TransactionGroup::asDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void resolveUserDebt(User user, UUID transactionGroupId, UUID targetUserId) throws AccessForbiddenException {
+        var group = getTransactionGroup(user, transactionGroupId);
+        var wasDeleted = group.getDebts().removeIf(d -> d.getUserId() == targetUserId);
+        if (!wasDeleted) {
+            throw new EntityNotFoundException("User debt not found");
+        }
+        updateTransfersInFlat(group.getFlatId());
     }
 
 }

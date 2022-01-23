@@ -46,6 +46,13 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getTransactionGroup(user, groupId), HttpStatus.OK);
     }
 
+    @PostMapping("/{groupId}/debts/{userId}/resolve")
+    public ResponseEntity<TransactionGroupDto> resolveDebt(@PathVariable UUID groupId, @PathVariable UUID userId) throws AccessForbiddenException {
+        User user = userService.getCurrentUser();
+        transactionService.resolveUserDebt(user, groupId, userId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/by-flat-id/{flatId}")
     public ResponseEntity<List<TransactionGroupDto>> getGroupsByFlatId(@PathVariable UUID flatId) throws AccessForbiddenException {
         User user = userService.getCurrentUser();

@@ -14,5 +14,6 @@ public interface TransactionService {
     void deleteTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException;
     TransactionGroupDto getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException;
     List<TransactionGroupDto> getTransactionGroupsByFlatId(User user, UUID flatId) throws AccessForbiddenException;
+    void resolveUserDebt(User user, UUID transactionGroupId, UUID targetUserId) throws AccessForbiddenException;
 
 }

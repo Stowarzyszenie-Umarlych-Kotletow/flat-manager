@@ -1,7 +1,7 @@
 package com.pis.flatmanager.service;
 
 import com.pis.flatmanager.model.TransactionGroup;
-import com.pis.flatmanager.model.TransactionUserDebt;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
