@@ -1,6 +1,7 @@
 package com.pis.flatmanager.dto.transactions;
 
 import com.pis.flatmanager.model.Transaction;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -19,6 +20,8 @@ public class TransactionGroupDto implements Serializable {
     UUID flatId;
 
     List<Transaction> transactions;
+
+    List<TransactionUserDebt> debts;
 
     List<UUID> usersConnected;
 

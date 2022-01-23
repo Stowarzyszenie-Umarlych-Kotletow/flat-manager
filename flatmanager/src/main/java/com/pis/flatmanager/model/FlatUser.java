@@ -5,11 +5,12 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class FlatUser {
+public class FlatUser implements Serializable {
     @Id
     UUID id;
     @NotBlank

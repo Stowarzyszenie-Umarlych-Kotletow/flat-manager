@@ -9,6 +9,7 @@ import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.FlatUser;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.model.UserFlat;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import com.pis.flatmanager.service.interfaces.FlatService;
 import com.pis.flatmanager.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +93,11 @@ public class FlatController {
         User user = userService.getCurrentUser();
         var updatedDto = flatService.flatToDto(flatService.removeUserFromFlat(user, flatId, userId));
         return new ResponseEntity<>(updatedDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{flatId}/my-debts")
+    public ResponseEntity<List<TransactionUserDebt>> getFlatDebts(@PathVariable UUID flatId) throws AccessForbiddenException {
+        User user = userService.getCurrentUser();
+        return new ResponseEntity<>(flatService.getFlatDebts(user, flatId), HttpStatus.OK);
     }
 }

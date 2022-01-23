@@ -116,8 +116,7 @@ public class TaskSchedulingServiceTest {
         var instances = new ArrayList<>(task.getInstances());
         assertEquals(now.minusDays(10), instances.get(0).getDateScheduled());
         assertEquals(now.minusDays(3), instances.get(1).getDateScheduled());
-        assertEquals(now.plusDays(4), instances.get(2).getDateScheduled());
-        assertEquals(3, instances.size());
+        assertEquals(2, instances.size());
 
         // make sure another call does not change that
         taskSchedulingService.updateTaskInstances(task, now);

@@ -1,6 +1,7 @@
 package com.pis.flatmanager.model;
 
 import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,6 +42,10 @@ public class TransactionGroup implements Serializable {
 
     @NotNull
     @NonNull
+    private List<TransactionUserDebt> userDebts;
+
+    @NotNull
+    @NonNull
     private List<UUID> usersConnected;
 
     @CreatedDate
@@ -53,11 +58,8 @@ public class TransactionGroup implements Serializable {
     private Long version;
 
     public TransactionGroupDto asDto() {
-        var sum = BigDecimal.valueOf(0);
-        for(var t: transactions) {
-            sum = sum.add(t.getPrice());
-        }
-        return new TransactionGroupDto(id, name, createdBy, flatId, transactions, usersConnected, dateCreated, sum.toString());
+        var sum = transactions.stream().map(Transaction::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return new TransactionGroupDto(id, name, createdBy, flatId, transactions, userDebts, usersConnected, dateCreated, sum.toString());
     }
 
 }

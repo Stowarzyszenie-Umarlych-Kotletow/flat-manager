@@ -8,6 +8,7 @@ import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.*;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import com.pis.flatmanager.repository.FlatRepository;
 import com.pis.flatmanager.service.interfaces.FlatService;
 import com.pis.flatmanager.service.interfaces.UserService;
@@ -119,12 +120,11 @@ public class FlatServiceImpl implements FlatService {
     @Override
     public Flat addUserToFlat(User user, UUID flatId, AddUserFlatDto dto) throws EntityNotFoundException, AccessForbiddenException {
 
-        Optional<Flat> flat = flatRepository.findById(flatId);
-        if (flat.isEmpty()) throw new EntityNotFoundException(String.format("Flat %s does not exist", flatId));
+        var flat = getFlatAsUser(user, flatId);
 
         User addUser = userService.getUser(dto.getUserId());
 
-        if(!flat.get().getOwner().getId().equals(user.getId()) || !dto.getRole().equals(FlatRole.USER)) {
+        if(!flat.getOwner().getId().equals(user.getId()) || !dto.getRole().equals(FlatRole.USER)) {
             throw new AccessForbiddenException("This user cannot be the owner");
         }
 
@@ -140,13 +140,13 @@ public class FlatServiceImpl implements FlatService {
                 dto.getRole()
         );
 
-        flat.get().getUsers().put(addUser.getId(), flatUser);
+        flat.getUsers().put(addUser.getId(), flatUser);
 
         userService.addUserFlat(addUser, new UserFlat(
-                flatId, flat.get().getName()
+                flatId, flat.getName()
         ));
-        flatRepository.save(flat.get());
-        return flat.get();
+        flatRepository.save(flat);
+        return flat;
     }
 
     @Override
@@ -186,6 +186,12 @@ public class FlatServiceImpl implements FlatService {
                 .name(flat.getName())
                 .users(new ArrayList<>(flat.getUsers().values()))
                 .build();
+    }
+
+    @Override
+    public List<TransactionUserDebt> getFlatDebts(User user, UUID flatId) throws AccessForbiddenException {
+        var flat = getFlatAsUser(user, flatId);
+        return flat.getOptimizedTransfers().getOrDefault(user.getId(), List.of());
     }
 
     @Override

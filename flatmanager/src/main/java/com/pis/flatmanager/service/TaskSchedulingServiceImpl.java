@@ -55,7 +55,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         var counter = new HashMap<>(task.getUserDoneCounter());
         // create past instances plus one in the future
         var period = task.getRepeatAfter() == null ? Duration.ZERO : task.getRepeatAfter();
-        var instances = scheduleInstances(task, counter, now.plus(period), 100);
+        var instances = scheduleInstances(task, counter, now, 100);
 
         for (var instance : instances) {
             var newInstance = new TaskInstance(instance.getDate());
