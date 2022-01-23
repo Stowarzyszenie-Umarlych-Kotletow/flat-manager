@@ -7,6 +7,7 @@ export interface TransactionGroupInfo {
   transactions: Transaction[];
   dateCreated: Date;
   lastModified: Date;
+  sumOfTransactions: string;
 }
 
 export interface Transaction {

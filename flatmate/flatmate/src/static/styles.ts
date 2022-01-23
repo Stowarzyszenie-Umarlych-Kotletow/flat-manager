@@ -55,6 +55,13 @@ export default StyleSheet.create({
         marginBottom: 5,
         textAlign: 'auto',
     },
+    bigTextCenter: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 5,
+        textAlign: 'center',
+    },
     warningText: {
         fontSize: 13,
         fontWeight: 'bold',
@@ -78,7 +85,8 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
     textInput: {
-        height: 43,
+        height: 45,
+        minWidth: 100,
         fontSize: 14,
         borderRadius: 5,
         borderWidth: 1,
@@ -174,6 +182,12 @@ export default StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+    },
+    viewRowSpaceAround: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        alignItems: 'center'
     },
     viewRow: {
         display: 'flex',

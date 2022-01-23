@@ -5,21 +5,13 @@ import {Text, View, TouchableOpacity} from "react-native";
 import {TransactionDetailsModal} from "./TransactionDetailsModal";
 import {useFlat} from "../../features/hooks";
 import {formatDate} from "../../helpers/date-helper";
-import {useDeleteTransactionGroupMutation} from "../../features/api/transaction-api";
 
 const deleteIcon = require("../../static/taskDelete.svg") as string;
 
 export function TransactionCard({transactionGroup}) {
   const {flat, flatId, flatTasks, flatUsers} = useFlat();
   const [showTransactionDetails, setShowTransactionDetails] = useState(false);
-  const [deleteTransactionGroup] = useDeleteTransactionGroupMutation();
 
-  function handleDeleteTransactionGroup(){
-    const dataDict = {
-      transactionGroupId: transactionGroup.id,
-    };
-    deleteTransactionGroup(dataDict)
-  }
 
   function getUsername(userId: string): string {
     for (const user of flatUsers) {
@@ -42,19 +34,12 @@ export function TransactionCard({transactionGroup}) {
       </View>
 
       <View style={styles.viewRow}>
-        <Text style={styles.cardText}>{getUsername(transactionGroup["createdBy"])}</Text>
-        <Text style={styles.cardText}>{transactionGroup["total"]}PLN</Text>
+        <Text style={styles.cardText}>{getUsername(transactionGroup.createdBy)}</Text>
+        <Text style={styles.cardText}>{transactionGroup.sumOfTransactions} PLN</Text>
       </View>
 
       <View style={styles.viewRow}>
-        <TouchableOpacity
-          onPress={() => {
-            handleDeleteTransactionGroup();
-          }}
-          style={{marginStart: 10}}
-        >
-          <img src={deleteIcon} alt="taskDeleteIcon" style={{width: '20px', height: '20px'}}/>
-        </TouchableOpacity>
+        
       </View>
       {showTransactionDetails ? (
         <TransactionDetailsModal setShowTransactionDetailsModal={setShowTransactionDetails}

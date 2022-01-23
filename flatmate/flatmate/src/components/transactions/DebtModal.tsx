@@ -60,7 +60,6 @@ export function DebtModal({setShowDebt}) {
   return (
     <Modal
       width={0.9}
-      height={0.95}
       rounded
       actionsBordered
       style={{ zIndex: 1000 }}

@@ -90,7 +90,7 @@ Array [
             Object {
               "backgroundColor": "#ffffff",
               "borderRadius": 8,
-              "height": 1267.3,
+              "height": null,
               "opacity": 0,
               "overflow": "hidden",
               "width": 675,
@@ -163,11 +163,12 @@ Array [
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "fontSize": 14,
-                      "height": 43,
+                      "height": 45,
                       "marginBottom": 5,
                       "marginLeft": 5,
                       "marginRight": 5,
                       "marginTop": 5,
+                      "minWidth": 100,
                       "paddingLeft": 10,
                     }
                   }
@@ -648,7 +649,7 @@ Array [
             Object {
               "backgroundColor": "#ffffff",
               "borderRadius": 8,
-              "height": 1267.3,
+              "height": null,
               "opacity": 0,
               "overflow": "hidden",
               "width": 675,
@@ -721,11 +722,12 @@ Array [
                       "borderRadius": 5,
                       "borderWidth": 1,
                       "fontSize": 14,
-                      "height": 43,
+                      "height": 45,
                       "marginBottom": 5,
                       "marginLeft": 5,
                       "marginRight": 5,
                       "marginTop": 5,
+                      "minWidth": 100,
                       "paddingLeft": 10,
                     }
                   }

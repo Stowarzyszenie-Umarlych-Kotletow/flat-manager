@@ -5,10 +5,12 @@ import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-elements";
 import { Transaction } from "../../models/transaction.model";
 import { useFlat } from "../../features/hooks";
+import {useDeleteTransactionGroupMutation} from "../../features/api/transaction-api";
 
 
 export function TransactionDetailsModal({setShowTransactionDetailsModal, transactionGroup}) {
   const { flat, flatId, flatTasks, flatUsers } = useFlat();
+  const [deleteTransactionGroup] = useDeleteTransactionGroupMutation();
 
   function getUsername(userId: string): string {
     for (const user of flatUsers) {
@@ -16,13 +18,20 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
             return user.username;
     }
     return "Unknown user";
-} 
+  }
+  
+  function handleDeleteTransactionGroup(){
+    const dataDict = {
+      transactionGroupId: transactionGroup.id,
+    };
+    deleteTransactionGroup(dataDict)
+  }
+
 
 
   return ( 
   <Modal
     width={0.9}
-    height={0.95}
     rounded
     actionsBordered
     style={{zIndex: 1000}}
@@ -33,10 +42,16 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
   <ScrollView>
   <ModalContent>
     <Button
-      buttonStyle={styles.redButton}
+      buttonStyle={styles.blueButton}
       title="Hide Details"
       onPress={() => { setShowTransactionDetailsModal(false) }}
     />
+    <Button
+      buttonStyle={styles.redButton}
+      title="Delete Transaction Group"
+      onPress={() => { handleDeleteTransactionGroup(); setShowTransactionDetailsModal(false); }}
+    />
+
     <Text style={styles.smallText}>
     { 
       transactionGroup.usersConnected.map(participant => {

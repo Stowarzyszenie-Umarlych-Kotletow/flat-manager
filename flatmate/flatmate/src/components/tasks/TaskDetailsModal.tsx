@@ -48,7 +48,6 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
     return (
         <Modal
             width={0.9}
-            height={0.95}
             rounded
             actionsBordered
             style={{ zIndex: 1000 }}
@@ -58,8 +57,8 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
         >
             <ScrollView>
             <ModalContent>
-                <Text style={styles.tinyTextCenter}>{task.name}</Text>
-                <Text style={styles.smallText}>{sliceDate(taskInstance.date)}</Text>
+                <Text style={styles.bigTextCenter}>{task.name}</Text>
+                <Text style={styles.smallTextCenter}>{sliceDate(taskInstance.date)}</Text>
                 <Text style={styles.tinyTextCenter}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
                 {taskInstance.completedByUserId ? (
                 <Text style={styles.tinyTextCenter}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
@@ -67,7 +66,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
                 <Text style={styles.smallText}>Users in periodic task {task.name}:</Text>
                 <ul>
                     {Object.keys(task.userDoneCounter).map(userId => {
-                        return <li>{getUsername(userId)}</li>
+                        return <li key={userId}>{getUsername(userId)}</li>
                     })}
                 </ul>
                 {
