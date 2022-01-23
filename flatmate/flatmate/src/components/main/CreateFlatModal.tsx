@@ -58,12 +58,12 @@ export function CreateFlatModal({ setShowCreateFlatModal}) {
 
 
 		<Button
-			buttonStyle={styles.blueButton}
+			buttonStyle={styles.greenButton}
 			title="Submit"
 			onPress={handleSubmit(handleCreateFlat)}
 		/>
 		<Button
-			buttonStyle={styles.redButton}
+			buttonStyle={styles.orangeButton}
 			title="Cancel"
 			onPress={() => { setShowCreateFlatModal(false) }}
 		/>

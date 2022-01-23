@@ -50,13 +50,14 @@ export function DebtScreen({navigation}) {
 
   return(
     <View style={styles.container1Navbar} >
+    <Text style={styles.logoText}>Debts</Text>
     <Button
       buttonStyle={styles.greenButton}
       title="Add Payment"
       onPress={() => setShowDebt(true)}
     />
+    <Text > </Text> {/* a breakline */} 
     <ScrollView style={styles.container2Navbars} >
-      <Text > </Text> {/* a breakline */} 
 
       <Text style={styles.bigText}> My debt to others</Text>
       <View style={styles.borderLeftRed}>

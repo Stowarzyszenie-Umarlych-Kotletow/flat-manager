@@ -179,7 +179,7 @@ export function RegisterScreen({ navigation }) {
             {errors.confirmPassword?(
             <Text style={styles.errText}> {errors.confirmPassword?.message} </Text>):null}
             <Button
-                buttonStyle={styles.blueButton}
+                buttonStyle={styles.greenButton}
                 title="Submit"
                 onPress={handleSubmit(onSubmit)}
             />

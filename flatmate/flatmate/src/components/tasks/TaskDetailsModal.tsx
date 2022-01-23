@@ -86,7 +86,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
                 }
 
 			<Button
-				buttonStyle={styles.blueButton}
+				buttonStyle={styles.orangeButton}
 				title="Back"
 				onPress={() => { setShow(false); }}
 			/>

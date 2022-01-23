@@ -435,7 +435,7 @@ exports[`LoginScreen renders correctly 1`] = `
         style={
           Object {
             "alignItems": "center",
-            "backgroundColor": "#3897f1",
+            "backgroundColor": "#5cd07f",
             "borderColor": "#2089dc",
             "borderRadius": 5,
             "borderWidth": 0,
@@ -525,7 +525,7 @@ Array [
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#3897f1",
+              "backgroundColor": "#ff9933",
               "borderColor": "#2089dc",
               "borderRadius": 5,
               "borderWidth": 0,
@@ -841,7 +841,7 @@ Array [
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#3897f1",
+              "backgroundColor": "#5cd07f",
               "borderColor": "#2089dc",
               "borderRadius": 5,
               "borderWidth": 0,

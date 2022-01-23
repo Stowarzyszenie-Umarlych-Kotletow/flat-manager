@@ -60,7 +60,7 @@ export function UploadBillModal ({ setShowUploadBillModal, uploadPhoto}) {
         onPress={() =>{uploadPhoto(imageUri); setShowUploadBillModal(false);}}
       />
       <Button
-        buttonStyle={styles.redButton}
+        buttonStyle={styles.orangeButton}
         title="Cancel"
         onPress={() => { setShowUploadBillModal(false) }}
       />

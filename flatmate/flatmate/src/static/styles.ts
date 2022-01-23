@@ -122,8 +122,24 @@ export default StyleSheet.create({
         marginLeft: 25,
         marginRight: 25,
     },
+    orangeButton: {
+        backgroundColor: '#ff9933',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
     blueButtonTall: {
         backgroundColor: '#3897f1',
+        borderRadius: 5,
+        height: 100,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    orangeButtonTall: {
+        backgroundColor: '#ff9933',
         borderRadius: 5,
         height: 100,
         marginTop: 10,
@@ -135,8 +151,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     blueButtonNarrow: {
@@ -144,8 +160,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     redButtonNarrow: {
@@ -153,8 +169,17 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
+        width: windowWidth * 0.35
+    },
+    orangeButtonNarrow: {
+        backgroundColor: '#ff9933',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     imageUploadContainer: {

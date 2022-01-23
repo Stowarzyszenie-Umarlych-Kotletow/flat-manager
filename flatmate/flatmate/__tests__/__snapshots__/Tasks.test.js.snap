@@ -2778,10 +2778,13 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                 </View>
                 <RCTScrollView
                   style={
-                    Object {
-                      "height": 130,
-                      "padding": 5,
-                    }
+                    Array [
+                      Object {
+                        "height": 130,
+                        "padding": 5,
+                      },
+                      undefined,
+                    ]
                   }
                 >
                   <View />
@@ -2829,7 +2832,7 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                     style={
                       Object {
                         "alignItems": "center",
-                        "backgroundColor": "#3897f1",
+                        "backgroundColor": "#5cd07f",
                         "borderColor": "#2089dc",
                         "borderRadius": 5,
                         "borderWidth": 0,
@@ -2900,7 +2903,7 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                     style={
                       Object {
                         "alignItems": "center",
-                        "backgroundColor": "#3897f1",
+                        "backgroundColor": "#ff9933",
                         "borderColor": "#2089dc",
                         "borderRadius": 5,
                         "borderWidth": 0,
