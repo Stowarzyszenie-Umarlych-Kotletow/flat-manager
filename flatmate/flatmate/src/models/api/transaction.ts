@@ -6,3 +6,8 @@ export interface CreateTransactionGroupRequest {
   flatId: string;
   transactions: Transaction[];
 }
+
+export interface ResolveUserDebtRequest {
+  userId: string;
+  transactionGroupId: string;
+}

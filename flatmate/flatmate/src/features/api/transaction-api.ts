@@ -1,23 +1,16 @@
-import {TransactionGroupInfo} from "../../models/transaction.model";
-import {CreateTransactionGroupRequest} from '../../models/api/transaction'
-import {api} from "./api";
+import { TransactionGroupInfo } from "../../models/transaction.model";
+import { CreateTransactionGroupRequest, ResolveUserDebtRequest } from '../../models/api/transaction'
+import { api } from "./api";
 
 type FlatQuery = {
-  flatId: string;
+    flatId: string;
 }
 
-type FlatQueryData<T> = {
-  flatId: string;
-  data: T;
-}
 
 type TransactionGroupQuery = {
-  transactionGroupId: string;
+    transactionGroupId: string;
 }
 
-type TransactionGroupQueryData<T> = {
-  data: T;
-}
 
 export const flatApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -36,11 +29,18 @@ export const flatApi = api.injectEndpoints({
             query: ({ transactionGroupId }) => ({ url: `/transaction-groups/${transactionGroupId}`, method: 'DELETE' }),
             invalidatesTags: ['flatTransactions']
         }),
+        resolveDebt: builder.mutation<void, ResolveUserDebtRequest>({
+            query: ({ transactionGroupId, userId }) => ({
+                url: `/transaction-groups/${transactionGroupId}/debts/${userId}/resolve`, method: 'POST'
+            }),
+            invalidatesTags: ['flatTransactions']
+        }),
     })
 });
 
 export const {
-  useAddTransactionGroupMutation,
-  useGetTransactionGroupsByFlatIdQuery,
-  useDeleteTransactionGroupMutation
+    useAddTransactionGroupMutation,
+    useGetTransactionGroupsByFlatIdQuery,
+    useDeleteTransactionGroupMutation,
+    useResolveDebtMutation
 } = flatApi;

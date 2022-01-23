@@ -6,6 +6,7 @@ import {Button} from "react-native-elements";
 import { Transaction } from "../../models/transaction.model";
 import { useFlat } from "../../features/hooks";
 import {useDeleteTransactionGroupMutation} from "../../features/api/transaction-api";
+import { CURRENCY } from "../../config";
 
 
 export function TransactionDetailsModal({setShowTransactionDetailsModal, transactionGroup}) {
@@ -65,7 +66,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
       return (
         <View style={styles.viewRow} key={transaction["id"]}>
           <Text style={styles.tinyTextCenter}>{transaction.name}</Text>
-          <Text style={styles.tinyTextCenter}> {(+transaction.price).toFixed(2)}zł</Text> 
+          <Text style={styles.tinyTextCenter}> {(+transaction.price).toFixed(2)} {CURRENCY}</Text> 
         </View>
       );
     })}

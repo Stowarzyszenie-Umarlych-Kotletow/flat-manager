@@ -5,6 +5,7 @@ import {Text, View, TouchableOpacity} from "react-native";
 import {TransactionDetailsModal} from "./TransactionDetailsModal";
 import {useFlat} from "../../features/hooks";
 import {formatDate} from "../../helpers/date-helper";
+import { CURRENCY } from "../../config";
 
 const deleteIcon = require("../../static/taskDelete.svg") as string;
 
@@ -35,7 +36,7 @@ export function TransactionCard({transactionGroup}) {
 
       <View style={styles.viewRow}>
         <Text style={styles.cardText}>{getUsername(transactionGroup.createdBy)}</Text>
-        <Text style={styles.cardText}>{transactionGroup.sumOfTransactions} PLN</Text>
+        <Text style={styles.cardText}>{transactionGroup.sumOfTransactions} {CURRENCY}</Text>
       </View>
 
       <View style={styles.viewRow}>
