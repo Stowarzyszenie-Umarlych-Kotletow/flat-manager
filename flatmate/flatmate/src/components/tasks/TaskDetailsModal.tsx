@@ -60,7 +60,7 @@ export function TaskDetailsModal({ setShow, taskId, taskInstance, deletable = fa
             <ModalContent>
                 <Text style={styles.tinyTextCenter}>{task.name}</Text>
                 <Text style={styles.smallText}>{sliceDate(taskInstance.date)}</Text>
-                <Text style={styles.tinyTextCenter}>Scheduled to: {taskInstance.userId} </Text>
+                <Text style={styles.tinyTextCenter}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
                 {taskInstance.completedByUserId ? (
                 <Text style={styles.tinyTextCenter}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
                 ): null}

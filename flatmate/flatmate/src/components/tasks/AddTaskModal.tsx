@@ -19,10 +19,13 @@ export function validateForm(data) {
 		})
 		return false;
 	}
-	console.log(data.startDate)
-	console.log(data.endDate)
-
-
+	if (!data.start || !data.end){
+		showMessage({
+			message: "Task range was not selected",
+			type: "danger"
+		})
+		return false;
+	}
 	return true;
 }
 
@@ -135,7 +138,7 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 
 			<Button
 				buttonStyle={styles.blueButton}
-				title='Choose Task Date'
+				title='Choose Task Range'
 				onPress={openTaskDatePicker}
 			/>
 			<DatePicker
