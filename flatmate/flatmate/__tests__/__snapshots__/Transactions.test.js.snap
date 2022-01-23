@@ -565,7 +565,7 @@ exports[`CreateTransactionGroupModal Screen renders correctly 1`] = `
                         style={
                           Object {
                             "alignItems": "center",
-                            "backgroundColor": "#e74040",
+                            "backgroundColor": "#ff9933",
                             "borderColor": "#2089dc",
                             "borderRadius": 5,
                             "borderWidth": 0,
@@ -715,7 +715,7 @@ exports[`TransactionManagementView Screen renders correctly 1`] = `
     style={
       Object {
         "alignItems": "center",
-        "backgroundColor": "#ffa31a",
+        "backgroundColor": "#009999",
         "bottom": "0",
         "display": "flex",
         "height": "75px",
@@ -1273,7 +1273,7 @@ exports[`UploadBillModal Screen renders correctly 1`] = `
                     style={
                       Object {
                         "alignItems": "center",
-                        "backgroundColor": "#e74040",
+                        "backgroundColor": "#ff9933",
                         "borderColor": "#2089dc",
                         "borderRadius": 5,
                         "borderWidth": 0,

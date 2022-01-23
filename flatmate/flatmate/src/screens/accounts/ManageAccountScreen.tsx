@@ -57,17 +57,8 @@ export function ManageAccountScreen({ navigation }) {
         <></>
       )
       }
-
-      {/*
       <Button
-        buttonStyle={styles.blueButton}
-        title="Change password"
-        onPress={() => navigation.navigate('ChangePasswordScreen')}
-      />
-      */}
-
-      <Button
-        buttonStyle={styles.blueButton}
+        buttonStyle={styles.orangeButton}
         title="Log out"
         onPress={handleLogOut}
       />
@@ -107,7 +98,7 @@ export function ManageAccountScreen({ navigation }) {
 					name="password"
 				/>
 				<Button
-					buttonStyle={styles.blueButton}
+					buttonStyle={styles.orangeButton}
 					title="Cancel"
 					onPress={() => { setShowAccountDeletionBox(false) }}
 				/>

@@ -42,7 +42,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
   <ScrollView>
   <ModalContent>
     <Button
-      buttonStyle={styles.blueButton}
+      buttonStyle={styles.orangeButton}
       title="Hide Details"
       onPress={() => { setShowTransactionDetailsModal(false) }}
     />

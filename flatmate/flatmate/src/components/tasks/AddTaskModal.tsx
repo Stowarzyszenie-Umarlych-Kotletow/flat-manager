@@ -204,12 +204,12 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				scrollViewHeight={130}
 			/>
 			<Button
-				buttonStyle={styles.blueButton}
+				buttonStyle={styles.greenButton}
 				title="Create Task"
 				onPress={handleSubmit(submitTask)}
 			/>
 			<Button
-				buttonStyle={styles.blueButton}
+				buttonStyle={styles.orangeButton}
 				title="Close"
 				onPress={hideTaskCreationModal}
 			/>

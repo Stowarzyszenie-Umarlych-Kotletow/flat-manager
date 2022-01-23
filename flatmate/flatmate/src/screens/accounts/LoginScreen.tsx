@@ -95,7 +95,7 @@ export function LoginScreen() {
                 name="password"
             />
             <Button
-                buttonStyle={styles.blueButton}
+                buttonStyle={styles.greenButton}
                 title="Submit"
                 onPress={handleSubmit(onLoginPress)}
             />

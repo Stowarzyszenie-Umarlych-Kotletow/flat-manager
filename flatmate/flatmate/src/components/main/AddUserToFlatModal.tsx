@@ -87,7 +87,7 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 			onPress={handleSubmit(completeAddUser)}
 		/>
 		<Button
-			buttonStyle={styles.redButton}
+			buttonStyle={styles.orangeButton}
 			title="Close"
 			onPress={() => {
 				setShowAddUserToFlatModal(false);

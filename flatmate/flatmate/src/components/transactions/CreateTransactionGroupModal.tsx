@@ -204,7 +204,7 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 								onPress={handleSubmit(submitTransactionGroup)}
 							/>
 							<Button
-								buttonStyle={styles.redButtonNarrow}
+								buttonStyle={styles.orangeButtonNarrow}
 								title="Cancel"
 								onPress={() => { setShowAddTransactionGroup(false) }}
 							/>

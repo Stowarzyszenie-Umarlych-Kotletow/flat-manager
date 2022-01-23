@@ -15,7 +15,7 @@ export function BottomNavigationBar({navigation}) {
     return (
         <footer style={{
             position: "fixed",
-            backgroundColor: '#ffa31a',
+            backgroundColor: '#009999',
             display: "flex",
             bottom: '0',
             left: '0',

@@ -129,7 +129,7 @@ export function DebtModal({setShowDebt}) {
         onPress={handleSubmit(pay)}
       />
       <Button
-        buttonStyle={styles.redButton}
+        buttonStyle={styles.orangeButton}
         title="Close"
         onPress={() => {
           setShowDebt(false);
