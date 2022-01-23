@@ -64,7 +64,7 @@ export function DebtScreen({navigation}) {
         let value = getMyDebt()[id]; 
         if (value != "0") {
         return (
-          <Text style={styles.smallText}>{getUsername(id)} - {value} </Text>
+          <Text key={id} style={styles.smallText}>{getUsername(id)} - {value} </Text>
       )}})}
       </View>
 
@@ -74,7 +74,7 @@ export function DebtScreen({navigation}) {
         let value = getOthersDebt()[id]; 
         if (value != "0") {
         return (
-          <Text style={styles.smallText}>{getUsername(id)} - {value} </Text>
+          <Text key={id} style={styles.smallText}>{getUsername(id)} - {value} </Text>
       )}})}
       </View>
       
