@@ -1,6 +1,7 @@
 import {Task} from "../../models/task.model";
 import {api} from "./api"
-import {FlatInfo, UserRole} from "../../models/flat.model";
+import {FlatInfo, UserDebt, UserRole} from "../../models/flat.model";
+import {CreateFlatRequest} from "../../models/api/flat";
 
 type FlatQuery = {
     flatId: string;
@@ -25,6 +26,9 @@ export const flatApi = api.injectEndpoints({
                 dispatch(flatApi.util.prefetch('getFlatTasks', req, {}));
             },
             providesTags: (res, _, {flatId}) => [{type: 'flats', id: flatId}]
+        }),
+        getFlatDebts: builder.query<UserDebt[], FlatQuery>({
+            query: ({flatId}) => ({url: `/flats/${flatId}/my-debts`, method: 'GET'})
         }),
         getFlatUsers: builder.query<UserInfo[], FlatQuery>({
             query: ({flatId}) => ({url: `/flats/${flatId}/users`, method: 'GET'}),
@@ -77,5 +81,6 @@ export const flatApi = api.injectEndpoints({
 export const {
     useGetFlatQuery, useGetFlatsQuery, useAddUserToFlatMutation, useCreateFlatMutation, useGetFlatUsersQuery,
     useCreateFlatTaskMutation, useGetFlatScheduleQuery, useGetFlatTasksQuery, useGetFlatTaskQuery,
-    useSetFlatTaskCompletedMutation, useDeleteUserFromFlatMutation, useDeleteFlatTaskMutation
+    useSetFlatTaskCompletedMutation, useDeleteUserFromFlatMutation, useDeleteFlatTaskMutation,
+    useGetFlatDebtsQuery
 } = flatApi;

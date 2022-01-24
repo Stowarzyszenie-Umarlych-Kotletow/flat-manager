@@ -1,4 +1,4 @@
-package com.pis.flatmanager.model;
+package com.pis.flatmanager.model.transactions;
 
 import lombok.Setter;
 import lombok.Value;

@@ -10,36 +10,8 @@ import { TransactionManagementScreen } from '../src/screens/transactions/Transac
 import { UploadBillModal } from '../src/components/transactions/UploadBillPhotoModal';
 
 
-let transactionGroup = { 
-  id: 1,
-  paid_by: 123,
-  total: 45,
-  date: '21-01-2022',
-  title: 'Zakupy Carefour',
-  transactions: [
-    {
-      id: 1,
-      name: "ciasteczka",
-      total: 10,
-      shares: [
-        {id: 123, percentage : 60, resolved: true},
-        {id: 124, percentage : 40, resolved: false},
-      ],
-    }
-  ],
-  participants: [
-    123, 122
-  ]
-};
-
 test('CreateTransactionGroupModal Screen renders correctly', () => {
   const tree = renderer.create(<Provider store={mockStore()}><CreateTransactionGroupModal /><ModalPortal/></Provider>).toJSON();
-  expect(tree).toMatchSnapshot();
-});
-
-
-test('TransactionCard Screen renders correctly', () => {
-  const tree = renderer.create(<Provider store={mockStore()}><TransactionCard transactionGroup={{transactionGroup}} /><ModalPortal/></Provider>).toJSON();
   expect(tree).toMatchSnapshot();
 });
 

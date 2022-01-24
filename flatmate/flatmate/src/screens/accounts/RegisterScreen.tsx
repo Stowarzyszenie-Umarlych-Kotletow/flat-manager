@@ -61,12 +61,21 @@ export function RegisterScreen({ navigation }) {
 
     function onRegisterPress(data) {
         let parsedData = parseRegisterData(data);
-        register(parsedData).unwrap().then(
+        register(parsedData).unwrap()
+          .then(
             () => {
-                // TODO: add success toast
-                navigation.goBack();
-            }
-        );
+              showMessage({
+                message: "Successfully created an account",
+                type: "success",
+              })
+              navigation.goBack();
+            },
+            () => {
+              showMessage({
+                message: "Error creating account",
+                type: "danger",
+              })
+            })
     }
 
 
@@ -179,7 +188,7 @@ export function RegisterScreen({ navigation }) {
             {errors.confirmPassword?(
             <Text style={styles.errText}> {errors.confirmPassword?.message} </Text>):null}
             <Button
-                buttonStyle={styles.blueButton}
+                buttonStyle={styles.greenButton}
                 title="Submit"
                 onPress={handleSubmit(onSubmit)}
             />

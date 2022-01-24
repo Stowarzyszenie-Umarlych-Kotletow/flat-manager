@@ -1,17 +1,20 @@
 import { Modal, ModalContent, ModalTitle } from "react-native-modals";
-import { TextInput, Text, View, ScrollView } from "react-native";
+import { TextInput, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import styles from "../../static/styles";
 import { Button } from "react-native-elements";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
-import CustomMultiPicker from "react-native-multiple-select-list";
+import CustomMultiPicker from "../../../lib/multiple-select";
 import { useFlat } from "../../features/hooks";
 import { UploadBillModal } from './UploadBillPhotoModal'
 import { useAddTransactionGroupMutation } from '../../features/api/transaction-api'
 import ocrService from "../../services/ocr.service";
 import { Transaction } from "../../models/transaction.model";
+import {showMessage} from "react-native-flash-message";
 
+
+const itemDeleteIcon = require("../../static/taskDelete.svg") as string;
 
 type TransactionState = {
 	id: number;
@@ -52,8 +55,22 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 	}
 
 	function handleAddTransactionGroup(data) {
-		addTransactionGroup(data).unwrap().then((success) => {
-			setShowAddTransactionGroup(false);
+		addTransactionGroup(data).unwrap()
+			.then(
+				() => {
+					setShowAddTransactionGroup(false);
+					showMessage({
+						message: "Transaction group created",
+						type: "success",
+					})
+				},
+				() => {
+					showMessage({
+						message: "Error creating transaction group",
+						type: "danger",
+					})
+				})
+			.then((success) => {
 		});
 	}
 
@@ -94,7 +111,6 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 	return (
 		<Modal
 			width={0.9}
-			height={0.95}
 			rounded
 			actionsBordered
 			style={{ zIndex: 1000 }}
@@ -152,11 +168,11 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 									defaultValue={item.price}
 									onChangeText={changeItemsPrice}
 								/>
-								<Button
-									buttonStyle={styles.redButton}
-									title="X"
-									onPress={() => { removeItem(item.id) }}
-								/>
+								<TouchableOpacity
+									onPress={() => { removeItem(item.id); }}
+								>
+									<img src={itemDeleteIcon} alt=" " style={{width: '35px', height: '35px'}}/>
+								</TouchableOpacity>
 							</View>
 						)
 					})
@@ -174,6 +190,7 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 						rowBackgroundColor={"#eee"}
 						rowHeight={40}
 						rowRadius={5}
+						searchIconColor={"transparent"}
 						iconColor={"#00a2dd"}
 						iconSize={30}
 						selectedIconName={"ios-checkmark-circle-outline"}
@@ -183,26 +200,30 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 
 
 					<View style={styles.viewColumnCenter}>
-						<Button
-							buttonStyle={styles.blueButtonNarrow}
-							title="Add Item"
-							onPress={newItem}
-						/>
-						<Button
-							buttonStyle={styles.blueButtonNarrow}
-							title="Upload Bill"
-							onPress={() => { setShowUploadBillModal(true) }}
-						/>
-						<Button
-							buttonStyle={styles.greenButtonNarrow}
-							title="Submit"
-							onPress={handleSubmit(submitTransactionGroup)}
-						/>
-						<Button
-							buttonStyle={styles.redButtonNarrow}
-							title="Cancel"
-							onPress={() => { setShowAddTransactionGroup(false) }}
-						/>
+						<View style={styles.viewRowSpaceAround}>
+							<Button
+								buttonStyle={styles.blueButtonNarrow}
+								title="Add Item"
+								onPress={newItem}
+							/>
+							<Button
+								buttonStyle={styles.blueButtonNarrow}
+								title="Upload Bill"
+								onPress={() => { setShowUploadBillModal(true) }}
+							/>
+						</View>
+						<View style={styles.viewRowSpaceAround}>
+							<Button
+								buttonStyle={styles.greenButtonNarrow}
+								title="Submit"
+								onPress={handleSubmit(submitTransactionGroup)}
+							/>
+							<Button
+								buttonStyle={styles.orangeButtonNarrow}
+								title="Cancel"
+								onPress={() => { setShowAddTransactionGroup(false) }}
+							/>
+						</View>
 					</View>
 
 					{showUploadBillModal ? (

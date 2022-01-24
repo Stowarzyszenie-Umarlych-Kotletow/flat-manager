@@ -26,7 +26,7 @@ import java.util.UUID;
 @Service
 @NoArgsConstructor
 public class TaskServiceImpl implements TaskService {
-    public static final Integer MAX_SCHEDULE_INSTANCES = 3;
+    public static final Integer MAX_SCHEDULE_INSTANCES = 31;
 
     @Autowired
     private FlatService flatService;
@@ -54,6 +54,7 @@ public class TaskServiceImpl implements TaskService {
                 taskDto.getStartDate(),
                 taskDto.getTimeToComplete()
         );
+        task.setEndDate(taskDto.getEndDate());
         task.setRepeatAfter(taskDto.getRepeatAfter());
         if (taskDto.getUserIds() != null) {
             for (var userId : taskDto.getUserIds()) {

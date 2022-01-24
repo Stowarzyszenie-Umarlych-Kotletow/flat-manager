@@ -10,6 +10,7 @@ import com.pis.flatmanager.model.Flat;
 import com.pis.flatmanager.model.FlatTask;
 import com.pis.flatmanager.model.FlatUser;
 import com.pis.flatmanager.model.User;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ public interface FlatService {
     Flat removeUserFromFlat(User user, UUID flatId, UUID userId)
             throws EntityNotFoundException, AccessForbiddenException;
     FlatDto flatToDto(Flat flat);
+    List<TransactionUserDebt> getFlatDebts(User user, UUID flatId) throws AccessForbiddenException;
 
     Map<UUID, FlatUser> getUsersFromFlat(UUID flatId);
 }

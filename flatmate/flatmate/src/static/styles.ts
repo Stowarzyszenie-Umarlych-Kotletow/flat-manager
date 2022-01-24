@@ -30,28 +30,42 @@ export default StyleSheet.create({
     smallTextCenter: {
         fontSize: 20,
         fontWeight: "500",
-        marginTop: 30,
-        marginBottom: 15,
+        marginTop: 20,
+        marginBottom: 20,
         textAlign: 'center',
     },
     tinyTextCenter: {
         fontSize: 15,
         fontWeight: 'bold',
-        marginTop: 10,
+        marginTop: 5,
         marginBottom: 5,
         textAlign: 'center',
     },
     smallText: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: 10,
+        marginTop: 5,
         marginBottom: 5,
         textAlign: 'auto',
+    },
+    bigText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 5,
+        marginBottom: 5,
+        textAlign: 'auto',
+    },
+    bigTextCenter: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 5,
+        marginBottom: 5,
+        textAlign: 'center',
     },
     warningText: {
         fontSize: 13,
         fontWeight: 'bold',
-        marginTop: 10,
+        marginTop: 5,
         marginBottom: 5,
         color: 'red',
         textAlign: 'center',
@@ -66,12 +80,13 @@ export default StyleSheet.create({
     logoText: {
         fontSize: 40,
         fontWeight: "800",
-        marginTop: 30,
+        marginTop: 15,
         marginBottom: 15,
         textAlign: 'center',
     },
     textInput: {
-        height: 43,
+        height: 45,
+        minWidth: 100,
         fontSize: 14,
         borderRadius: 5,
         borderWidth: 1,
@@ -107,8 +122,24 @@ export default StyleSheet.create({
         marginLeft: 25,
         marginRight: 25,
     },
+    orangeButton: {
+        backgroundColor: '#ff9933',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
     blueButtonTall: {
         backgroundColor: '#3897f1',
+        borderRadius: 5,
+        height: 100,
+        marginTop: 10,
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    orangeButtonTall: {
+        backgroundColor: '#ff9933',
         borderRadius: 5,
         height: 100,
         marginTop: 10,
@@ -120,8 +151,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     blueButtonNarrow: {
@@ -129,8 +160,8 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     redButtonNarrow: {
@@ -138,8 +169,17 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 45,
         marginTop: 10,
-        marginLeft: 25,
-        marginRight: 25,
+        marginLeft: 5,
+        marginRight: 5,
+        width: windowWidth * 0.35
+    },
+    orangeButtonNarrow: {
+        backgroundColor: '#ff9933',
+        borderRadius: 5,
+        height: 45,
+        marginTop: 10,
+        marginLeft: 5,
+        marginRight: 5,
         width: windowWidth * 0.35
     },
     imageUploadContainer: {
@@ -153,10 +193,26 @@ export default StyleSheet.create({
         borderLeftWidth: 4,
         paddingLeft: 5
     },
+    borderLeftRed: {
+        borderLeftColor: '#ff0000',
+        borderLeftWidth: 4,
+        paddingLeft: 5
+    },
+    borderLeftGreen: {
+        borderLeftColor: '#00ff00',
+        borderLeftWidth: 4,
+        paddingLeft: 5
+    },
     columnView: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+    },
+    viewRowSpaceAround: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        alignItems: 'center'
     },
     viewRow: {
         display: 'flex',
@@ -172,6 +228,16 @@ export default StyleSheet.create({
     },
     card: {
         borderColor: 'rgb(0, 102, 255)',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        marginStart: 20,
+        marginEnd: 20,
+    },
+    cardDisabled: {
+        opacity: 0.6,
+        borderColor: 'rgb(255, 0, 0)',
         borderWidth: 1,
         borderRadius: 5,
         paddingHorizontal: 20,
@@ -198,7 +264,8 @@ export default StyleSheet.create({
         justifyContent: "center"
     },
     container2Navbars: {
-        paddingBottom: 95
+        paddingBottom: 95,
+        paddingHorizontal: 10,
     }
 });
 

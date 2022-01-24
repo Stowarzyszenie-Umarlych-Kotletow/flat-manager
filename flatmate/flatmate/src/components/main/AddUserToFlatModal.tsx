@@ -55,7 +55,6 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
   return (
   <Modal
     width={0.9}
-    height={0.95}
     rounded
     actionsBordered
     style={{ zIndex: 1000 }}
@@ -83,12 +82,12 @@ export function AddUserToFlatModal({ setShowAddUserToFlatModal }) {
 		/>
 		{!usernameWarning == null ? null : <Text style={styles.warningText}>{usernameWarning}</Text>}
 		<Button
-			buttonStyle={styles.blueButton}
+			buttonStyle={styles.greenButton}
 			title="Add User"
 			onPress={handleSubmit(completeAddUser)}
 		/>
 		<Button
-			buttonStyle={styles.blueButton}
+			buttonStyle={styles.orangeButton}
 			title="Close"
 			onPress={() => {
 				setShowAddUserToFlatModal(false);

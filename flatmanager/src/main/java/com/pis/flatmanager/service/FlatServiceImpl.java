@@ -8,6 +8,7 @@ import com.pis.flatmanager.exception.AccessForbiddenException;
 import com.pis.flatmanager.exception.EntityDuplicateException;
 import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.*;
+import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import com.pis.flatmanager.repository.FlatRepository;
 import com.pis.flatmanager.service.interfaces.FlatService;
 import com.pis.flatmanager.service.interfaces.UserService;
@@ -185,6 +186,12 @@ public class FlatServiceImpl implements FlatService {
                 .name(flat.getName())
                 .users(new ArrayList<>(flat.getUsers().values()))
                 .build();
+    }
+
+    @Override
+    public List<TransactionUserDebt> getFlatDebts(User user, UUID flatId) throws AccessForbiddenException {
+        var flat = getFlatAsUser(user, flatId);
+        return flat.getOptimizedTransfers().getOrDefault(user.getId(), List.of());
     }
 
     @Override
