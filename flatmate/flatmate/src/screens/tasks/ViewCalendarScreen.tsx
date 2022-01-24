@@ -13,7 +13,6 @@ import {TaskFrontendState} from "../../models/task.model";
 
 
 export function ViewCalendarScreen() {
-    //TODO: choose query range
     const query = { from: new Date('December 17, 1995 03:24:00').toISOString(), until: new Date('December 17, 2095 03:24:00').toISOString() };
 
     const { flatId, flatTasks } = useFlat();
@@ -67,7 +66,6 @@ export function ViewCalendarScreen() {
             buttonStyle={style}
             title={event.title}
             onPress={() => eventClicked(event)}
-            // props={props}
         />
     }
 

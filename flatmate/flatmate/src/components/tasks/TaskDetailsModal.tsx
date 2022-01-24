@@ -27,8 +27,6 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
   }
 
   async function completeTask() {
-    // backend connection
-    // set task as complete in backend
     await setTaskCompleted({flatId, taskId, taskInstanceId: taskInstance.id});
   }
 

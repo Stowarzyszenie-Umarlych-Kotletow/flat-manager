@@ -195,7 +195,7 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 			<CustomMultiPicker
 				options={getUserSelectList()}
 				search={true}
-				multiple={true} //
+				multiple={true}
 				placeholder={"Search"}
 				placeholderTextColor={'#757575'}
 				returnValue={"value"}
