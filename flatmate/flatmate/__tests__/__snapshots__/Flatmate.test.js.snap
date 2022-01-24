@@ -921,7 +921,20 @@ Array [
         }
       }
     >
-      Your tasks for today:
+      No debts! 😎
+    </Text>
+    <Text
+      style={
+        Object {
+          "fontSize": 20,
+          "fontWeight": "500",
+          "marginBottom": 20,
+          "marginTop": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      No tasks for today! 🎉
     </Text>
     <RCTScrollView
       style={
