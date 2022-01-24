@@ -182,7 +182,7 @@ Array [
                       "fontSize": 13,
                       "fontWeight": "bold",
                       "marginBottom": 5,
-                      "marginTop": 10,
+                      "marginTop": 5,
                       "textAlign": "center",
                     }
                   }
@@ -904,8 +904,8 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 1,
-          "marginTop": 20,
+          "marginBottom": 15,
+          "marginTop": 15,
           "textAlign": "center",
         }
       }
@@ -915,8 +915,8 @@ Array [
         Object {
           "fontSize": 20,
           "fontWeight": "500",
-          "marginBottom": 15,
-          "marginTop": 30,
+          "marginBottom": 20,
+          "marginTop": 20,
           "textAlign": "center",
         }
       }
@@ -1173,8 +1173,8 @@ Array [
         Object {
           "fontSize": 40,
           "fontWeight": "800",
-          "marginBottom": 1,
-          "marginTop": 20,
+          "marginBottom": 15,
+          "marginTop": 15,
           "textAlign": "center",
         }
       }

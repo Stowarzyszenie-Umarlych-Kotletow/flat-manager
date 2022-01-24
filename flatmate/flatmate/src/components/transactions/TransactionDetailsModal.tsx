@@ -1,17 +1,25 @@
 import {Modal, ModalContent, ModalTitle} from "react-native-modals";
 import * as React from "react";
 import styles from "../../static/styles";
-import {ScrollView, Text, View} from "react-native";
+import { useState } from "react";
+import {ScrollView, Text, View, TouchableOpacity} from "react-native";
 import {Button} from "react-native-elements";
 import { Transaction } from "../../models/transaction.model";
 import { useFlat } from "../../features/hooks";
-import {useDeleteTransactionGroupMutation} from "../../features/api/transaction-api";
+import {useDeleteTransactionGroupMutation, useResolveDebtMutation} from "../../features/api/transaction-api";
 import { CURRENCY } from "../../config";
+import { useAppSelector } from "../../store";
+import {ResolveUserDebtRequest} from "../../models/api/transaction";
+
+const dollarIcon = require("../../static/dollar.svg") as string;
 
 
 export function TransactionDetailsModal({setShowTransactionDetailsModal, transactionGroup}) {
+  const userId = useAppSelector((state) => state.auth.user?.id);
+	const [selectedUsers, setSelectedUsers] = useState([]);
   const { flat, flatId, flatTasks, flatUsers } = useFlat();
   const [deleteTransactionGroup] = useDeleteTransactionGroupMutation();
+  const [resolveDebt] = useResolveDebtMutation();
 
   function getUsername(userId: string): string {
     for (const user of flatUsers) {
@@ -28,7 +36,29 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
     deleteTransactionGroup(dataDict)
   }
 
+  function getParticipantsButNoOwner() {
+    let participants = []
+    console.log(transactionGroup.debts)
+    for (let user in transactionGroup.usersConnected) {
+      for (let debt in transactionGroup.debts)
+      {
+        if ( transactionGroup.usersConnected[user] == transactionGroup.debts[debt].userId) {
+          participants.push(transactionGroup.debts[debt])
+        }
+      }
+    }
+    return participants;
+  }
 
+  function handleResolveDebt(id) {
+    const data: ResolveUserDebtRequest = {
+      transactionGroupId: transactionGroup.id,
+      userId: id,
+    };
+    resolveDebt(data);
+    console.log(id)
+    console.log(transactionGroup.id)
+  }
 
   return ( 
   <Modal
@@ -42,6 +72,31 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
   >
   <ScrollView>
   <ModalContent>
+    <View style={styles.borderLeftBlack}>
+    { 
+      Object.values(transactionGroup.transactions).map((transaction: Transaction) => {
+      return (
+        <View style={styles.viewRow} key={transaction.name + '' + transaction.price}>
+          <Text style={styles.tinyTextCenter}>{transaction.name}</Text>
+          <Text style={styles.tinyTextCenter}> {(+transaction.price).toFixed(2)} {CURRENCY}</Text> 
+        </View>
+      );
+    })}
+    </View>
+    { transactionGroup.createdBy ==  userId ? 
+        Object.values(getParticipantsButNoOwner()).map(participant => {
+          return(
+          <View key={participant.userId} style={styles.card}>
+            <View  style={styles.viewRow}>
+              <Text style={styles.smallText}>{getUsername(participant.userId)}: {participant.amount}</Text>
+              <TouchableOpacity
+                onPress={() => {handleResolveDebt(participant.userId); }}
+              >
+                <img src={dollarIcon} alt=" "  style={{width: '20px', height: '20px'}}/>
+              </TouchableOpacity> 
+            </View>
+          </View>
+      )} ): null}
     <Button
       buttonStyle={styles.orangeButton}
       title="Hide Details"
@@ -52,25 +107,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
       title="Delete Transaction Group"
       onPress={() => { handleDeleteTransactionGroup(); setShowTransactionDetailsModal(false); }}
     />
-
-    <Text style={styles.smallText}>
-    { 
-      transactionGroup.usersConnected.map(participant => {
-      return getUsername(participant)+ " ";
-    })}
-    </Text>
-
-    <View style={styles.borderLeftBlack}>
-    { 
-      Object.values(transactionGroup.transactions).map((transaction: Transaction) => {
-      return (
-        <View style={styles.viewRow} key={transaction["id"]}>
-          <Text style={styles.tinyTextCenter}>{transaction.name}</Text>
-          <Text style={styles.tinyTextCenter}> {(+transaction.price).toFixed(2)} {CURRENCY}</Text> 
-        </View>
-      );
-    })}
-    </View>
   </ModalContent>
   </ScrollView>
   </Modal>
