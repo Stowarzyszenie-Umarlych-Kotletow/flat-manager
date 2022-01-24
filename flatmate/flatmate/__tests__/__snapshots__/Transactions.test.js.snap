@@ -721,7 +721,6 @@ exports[`TransactionManagementView Screen renders correctly 1`] = `
         "height": "75px",
         "justifyContent": "space-evenly",
         "left": "0",
-        "paddingInline": "5px",
         "position": "fixed",
         "width": "100%",
         "zIndex": 100,
