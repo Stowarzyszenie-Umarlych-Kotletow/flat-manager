@@ -2952,6 +2952,19 @@ exports[`ViewCalendarScreen Screen renders correctly 1`] = `
     }
   }
 >
+  <Text
+    style={
+      Object {
+        "fontSize": 25,
+        "fontWeight": "bold",
+        "marginBottom": 5,
+        "marginTop": 5,
+        "textAlign": "center",
+      }
+    }
+  >
+    
+  </Text>
   <View
     style={
       Array [
