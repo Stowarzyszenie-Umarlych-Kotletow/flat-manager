@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Calendar} from 'react-native-big-calendar';
 import {TaskDetailsModal} from "../../components/tasks/TaskDetailsModal";
@@ -10,6 +10,7 @@ import TaskEvent from '../../models/event.model';
 import {scheduleToEvents, taskInstanceToFrontendState} from '../../helpers/task-helper';
 import styles from "../../static/styles";
 import {TaskFrontendState} from "../../models/task.model";
+import format from 'date-fns/format';
 
 
 export function ViewCalendarScreen() {
@@ -18,7 +19,7 @@ export function ViewCalendarScreen() {
     const { flatId, flatTasks } = useFlat();
     const dispatch = useAppDispatch();
     const { isLoading, currentData: taskSchedule} = useGetFlatScheduleQuery({ flatId, data: query }, {refetchOnMountOrArgChange: true});
-
+    const [currentDateStr, setCurrentDateStr] = useState("");
 
     useEffect(() => {
         dispatch(flatApi.util.invalidateTags(['flatTasks']));
@@ -78,8 +79,10 @@ export function ViewCalendarScreen() {
             overflow: "scroll",
             height: "calc(100vh - 75px)",
         }}>
+            <Text style={styles.bigTextCenter}>{currentDateStr}</Text>
             <Calendar
                 events={getCalendar()}
+                onChangeDate={(date) => setCurrentDateStr(format(date[0], "MMMM yyyy"))}
                 height={510}
                 mode={'month'}
                 showTime={false}
