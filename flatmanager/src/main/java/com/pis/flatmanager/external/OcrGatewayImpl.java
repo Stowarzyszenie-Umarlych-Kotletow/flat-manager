@@ -20,18 +20,16 @@ import java.util.Objects;
 public class OcrGatewayImpl implements OcrGateway{
 
     private final String routingKey;
-    private static final String CONNECTION_ID_OCR = "ocr";
-
     private final String receivingQueueName;
     private final Integer timeout;
 
     private final RabbitTemplate rabbit;
 
-    public OcrGatewayImpl(RabbitTemplate ocrRabbitTemplate, AMQPProperties amqpProperties,
-                          @Value("${flatmanager.amqp.queue.service.queueName}") String queueName,
-                          @Value("${flatmanager.amqp.queue.service.timeout}") Integer timeout) {
-        this.rabbit = ocrRabbitTemplate;
-        this.routingKey = amqpProperties.getQueueName(CONNECTION_ID_OCR);
+    public OcrGatewayImpl(RabbitTemplate rabbitTemplate, AMQPProperties amqpProperties,
+                          @Value("${flatmanager.amqp.queue.serviceQueueName}") String queueName,
+                          @Value("${flatmanager.amqp.queue.timeout}") Integer timeout) {
+        this.rabbit = rabbitTemplate;
+        this.routingKey = amqpProperties.getOcrQueueName();
         this.receivingQueueName = queueName;
         this.timeout = timeout;
     }
@@ -41,8 +39,8 @@ public class OcrGatewayImpl implements OcrGateway{
         this.rabbit.convertAndSend(routingKey, request);
         Map<String, List<OcrResponseProduct>> response;
         try {
-            response = this.rabbit.receiveAndConvert(receivingQueueName, timeout
-                    , new ParameterizedTypeReference<>() {});
+            response = this.rabbit.receiveAndConvert(receivingQueueName, timeout,
+                    new ParameterizedTypeReference<>() {});
         } catch(Exception e) {
             throw new OcrException("OCR service did not return any results");
         }

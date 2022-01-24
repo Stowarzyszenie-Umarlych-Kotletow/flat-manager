@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -24,26 +26,19 @@ public class AMQPConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(AMQPConfiguration.class);
 
-    private static final String OCR_CONNECTION_ID = "ocr";
-    private static final String MANAGER_CONNECTION_ID = "service";
-
     @Bean
-    public Queue queue(AMQPProperties amqpProperties) {
-        return new Queue(amqpProperties.getQueueName(OCR_CONNECTION_ID), false);
+    public Queue ocrQueue(AMQPProperties amqpProperties) {
+        return new Queue(amqpProperties.getOcrQueueName());
     }
 
     @Bean
-    public ConnectionFactory ocrConnectionFactory(AMQPProperties amqpProperties) {
-        final AMQPProperties.AMQPConfiguration configuration = amqpProperties
-                .getQueue().get(OCR_CONNECTION_ID);
-        return buildConnectionFactory(configuration);
+    public Queue serviceQueue(AMQPProperties amqpProperties) {
+        return new Queue(amqpProperties.getServiceQueueName());
     }
 
     @Bean
-    public ConnectionFactory managerConnectionFactory(AMQPProperties amqpProperties) {
-        final AMQPProperties.AMQPConfiguration configuration = amqpProperties
-                .getQueue().get(MANAGER_CONNECTION_ID);
-        return buildConnectionFactory(configuration);
+    public AmqpAdmin amqpAdmin(AMQPProperties amqpProperties) {
+        return new RabbitAdmin(connectionFactory(amqpProperties));
     }
 
     @Bean
@@ -55,26 +50,20 @@ public class AMQPConfiguration {
     }
 
     @Bean
-    public RabbitTemplate ocrRabbitTemplate(ConnectionFactory ocrConnectionFactory, AMQPProperties amqpProperties) {
-
-        final AMQPProperties.AMQPConfiguration configuration = amqpProperties.getQueue().get(OCR_CONNECTION_ID);
-        return buildRabbitTemplate(ocrConnectionFactory, configuration);
-    }
-
-
-    private ConnectionFactory buildConnectionFactory(AMQPProperties.AMQPConfiguration configuration) {
+    public ConnectionFactory connectionFactory(AMQPProperties properties) {
 
         final CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses(configuration.getAddress());
-        connectionFactory.setUsername(configuration.getUsername());
-        connectionFactory.setPassword(configuration.getPassword());
+        connectionFactory.setAddresses(properties.getAddress());
+        connectionFactory.setUsername(properties.getUsername());
+        connectionFactory.setPassword(properties.getPassword());
 
-        logger.info("Configured RabbitMQ: [queue:{}] to {}", configuration.getQueueName(), configuration.getAddress());
-
+        logger.info("Configured RabbitMQ: [queue:{}] to {}", properties.getOcrQueueName(), properties.getAddress());
+        logger.info("Configured RabbitMQ: [queue:{}] to {}", properties.getServiceQueueName(), properties.getAddress());
         return connectionFactory;
     }
 
-    private RabbitTemplate buildRabbitTemplate(ConnectionFactory connectionFactory, AMQPProperties.AMQPConfiguration properties) {
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
