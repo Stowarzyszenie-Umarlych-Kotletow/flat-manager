@@ -1,7 +1,6 @@
-import { TextInput, Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import { useState } from "react";
 import styles from "../../static/styles";
-import { Button } from "react-native-elements";
 import { useFlat } from "../../features/hooks";
 import * as React from "react";
 import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
@@ -28,7 +27,7 @@ export function DebtScreen({ navigation }) {
   return (
     <View style={styles.container1Navbar} >
       <Text style={styles.logoText}>Debts</Text>
-      <Text > </Text> {/* a breakline */}
+      <Text > </Text>
       <ScrollView style={styles.container2Navbars} >
 
         <Text style={styles.bigText}> My debt</Text>

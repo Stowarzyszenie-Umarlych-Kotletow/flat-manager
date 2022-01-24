@@ -69,18 +69,6 @@ export function BottomNavigationBar({navigation}) {
                 <img src={dollarIcon} alt=" " style={{width: '35px', height: '35px'}}/>
                 <Text> Debts </Text>
             </TouchableOpacity>
-            
-
-
-            {/* <TouchableOpacity
-                onPress={() => {console.log("flat settings")}}
-                style={styles.columnView}
-            >
-                <img src={gearIcon} alt="open settings" style={{width: '35px', height: '35px'}}/>
-                <Text> Flat Settings</Text>
-            </TouchableOpacity> */}
-
-            
         </footer>
     )
 }

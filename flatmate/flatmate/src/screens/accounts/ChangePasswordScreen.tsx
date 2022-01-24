@@ -36,10 +36,7 @@ export function ChangePasswordScreen() {
             setShowDifferentPasswordsWarning(false);
         }
         let parsedData = parseData(data);
-        // backend connection
-        // change password
         setShowIncorrectPasswordWarning(false);
-        // todo
     }
 
     return (
