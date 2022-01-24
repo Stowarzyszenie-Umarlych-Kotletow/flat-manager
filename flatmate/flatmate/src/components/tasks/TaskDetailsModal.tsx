@@ -7,6 +7,7 @@ import {useFlat} from "../../features/hooks";
 import {useGetFlatTaskQuery, useSetFlatTaskCompletedMutation} from "../../features/api/flat-api";
 import {formatDate} from "../../helpers/date-helper";
 import {TaskInstanceInfo, TaskState} from "../../models/task.model";
+import {showMessage} from "react-native-flash-message";
 
 
 export function TaskDetailsModal({setShow, taskId, taskInstance}:
@@ -27,7 +28,22 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
   }
 
   async function completeTask() {
-    await setTaskCompleted({flatId, taskId, taskInstanceId: taskInstance.id});
+    setTaskCompleted({flatId, taskId, taskInstanceId: taskInstance.id}).unwrap()
+      .then(
+        () => {
+          setShow(false)
+          showMessage({
+            message: "Task completed",
+            type: "success"
+          })
+        },
+        () => {
+          showMessage({
+            message: "Could not complete task",
+            type: "danger"
+          })
+        }
+      );
   }
 
   if (isLoading || !task) return null;
@@ -48,7 +64,7 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
         <ModalContent>
           <Text style={styles.bigTextCenter}>{task.name}</Text>
           <Text style={styles.smallTextCenter}>{formatDate(taskInstance.date)}</Text>
-          <Text style={styles.tinyTextCenter}>Scheduled by: {getUsername(taskInstance.userId)} </Text>
+          <Text style={styles.tinyTextCenter}>Scheduled to: {getUsername(taskInstance.userId)} </Text>
           {taskInstance.completedByUserId ? (
             <Text style={styles.tinyTextCenter}>Completed by: {getUsername(taskInstance.completedByUserId)}</Text>
           ) : null}
@@ -65,7 +81,7 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
                 buttonStyle={styles.greenButton}
                 title="Set as Completed"
                 onPress={() => {
-                  completeTask().then(() => setShow(false));
+                  completeTask();
                 }}
               /> : null
           }

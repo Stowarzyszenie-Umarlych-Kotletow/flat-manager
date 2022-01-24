@@ -65,6 +65,7 @@ export function ViewCalendarScreen() {
         return <Button
             buttonStyle={style}
             title={event.title}
+            titleStyle={{ fontWeight: '700', fontSize: 11}}
             onPress={() => eventClicked(event)}
         />
     }

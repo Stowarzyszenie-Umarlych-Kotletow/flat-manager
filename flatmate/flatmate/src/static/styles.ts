@@ -7,16 +7,16 @@ const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     eventFail: {
-        backgroundColor: 'red'
+        backgroundColor: 'rgba(214, 61, 57, 1)'
     },
     eventPending: {
-        backgroundColor: "blue"
+        backgroundColor: 'rgba(78, 116, 289, 1)'
     },
     eventCompleted: {
-        backgroundColor: "green"
+        backgroundColor: 'rgba(111, 202, 186, 1)',
     },
     eventFuture: {
-        backgroundColor: "indigo"
+        backgroundColor: 'rgb(182,117,245)'
     },
     accScreenContainer: {
         flex: 1,
