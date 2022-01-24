@@ -38,7 +38,10 @@ public class AMQPConfiguration {
 
     @Bean
     public AmqpAdmin amqpAdmin(AMQPProperties amqpProperties) {
-        return new RabbitAdmin(connectionFactory(amqpProperties));
+        var admin = new RabbitAdmin(connectionFactory(amqpProperties));
+        admin.declareQueue(ocrQueue(amqpProperties));
+        admin.declareQueue(serviceQueue(amqpProperties));
+        return admin;
     }
 
     @Bean

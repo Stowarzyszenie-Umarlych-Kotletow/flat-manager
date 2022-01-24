@@ -65,7 +65,7 @@ public class UserControllerIntegrationTest {
         var user = createDummyUser("test");
         var token = getTokenForUser(user);
         var updateUserEmailDto = new UpdateEmailUserDto("test@example.com");
-        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/email"), updateUserEmailDto, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/users/me/change-email"), updateUserEmailDto, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
@@ -82,7 +82,7 @@ public class UserControllerIntegrationTest {
 
         var updateUserPasswordDto = new UpdatePasswordUserDto("testtest321");
 
-        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/password"), updateUserPasswordDto, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/users/me/change-password"), updateUserPasswordDto, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
                 .andExpect(MockMvcResultMatchers.jsonPath("lastName").value("test"))
@@ -99,7 +99,7 @@ public class UserControllerIntegrationTest {
                 "test", "test", "username", "username@example.com", "testtest123"
         ));
         var token = getTokenForUser(user);
-        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/account/delete"), null, token))
+        mockMvc.perform(requestUtil.json(MockMvcRequestBuilders.post("/api/v1/users/me/delete"), null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         var finalObj = userRepository.findById(user.getId());
@@ -125,7 +125,7 @@ public class UserControllerIntegrationTest {
 
         var token = getTokenForUser(user);
 
-        var baseRequest = MockMvcRequestBuilders.get(String.format("/api/v1/users/by/id/%s", user.getId().toString()));
+        var baseRequest = MockMvcRequestBuilders.get(String.format("/api/v1/users/by-id/%s", user.getId().toString()));
         mockMvc.perform(requestUtil.json(baseRequest, null, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("firstName").value("test"))
