@@ -7,12 +7,12 @@ import com.pis.flatmanager.exception.EntityNotFoundException;
 import com.pis.flatmanager.model.Transaction;
 import com.pis.flatmanager.model.TransactionGroup;
 import com.pis.flatmanager.model.User;
-import com.pis.flatmanager.model.transactions.MinMaxValue;
 import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import com.pis.flatmanager.repository.TransactionRepository;
 import com.pis.flatmanager.service.interfaces.FlatService;
 import com.pis.flatmanager.service.interfaces.TransactionService;
 import com.pis.flatmanager.service.interfaces.UserService;
+import com.pis.flatmanager.utils.TransactionsUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,26 +36,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private FlatService flatService;
 
-    private <T> MinMaxValue<T> _getMinMax(Collection<Map.Entry<T, BigDecimal>> decimals) {
-        var min = BigDecimal.ZERO;
-        var max = BigDecimal.ZERO;
-        T minObj = null;
-        T maxObj = null;
-        for (var kv : decimals) {
-            var key = kv.getKey();
-            var value = kv.getValue();
-            if (value.compareTo(max) > 0) {
-                max = value;
-                maxObj = key;
-            }
-            if (value.compareTo(min) < 0) {
-                min = value;
-                minObj = key;
-            }
-        }
-        return new MinMaxValue<T>(minObj, min, maxObj, max);
-    }
-
     public Map<UUID, List<TransactionUserDebt>> optimizeTransfers(List<TransactionGroup> groups) {
         var resultMap = new HashMap<UUID, List<TransactionUserDebt>>();
         var debtMap = new HashMap<UUID, BigDecimal>();
@@ -77,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
             previousSum = sum;
             // max: credit
             // min: debit
-            var values = _getMinMax(debtMap.entrySet());
+            var values = TransactionsUtils.getMinMax(debtMap.entrySet());
             var creditee = values.getMaxObj();
             var debitee = values.getMinObj();
             var transfer = values.getMin().negate().min(values.getMax());
@@ -126,10 +106,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionGroupDto getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException {
-        return _getTransactionGroup(user, transactionGroupId).asDto();
+        return getTransactionGroupInternal(user, transactionGroupId).asDto();
     }
 
-    private TransactionGroup _getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException {
+    private TransactionGroup getTransactionGroupInternal(User user, UUID transactionGroupId) throws AccessForbiddenException {
         var transactionGroup = transactionRepository.findById(transactionGroupId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("TransactionGroup %s does not exist", transactionGroupId)));
         flatService.getFlatAsUser(user, transactionGroup.getFlatId());
@@ -145,7 +125,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void resolveUserDebt(User user, UUID transactionGroupId, UUID targetUserId) throws AccessForbiddenException {
-        var group = _getTransactionGroup(user, transactionGroupId);
+        var group = getTransactionGroupInternal(user, transactionGroupId);
         var wasDeleted = group.getUserDebts().removeIf(d -> d.getUserId().equals(targetUserId));
         if (!wasDeleted) {
             throw new EntityNotFoundException("User debt not found");
