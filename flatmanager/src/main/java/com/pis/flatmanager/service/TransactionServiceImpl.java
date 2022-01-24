@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         var previousSum = BigDecimal.ZERO;
-        while (true) {
+        for(int i = 0; i < 100; i++) {
             var sum = debtMap.values().stream().map(BigDecimal::abs).reduce(BigDecimal.ZERO, BigDecimal::add);
             if (sum.equals(previousSum) || sum.floatValue() < 0.1f) {
                 break;
