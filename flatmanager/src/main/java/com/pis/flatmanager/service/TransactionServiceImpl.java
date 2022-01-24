@@ -71,7 +71,7 @@ public class TransactionServiceImpl implements TransactionService {
         var previousSum = BigDecimal.ZERO;
         while (true) {
             var sum = debtMap.values().stream().map(BigDecimal::abs).reduce(BigDecimal.ZERO, BigDecimal::add);
-            if (sum.equals(previousSum) || sum.intValue() == 0) {
+            if (sum.equals(previousSum) || sum.floatValue() < 0.1f) {
                 break;
             }
             previousSum = sum;
@@ -91,8 +91,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public Stream<TransactionUserDebt> splitTransaction(List<UUID> users, List<Transaction> transactions) {
-        var total = transactions.stream().map(Transaction::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
-        var perUser = total.divide(BigDecimal.valueOf(users.size())).setScale(2, RoundingMode.FLOOR);
+        var total = transactions.stream().map(Transaction::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.FLOOR);
+        var perUser = total.divide(BigDecimal.valueOf(users.size()), RoundingMode.FLOOR);
         return users.stream().map(u -> new TransactionUserDebt(u, perUser));
     }
 
