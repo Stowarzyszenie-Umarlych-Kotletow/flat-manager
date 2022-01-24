@@ -1,6 +1,7 @@
 import {Task} from "../../models/task.model";
 import {api} from "./api"
 import {FlatInfo, UserDebt, UserRole} from "../../models/flat.model";
+import {CreateFlatRequest} from "../../models/api/flat";
 
 type FlatQuery = {
     flatId: string;

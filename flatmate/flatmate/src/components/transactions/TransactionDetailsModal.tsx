@@ -6,10 +6,10 @@ import {ScrollView, Text, View, TouchableOpacity} from "react-native";
 import {Button} from "react-native-elements";
 import { Transaction } from "../../models/transaction.model";
 import { useFlat } from "../../features/hooks";
-import {useDeleteTransactionGroupMutation} from "../../features/api/transaction-api";
+import {useDeleteTransactionGroupMutation, useResolveDebtMutation} from "../../features/api/transaction-api";
 import { CURRENCY } from "../../config";
 import { useAppSelector } from "../../store";
-
+import {ResolveUserDebtRequest} from "../../models/api/transaction";
 
 const dollarIcon = require("../../static/dollar.svg") as string;
 
@@ -19,6 +19,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
 	const [selectedUsers, setSelectedUsers] = useState([]);
   const { flat, flatId, flatTasks, flatUsers } = useFlat();
   const [deleteTransactionGroup] = useDeleteTransactionGroupMutation();
+  const [resolveDebt] = useResolveDebtMutation();
 
   function getUsername(userId: string): string {
     for (const user of flatUsers) {
@@ -49,8 +50,12 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
     return participants;
   }
 
-  function setDebtResolved(id) {
-    // TODO: backend connection
+  function handleResolveDebt(id) {
+    const data: ResolveUserDebtRequest = {
+      transactionGroupId: transactionGroup.id,
+      userId: id,
+    };
+    resolveDebt(data);
     console.log(id)
     console.log(transactionGroup.id)
   }
@@ -67,7 +72,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
   >
   <ScrollView>
   <ModalContent>
-    <Text > </Text> {/* a breakline */}
     <View style={styles.borderLeftBlack}>
     { 
       Object.values(transactionGroup.transactions).map((transaction: Transaction) => {
@@ -86,7 +90,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
             <View  style={styles.viewRow}>
               <Text style={styles.smallText}>{getUsername(participant.userId)}: {participant.amount}</Text>
               <TouchableOpacity
-                onPress={() => {setDebtResolved(participant.userId); }}
+                onPress={() => {handleResolveDebt(participant.userId); }}
               >
                 <img src={dollarIcon} alt=" "  style={{width: '20px', height: '20px'}}/>
               </TouchableOpacity> 

@@ -125,10 +125,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionGroupDto getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException {
+        return _getTransactionGroup(user, transactionGroupId).asDto();
+    }
+
+    private TransactionGroup _getTransactionGroup(User user, UUID transactionGroupId) throws AccessForbiddenException {
         var transactionGroup = transactionRepository.findById(transactionGroupId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("TransactionGroup %s does not exist", transactionGroupId)));
         flatService.getFlatAsUser(user, transactionGroup.getFlatId());
-        return transactionGroup.asDto();
+        return transactionGroup;
     }
 
     @Override
@@ -140,11 +144,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void resolveUserDebt(User user, UUID transactionGroupId, UUID targetUserId) throws AccessForbiddenException {
-        var group = getTransactionGroup(user, transactionGroupId);
-        var wasDeleted = group.getDebts().removeIf(d -> d.getUserId() == targetUserId);
+        var group = _getTransactionGroup(user, transactionGroupId);
+        var wasDeleted = group.getUserDebts().removeIf(d -> d.getUserId().equals(targetUserId));
         if (!wasDeleted) {
             throw new EntityNotFoundException("User debt not found");
         }
+        transactionRepository.save(group);
         updateTransfersInFlat(group.getFlatId());
     }
 

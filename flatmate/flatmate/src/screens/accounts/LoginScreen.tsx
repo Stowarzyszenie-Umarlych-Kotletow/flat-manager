@@ -3,7 +3,6 @@ import styles from "../../static/styles";
 import {Button} from "react-native-elements";
 import {Controller, useForm} from "react-hook-form";
 import * as React from "react";
-import {useAppDispatch, useAppSelector} from "../../store";
 import {LoginRequest} from "../../models/api/auth";
 import {useLoginMutation} from "../../features/api/user-api";
 import {showMessage} from "react-native-flash-message";
@@ -51,20 +50,21 @@ export function LoginScreen() {
     if (checkErrors(parsedData)) {
       return;
     }
+
     login(parsedData).unwrap()
-      .then(() => {
-        showMessage({
-          message: "Successfully logged in",
-          type: "success",
+      .then(
+        () => {
+          showMessage({
+            message: "Successfully logged in",
+            type: "success",
+          })
+        },
+        () => {
+          showMessage({
+            message: "Error logging in",
+            type: "danger",
+          })
         })
-      })
-      .catch((error) => {
-        showMessage({
-          message: "Error logging in",
-          type: "danger",
-        })
-        // console.error('rejected', error)
-      })
   }
 
   return (
