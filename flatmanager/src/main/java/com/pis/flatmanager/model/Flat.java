@@ -4,6 +4,7 @@ import com.pis.flatmanager.model.transactions.TransactionUserDebt;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -39,6 +40,6 @@ public class Flat implements Serializable {
     // list of debts by their user ids
     private Map<UUID, List<TransactionUserDebt>> optimizedTransfers = new HashMap<>();
 
-//    @Version
-//    private Long version;
+    @Version
+    private Long version;
 }
