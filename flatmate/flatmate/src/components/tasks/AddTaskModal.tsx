@@ -26,6 +26,13 @@ export function validateForm(data) {
 		})
 		return false;
 	}
+	if (data.taskDeadline > data.taskPeriod){
+		showMessage({
+			message: "Task deadline cannot be bigger than period",
+			type: "danger"
+		})
+		return false;
+	}
 	return true;
 }
 

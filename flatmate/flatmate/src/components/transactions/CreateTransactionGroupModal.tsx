@@ -11,6 +11,7 @@ import { UploadBillModal } from './UploadBillPhotoModal'
 import { useAddTransactionGroupMutation } from '../../features/api/transaction-api'
 import ocrService from "../../services/ocr.service";
 import { Transaction } from "../../models/transaction.model";
+import {showMessage} from "react-native-flash-message";
 
 
 const itemDeleteIcon = require("../../static/taskDelete.svg") as string;
@@ -54,8 +55,22 @@ export function CreateTransactionGroupModal({ setShowAddTransactionGroup }) {
 	}
 
 	function handleAddTransactionGroup(data) {
-		addTransactionGroup(data).unwrap().then((success) => {
-			setShowAddTransactionGroup(false);
+		addTransactionGroup(data).unwrap()
+			.then(
+				() => {
+					setShowAddTransactionGroup(false);
+					showMessage({
+						message: "Transaction group created",
+						type: "success",
+					})
+				},
+				() => {
+					showMessage({
+						message: "Error creating transaction group",
+						type: "danger",
+					})
+				})
+			.then((success) => {
 		});
 	}
 

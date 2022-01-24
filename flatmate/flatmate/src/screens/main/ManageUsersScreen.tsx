@@ -8,6 +8,7 @@ import {useFlat} from "../../features/hooks";
 import {useDeleteUserFromFlatMutation} from "../../features/api/flat-api";
 import {useAppSelector} from "../../store";
 import {BottomNavigationBar} from "../../components/main/BottomNavigationBar";
+import {showMessage} from "react-native-flash-message";
 
 const userDeleteIcon = require("../../static/userDelete.svg") as string;
 
@@ -20,12 +21,18 @@ export function ManageUsersScreen({navigation}) {
   const [deleteUserFromFlat] = useDeleteUserFromFlatMutation();
 
   async function handleDeleteUser(userId: string) {
-    // TODO: backend connection delete User test
     let warning: string = null;
     try {
       await deleteUserFromFlat({flatId, userId}).unwrap();
-    } catch (err) {
-      warning = `Cannot remove user (error ${err})`
+      showMessage({
+        message: "User deleted",
+        type: "success"
+      })
+    } catch {
+      showMessage({
+        message: `Cannot delete user`,
+        type: "danger"
+      })
     }
     setDeleteUserWarning(warning);
   }

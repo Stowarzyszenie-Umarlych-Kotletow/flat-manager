@@ -10,6 +10,8 @@ import {useDeleteTransactionGroupMutation, useResolveDebtMutation} from "../../f
 import {CURRENCY} from "../../config";
 import {useAppSelector} from "../../store";
 import {ResolveUserDebtRequest} from "../../models/api/transaction";
+import {showMessage} from "react-native-flash-message";
+import flatSlice from "../../features/flat";
 
 const dollarIcon = require("../../static/dollar.svg") as string;
 
@@ -33,7 +35,21 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
     const dataDict = {
       transactionGroupId: transactionGroup.id,
     };
-    deleteTransactionGroup(dataDict)
+    deleteTransactionGroup(dataDict).unwrap()
+      .then(
+        ()=>{
+          showMessage({
+            message: `Transaction group deleted`,
+            type: "success"
+          })
+        },
+        ()=>{
+          showMessage({
+            message: "Could not delete transaction group",
+            type: "danger"
+          })
+        }
+      )
   }
 
   function getParticipantsButNoOwner() {
@@ -54,7 +70,22 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
       transactionGroupId: transactionGroup.id,
       userId: id,
     };
-    resolveDebt(data);
+    const username = getUsername(id)
+    resolveDebt(data).unwrap()
+      .then(
+        ()=>{
+          showMessage({
+            message: `Resolved ${username}'s debt`,
+            type: "success"
+          })
+        },
+        ()=>{
+          showMessage({
+            message: "Could not resolve debt",
+            type: "danger"
+          })
+        }
+      )
     console.log(id)
     console.log(transactionGroup.id)
   }

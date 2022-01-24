@@ -7,6 +7,7 @@ import { AddTaskModal } from '../../components/tasks/AddTaskModal';
 import { useGetFlatScheduleQuery, useDeleteFlatTaskMutation } from "../../features/api/flat-api";
 import { useFlat } from "../../features/hooks";
 import { BottomNavigationBar } from "../../components/main/BottomNavigationBar";
+import {showMessage} from "react-native-flash-message";
 
 
 
@@ -26,7 +27,24 @@ export function ManageTasksScreen({navigation}) {
   const currentDate = new Date(Date.now());
 
   function handleDeleteTask(taskId:string) {
+
     deleteTask({flatId, taskId}).unwrap()
+      .then(
+        ()=>{
+          showMessage({
+            message: "Task deleted",
+            type: "success"
+          })
+          return false;
+        },
+        ()=>{
+          showMessage({
+            message: "Error deleting task",
+            type: "danger"
+          })
+          return false;
+        }
+      )
   }
 
   return(

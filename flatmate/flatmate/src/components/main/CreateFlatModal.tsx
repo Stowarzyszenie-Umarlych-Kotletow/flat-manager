@@ -7,6 +7,8 @@ import {Controller, useForm} from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../store";
 import flatSlice from "../../features/flat";
 import { useCreateFlatMutation } from "../../features/api/flat-api";
+import {CreateFlatRequest} from "../../models/api/flat";
+import {showMessage} from "react-native-flash-message";
 
 export function CreateFlatModal({ setShowCreateFlatModal}) {
 
@@ -14,10 +16,24 @@ export function CreateFlatModal({ setShowCreateFlatModal}) {
   const dispatch = useAppDispatch();
 
   function handleCreateFlat(data: CreateFlatRequest) {
-    createFlat(data).unwrap().then((success) => {
-      setShowCreateFlatModal(false);
-      dispatch(flatSlice.actions.setCurrentFlat(success.id));
-    });
+    createFlat(data).unwrap()
+			.then(
+				(success)=>{
+					showMessage({
+						message: "Flat created",
+						type: "success"
+					})
+					setShowCreateFlatModal(false);
+					dispatch(flatSlice.actions.setCurrentFlat(success.id));
+				},
+				()=>{
+					showMessage({
+						message: "Could not create flat",
+						type: "danger"
+					})
+				}
+			)
+
   }
 
   const {control, handleSubmit, formState: {errors}} = useForm({

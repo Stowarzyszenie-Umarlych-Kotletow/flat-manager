@@ -95,8 +95,6 @@ export function ViewCalendarScreen() {
                 setShow={setShowTaskDetailsModal}
                 taskId={activeTaskInstance.taskId}
                 taskInstance={activeTaskInstance.instance}
-                deletable={false}
-
             />) : null}
         </View>
     );

@@ -62,7 +62,6 @@ export function DashboardScreen({ navigation }) {
       setShow={setShowTaskDetailsModal}
       taskId={taskState.taskId}
       taskInstance={taskState.instance}
-      deletable={false}
     />) : null}
 	  <BottomNavigationBar navigation={navigation} />
   </View>)

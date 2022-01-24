@@ -43,7 +43,6 @@ export function DebtModal({setShowDebt}) {
       formOk = false;
     }
 
-    // TODO: backend connection, make payment
     if (formOk){
       console.log(data);
       console.log(selectedUser);

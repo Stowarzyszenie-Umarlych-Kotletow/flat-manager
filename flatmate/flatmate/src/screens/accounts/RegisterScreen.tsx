@@ -61,12 +61,21 @@ export function RegisterScreen({ navigation }) {
 
     function onRegisterPress(data) {
         let parsedData = parseRegisterData(data);
-        register(parsedData).unwrap().then(
+        register(parsedData).unwrap()
+          .then(
             () => {
-                // TODO: add success toast
-                navigation.goBack();
-            }
-        );
+              showMessage({
+                message: "Successfully created an account",
+                type: "success",
+              })
+              navigation.goBack();
+            },
+            () => {
+              showMessage({
+                message: "Error creating account",
+                type: "danger",
+              })
+            })
     }
 
 
