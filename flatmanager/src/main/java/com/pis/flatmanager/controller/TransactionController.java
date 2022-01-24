@@ -1,8 +1,8 @@
 package com.pis.flatmanager.controller;
 
 import com.pis.flatmanager.dto.transactions.CreateTransactionGroupDto;
+import com.pis.flatmanager.dto.transactions.TransactionGroupDto;
 import com.pis.flatmanager.exception.AccessForbiddenException;
-import com.pis.flatmanager.model.TransactionGroup;
 import com.pis.flatmanager.model.User;
 import com.pis.flatmanager.service.interfaces.TransactionService;
 import com.pis.flatmanager.service.interfaces.UserService;
@@ -27,7 +27,7 @@ public class TransactionController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<TransactionGroup> createGroup(@Valid @RequestBody CreateTransactionGroupDto dto) throws AccessForbiddenException {
+    public ResponseEntity<TransactionGroupDto> createGroup(@Valid @RequestBody CreateTransactionGroupDto dto) throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         var group = transactionService.createTransactionGroup(user, dto);
         return new ResponseEntity<>(group, HttpStatus.CREATED);
@@ -41,13 +41,20 @@ public class TransactionController {
     }
 
     @GetMapping("/{groupId}")
-    public ResponseEntity<TransactionGroup> getGroupById(@PathVariable UUID groupId) throws AccessForbiddenException {
+    public ResponseEntity<TransactionGroupDto> getGroupById(@PathVariable UUID groupId) throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         return new ResponseEntity<>(transactionService.getTransactionGroup(user, groupId), HttpStatus.OK);
     }
 
+    @PostMapping("/{groupId}/debts/{userId}/resolve")
+    public ResponseEntity<TransactionGroupDto> resolveDebt(@PathVariable UUID groupId, @PathVariable UUID userId) throws AccessForbiddenException {
+        User user = userService.getCurrentUser();
+        transactionService.resolveUserDebt(user, groupId, userId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/by-flat-id/{flatId}")
-    public ResponseEntity<List<TransactionGroup>> getGroupsByFlatId(@PathVariable UUID flatId) throws AccessForbiddenException {
+    public ResponseEntity<List<TransactionGroupDto>> getGroupsByFlatId(@PathVariable UUID flatId) throws AccessForbiddenException {
         User user = userService.getCurrentUser();
         return new ResponseEntity<>(transactionService.getTransactionGroupsByFlatId(user, flatId), HttpStatus.OK);
     }

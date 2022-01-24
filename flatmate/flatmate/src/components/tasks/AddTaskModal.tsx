@@ -6,19 +6,38 @@ import { Button } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
 import { Modal, ModalContent, ModalTitle } from "react-native-modals";
 import DatePicker from 'react-native-neat-date-picker';
-import CustomMultiPicker from "react-native-multiple-select-list";
+import CustomMultiPicker from "../../../lib/multiple-select";
 import { useFlat } from "../../features/hooks";
 import { useCreateFlatTaskMutation } from "../../features/api/flat-api";
+import {showMessage} from "react-native-flash-message";
 
 export function validateForm(data) {
-  return true;
+	if (data.taskName=="") {
+		showMessage({
+			message: "Task name must not be empty",
+			type: "danger"
+		})
+		return false;
+	}
+	if (!data.start || !data.end){
+		showMessage({
+			message: "Task range was not selected",
+			type: "danger"
+		})
+		return false;
+	}
+	if (data.taskDeadline > data.taskPeriod){
+		showMessage({
+			message: "Task deadline cannot be bigger than period",
+			type: "danger"
+		})
+		return false;
+	}
+	return true;
 }
 
 
 export function AddTaskModal({ setShowTaskCreationModal }) {
-  // warnings
-  const [showTaskNameWarning, setTaskNameWarning] = useState(false);
-  const [showTaskDateWarning, setTaskDateWarning] = useState(false);
   // datepicker for task starting and ending day
   const [showTaskDatePicker, setShowTaskDatePicker] = useState(false);
 
@@ -47,8 +66,17 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
   });
 
   const submitTask = async (data: any) => {
-    if (!validateForm(data))
-      return;
+    if (!validateForm(data)){
+
+			return;
+		}
+		if (selectedUsers.length == 0) {
+			showMessage({
+				message: "No users were assigned to the task",
+				type: "danger"
+			})
+			return;
+		}
     const request: CreateTaskRequest = {
       name: data.taskName,
       startDate: data.start,
@@ -60,6 +88,11 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 
     await createTask({ flatId, data: request }).unwrap();
     hideTaskCreationModal();
+		showMessage({
+			message: "Successfully created task",
+			type: "success",
+			position: "top"
+		})
   }
 
   const hideTaskCreationModal = () => {
@@ -109,11 +142,10 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				)}
 				name="taskName"
 			/>
-			{!showTaskNameWarning ? null : <Text style={styles.warningText}> Task Name cannot be empty </Text>}
 
 			<Button
 				buttonStyle={styles.blueButton}
-				title='Choose Task Date'
+				title='Choose Task Range'
 				onPress={openTaskDatePicker}
 			/>
 			<DatePicker
@@ -122,7 +154,6 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				onCancel={onTaskDatePickerCancel}
 				onConfirm={onTaskDatePickerConfirm}
 			/>
-			{!showTaskDateWarning ? null : <Text style={styles.warningText}> Task Date cannot be empty </Text>}
 
 			<Text style={styles.tinyTextCenter}>Task Period (in Days) </Text>
 			<Controller
@@ -172,6 +203,7 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				rowBackgroundColor={"#eee"}
 				rowHeight={40}
 				rowRadius={5}
+        searchIconColor={"transparent"}
 				iconColor={"#00a2dd"}
 				iconSize={30}
 				selectedIconName={"ios-checkmark-circle-outline"}
@@ -179,12 +211,12 @@ export function AddTaskModal({ setShowTaskCreationModal }) {
 				scrollViewHeight={130}
 			/>
 			<Button
-				buttonStyle={styles.blueButton}
+				buttonStyle={styles.greenButton}
 				title="Create Task"
 				onPress={handleSubmit(submitTask)}
 			/>
 			<Button
-				buttonStyle={styles.blueButton}
+				buttonStyle={styles.orangeButton}
 				title="Close"
 				onPress={hideTaskCreationModal}
 			/>

@@ -5,18 +5,16 @@ import { mockStore } from "./utils/test-utils";
 import store from "../src/store";
 import { ModalPortal } from 'react-native-modals';
 import { validateForm, AddTaskModal } from '../src/components/tasks/AddTaskModal';
-import { TaskDetailsModal } from '../src/screens/tasks/TaskDetailsModal';
+import { TaskDetailsModal } from '../src/components/tasks/TaskDetailsModal';
 import { ViewCalendarScreen } from '../src/screens/tasks/ViewCalendarScreen';
-
-import App from '../src/App'
 
 test('Task data validation', () => {
   let data = {
-      name: "test",
-      deadline: new Date("2022-01-02"),
+      taskName: "test",
+      start: new Date("2022-01-02"),
+      end: new Date("2022-01-02"),
       users: [123, 412]
   }
-
   expect(validateForm(data)).toStrictEqual(true);
 });
 

@@ -55,7 +55,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         var counter = new HashMap<>(task.getUserDoneCounter());
         // create past instances plus one in the future
         var period = task.getRepeatAfter() == null ? Duration.ZERO : task.getRepeatAfter();
-        var instances = scheduleInstances(task, counter, now.plus(period), 100);
+        var instances = scheduleInstances(task, counter, now, 100);
 
         for (var instance : instances) {
             var newInstance = new TaskInstance(instance.getDate());
@@ -76,7 +76,7 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
         var selectedUser = getNextScheduledUser(userCounter);
         if (selectedUser != null)
             userCounter.merge(selectedUser, 1, Integer::sum);
-        return new TaskInstanceInfo(UUID.randomUUID(), null, selectedUser, TaskInstanceState.FUTURE, time);
+        return new TaskInstanceInfo(UUID.randomUUID(), selectedUser, null, TaskInstanceState.FUTURE, time);
     }
 
     public List<TaskInstanceInfo> scheduleInstances(Task task, LocalDateTime until, int maxInstances) {
@@ -85,7 +85,9 @@ public class TaskSchedulingServiceImpl implements TaskSchedulingService {
 
     public List<TaskInstanceInfo> scheduleInstances(Task task, Map<UUID, Integer> userCounter, LocalDateTime until, int maxInstances) {
         // set proper bound
-        if (!task.canScheduleAt(until))
+        if (!task.canScheduleAt(until)
+                && until.isAfter(task.getStartDate())
+                && Objects.nonNull(task.getEndDate()))
             until = task.getEndDate();
         // handle non-periodic tasks
         var period = task.getRepeatAfter();

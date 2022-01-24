@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Calendar} from 'react-native-big-calendar';
-import {TaskDetailsModal} from "./TaskDetailsModal";
+import {TaskDetailsModal} from "../../components/tasks/TaskDetailsModal";
 import {useAppDispatch} from "../../store";
 import {flatApi, useGetFlatScheduleQuery} from '../../features/api/flat-api';
 import {useFlat} from '../../features/hooks';
 import TaskEvent from '../../models/event.model';
-import {scheduleToEvents, TaskFrontendState, taskInstanceToFrontendState} from '../../helpers/task-helper';
+import {scheduleToEvents, taskInstanceToFrontendState} from '../../helpers/task-helper';
 import styles from "../../static/styles";
+import {TaskFrontendState} from "../../models/task.model";
 
 
 export function ViewCalendarScreen() {
@@ -82,9 +83,9 @@ export function ViewCalendarScreen() {
                 events={getCalendar()}
                 height={510}
                 mode={'month'}
-                showTime={true}
+                showTime={false}
                 swipeEnabled={true}
-                showAllDayEventCell={false}
+                showAllDayEventCell={true}
                 onPressEvent={
                     event => eventClicked(event)
                 }
@@ -94,8 +95,6 @@ export function ViewCalendarScreen() {
                 setShow={setShowTaskDetailsModal}
                 taskId={activeTaskInstance.taskId}
                 taskInstance={activeTaskInstance.instance}
-                deletable={false}
-
             />) : null}
         </View>
     );

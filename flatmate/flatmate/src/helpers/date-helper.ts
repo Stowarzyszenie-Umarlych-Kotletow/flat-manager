@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 const isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?$/;
 
 function isIsoDateString(value: any): boolean {
@@ -6,6 +8,10 @@ function isIsoDateString(value: any): boolean {
 
 export function asDate(dateStr: string) {
   return new Date(Date.parse(dateStr));
+}
+
+export function formatDate(dateStr: string) {
+  return format(asDate(dateStr), "yyyy-MM-dd");
 }
 
 export function withDates(body: any) {

@@ -1,3 +1,4 @@
-interface CreateFlatRequest {
+export interface CreateFlatRequest {
     name: string;
 }
+

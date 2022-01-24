@@ -7,7 +7,7 @@ export function getConfig(): AxiosRequestConfig {
         validateStatus: (status) => status >= 200 && status < 300,
         withCredentials: false
     };
-};
+}
 
 const client = axios.create(getConfig());
 
