@@ -155,7 +155,7 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                     "fontSize": 15,
                     "fontWeight": "bold",
                     "marginBottom": 5,
-                    "marginTop": 10,
+                    "marginTop": 5,
                     "textAlign": "center",
                   }
                 }
@@ -2645,7 +2645,7 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                     "fontSize": 15,
                     "fontWeight": "bold",
                     "marginBottom": 5,
-                    "marginTop": 10,
+                    "marginTop": 5,
                     "textAlign": "center",
                   }
                 }
@@ -2684,7 +2684,7 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                     "fontSize": 15,
                     "fontWeight": "bold",
                     "marginBottom": 5,
-                    "marginTop": 10,
+                    "marginTop": 5,
                     "textAlign": "center",
                   }
                 }
@@ -2723,7 +2723,7 @@ exports[`AddTaskModal Screen renders correctly 1`] = `
                     "fontSize": 15,
                     "fontWeight": "bold",
                     "marginBottom": 5,
-                    "marginTop": 10,
+                    "marginTop": 5,
                     "textAlign": "center",
                   }
                 }
@@ -2990,7 +2990,7 @@ exports[`ViewCalendarScreen Screen renders correctly 1`] = `
                 "textAlign": "center",
               },
               Object {
-                "color": "rgb(66, 133, 244)",
+                "color": "#424242",
               },
             ]
           }
@@ -3021,7 +3021,7 @@ exports[`ViewCalendarScreen Screen renders correctly 1`] = `
                 "textAlign": "center",
               },
               Object {
-                "color": "#424242",
+                "color": "rgb(66, 133, 244)",
               },
             ]
           }
@@ -4471,7 +4471,7 @@ exports[`ViewCalendarScreen Screen renders correctly 1`] = `
                 "fontSize": 12,
               },
               Object {
-                "color": "rgb(66, 133, 244)",
+                "color": "#424242",
               },
             ]
           }
@@ -4512,7 +4512,7 @@ exports[`ViewCalendarScreen Screen renders correctly 1`] = `
                 "fontSize": 12,
               },
               Object {
-                "color": "#424242",
+                "color": "rgb(66, 133, 244)",
               },
             ]
           }
