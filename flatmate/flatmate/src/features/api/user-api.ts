@@ -17,7 +17,7 @@ export const userApi = api.injectEndpoints({
             invalidatesTags: ['self']
         }),
         getSelf: builder.query<User, void>({
-            query: () => ({ url: '/account', method: 'GET' }),
+            query: () => ({ url: '/users/me', method: 'GET' }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 const { data } = await queryFulfilled;
                 dispatch(auth.actions.setUser(data));
@@ -25,13 +25,13 @@ export const userApi = api.injectEndpoints({
             providesTags: ['self']
         }),
         getUserByUsername: builder.query<User, {username: string}>({
-            query: ({username}) => ({url: `/users/by/username/${username}`})
+            query: ({username}) => ({url: `/users/by-username/${username}`})
         }),
         register: builder.mutation<RegisterResponse, RegisterRequest>({
             query: (data) => ({ url: '/auth/register', method: 'POST', data })
         }),
         deleteAccount: builder.mutation<void, DeleteAccountRequest>({
-            query: (data) => ({url: '/account/delete', method: 'POST', data}),
+            query: (data) => ({url: '/users/me/delete', method: 'POST', data}),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(api.util.resetApiState());

@@ -1,23 +1,51 @@
 version: '3'
-services:
+services: 
   database:
     image: 'mongo:latest'
     container_name: flatmanager-mongo
+    restart: unless-stopped
     environment:
-      - MONGO_INITDB_DATABASE=flatmanager
+      MONGO_INITDB_DATABASE: flatmanager
     ports:
       - '127.0.0.1:27017:27017'
     volumes:
-      - ./flatmanager/data/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+      - ./flatmanager/data/init-db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - flatmanager_mongo_volume:/data/db
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - flatmanager_rabbit_volume:/var/lib/rabbitmq/
+  ocr:
+    image: "${REPO_PREFIX}flatmanager/ocr"
+    container_name: flatmanager-ocr
+    restart: unless-stopped
+    environment:
+      OCR_USERNAME: ${RABBIT_USER}
+      OCR_PASSWORD: ${RABBIT_PASSWORD}
+      OCR_ADDRESS: "rabbit"
+    depends_on:
+      - rabbit
   backend:
-    image: "${REPO_PREFIX}flatmanager/backend:$FLATMANAGER_VERSION"
+    image: "${REPO_PREFIX}flatmanager/backend:${FLATMANAGER_VERSION}"
     container_name: flatmanager-backend
+    restart: unless-stopped
     ports:
       - "8080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: "docker"
+      SPRING_PROFILES_ACTIVE: "rabbit,docker"
+      RABBIT_HOST: "rabbit:5672"
     depends_on:
       - database
+      - rabbit
+      - ocr
 volumes:
   flatmanager_mongo_volume:
+  flatmanager_rabbit_volume:
