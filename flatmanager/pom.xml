@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.6.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> <!-- empty: lookup parent from repository -->
 	</parent>
 	<groupId>com.pis</groupId>
 	<artifactId>flatmanager</artifactId>
@@ -185,11 +185,11 @@
 								<rule>
 									<element>BUNDLE</element>
 									<limits>
-										<!--										<limit>-->
-										<!--											<counter>COMPLEXITY</counter>-->
-										<!--											<value>COVEREDRATIO</value>-->
-										<!--											<minimum>0.10</minimum>-->
-										<!--										</limit>-->
+<!--										<limit>-->
+<!--											<counter>COMPLEXITY</counter>-->
+<!--											<value>COVEREDRATIO</value>-->
+<!--											<minimum>0.10</minimum>-->
+<!--										</limit>-->
 									</limits>
 								</rule>
 							</rules>
