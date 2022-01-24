@@ -52,8 +52,8 @@ export function DashboardScreen({ navigation }) {
   return (
   <View style={styles.container1Navbar} >
 		<Text style={styles.logoText}>{flat?.name}</Text>
-		{getTotalDebt() > 0 ? (<Text style={styles.smallTextCenter}>Your total debt: {getTotalDebt().toFixed(2)} {CURRENCY}</Text>) : <Text style={styles.smallTextCenter}>No debts!💵💵💵 </Text>}
-		<Text style={styles.smallTextCenter}>Your tasks for today:</Text>
+		{getTotalDebt() > 0 ? (<Text style={styles.smallTextCenter}>Your total debt: {getTotalDebt().toFixed(2)} {CURRENCY}</Text>) : <Text style={styles.smallTextCenter}>No debts! 😎</Text>}
+		{events.length != 0? <Text style={styles.smallTextCenter}>Your tasks for today:</Text>: <Text style={styles.smallTextCenter}>No tasks for today! 🎉</Text>}
     <ScrollView style={styles.container2Navbars} >
       {events.map((dailyTask) => {
         return (
