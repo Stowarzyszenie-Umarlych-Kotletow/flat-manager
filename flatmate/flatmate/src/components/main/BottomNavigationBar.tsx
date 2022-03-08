@@ -21,7 +21,6 @@ export function BottomNavigationBar({navigation}) {
             left: '0',
             width: '100%',
             justifyContent: "space-evenly",
-            paddingInline: "5px",
             alignItems: "center",
             height: '75px',
             zIndex: 100

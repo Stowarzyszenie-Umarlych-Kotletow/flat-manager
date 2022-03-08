@@ -1,21 +1,23 @@
-import {Modal, ModalContent, ModalTitle} from "react-native-modals";
-import {ScrollView, Text} from "react-native";
+import { Modal, ModalContent, ModalTitle } from "react-native-modals";
+import { ScrollView, Text } from "react-native";
 import styles from "../../static/styles";
-import {Button} from "react-native-elements";
+import { Button } from "react-native-elements";
 import * as React from "react";
-import {useFlat} from "../../features/hooks";
-import {useGetFlatTaskQuery, useSetFlatTaskCompletedMutation} from "../../features/api/flat-api";
-import {formatDate} from "../../helpers/date-helper";
-import {TaskInstanceInfo, TaskState} from "../../models/task.model";
-import {showMessage} from "react-native-flash-message";
+import { useAuth, useFlat } from "../../features/hooks";
+import { useGetFlatTaskQuery, useSetFlatTaskCompletedMutation } from "../../features/api/flat-api";
+import { formatDate } from "../../helpers/date-helper";
+import { TaskInstanceInfo, TaskState } from "../../models/task.model";
+import { showMessage } from "react-native-flash-message";
 
 
-export function TaskDetailsModal({setShow, taskId, taskInstance}:
-                                   { setShow: any, taskInstance: TaskInstanceInfo, taskId: string }) {
+export function TaskDetailsModal({ setShow, taskId, taskInstance }:
+  { setShow: any, taskInstance: TaskInstanceInfo, taskId: string }) {
 
-  const {flatId, flatUsers} = useFlat();
+  const { flatId, flatUsers } = useFlat();
+  const { user } = useAuth();
 
-  const {isLoading, currentData: task = null} = useGetFlatTaskQuery({flatId, taskId});
+  const { isLoading, currentData: task = null } = useGetFlatTaskQuery({ flatId, taskId });
+
   const [setTaskCompleted] = useSetFlatTaskCompletedMutation();
 
 
@@ -27,8 +29,13 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
     return "Unknown user";
   }
 
+  function canCompleteTask(): boolean {
+    return taskInstance.state == TaskState.SCHEDULED && !taskInstance.completedByUserId
+      && Object.keys(task?.userDoneCounter ?? {}).indexOf(user.id) > -1;
+  }
+
   async function completeTask() {
-    setTaskCompleted({flatId, taskId, taskInstanceId: taskInstance.id}).unwrap()
+    setTaskCompleted({ flatId, taskId, taskInstanceId: taskInstance.id }).unwrap()
       .then(
         () => {
           setShow(false)
@@ -53,9 +60,9 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
       width={0.9}
       rounded
       actionsBordered
-      style={{zIndex: 1000}}
+      style={{ zIndex: 1000 }}
       visible={true}
-      modalTitle={<ModalTitle title={task?.name} align="left"/>}
+      modalTitle={<ModalTitle title={task?.name} align="left" />}
       onTouchOutside={() => {
         setShow(false);
       }}
@@ -76,14 +83,13 @@ export function TaskDetailsModal({setShow, taskId, taskInstance}:
           </ul>
 
           {
-            (taskInstance.state == TaskState.SCHEDULED && !taskInstance.completedByUserId) ?
-              <Button
-                buttonStyle={styles.greenButton}
-                title="Set as Completed"
-                onPress={() => {
-                  completeTask();
-                }}
-              /> : null
+            canCompleteTask() ? (<Button
+              buttonStyle={styles.greenButton}
+              title="Set as Completed"
+              onPress={() => {
+                completeTask();
+              }}
+            />) : null
           }
 
           <Button

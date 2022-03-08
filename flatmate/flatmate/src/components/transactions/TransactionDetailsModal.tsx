@@ -54,7 +54,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
 
   function getParticipantsButNoOwner() {
     let participants = []
-    console.log(transactionGroup.debts)
     for (let user in transactionGroup.usersConnected) {
       for (let debt in transactionGroup.debts) {
         if (transactionGroup.usersConnected[user] == transactionGroup.debts[debt].userId) {
@@ -86,8 +85,6 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
           })
         }
       )
-    console.log(id)
-    console.log(transactionGroup.id)
   }
 
   return (
@@ -104,6 +101,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
     >
       <ScrollView>
         <ModalContent>
+          <Text style={styles.tinyTextCenter}>Created by: {getUsername(transactionGroup.createdBy)}</Text>
           <Text style={styles.tinyTextCenter}>Items:</Text>
           <View style={styles.borderLeftBlack}>
             {
@@ -155,6 +153,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
               setShowTransactionDetailsModal(false)
             }}
           />
+          {transactionGroup.createdBy == userId ?(
           <Button
             buttonStyle={styles.redButton}
             title="Delete Transaction Group"
@@ -162,7 +161,7 @@ export function TransactionDetailsModal({setShowTransactionDetailsModal, transac
               handleDeleteTransactionGroup();
               setShowTransactionDetailsModal(false);
             }}
-          />
+          />) : null}
         </ModalContent>
       </ScrollView>
     </Modal>
