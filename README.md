@@ -3,7 +3,7 @@
 ### Overview
 
 React Native mobile-first application to manage flat users, their tasks and transactions.
-The application has a monolithic architecture with additional [OCR receipt parser](https://gitlab.ziemniak.cloud/pis-group/flat-manager-ocr).
+The application has a monolithic architecture with additional [OCR receipt parser](https://github.com/Stowarzyszenie-Umarlych-Kotletow/flat-manager-ocr).
 
 
 ![Architecture](https://i.imgur.com/lAzU98O.png)
